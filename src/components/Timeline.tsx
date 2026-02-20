@@ -22,7 +22,11 @@ export default function Timeline({ items, className }: Props) {
         >
           <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
             <div className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white">
-              {item.icon ? (
+              {item.logo ? (
+                <span className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 bg-white p-1 shadow-sm dark:border-white/10 dark:bg-white/10">
+                  <img src={item.logo} alt={`${item.title} logo`} className="h-full w-full object-contain" />
+                </span>
+              ) : item.icon ? (
                 <span className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 bg-slate-50 text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-white">
                   {(() => {
                     const Icon = iconMap[item.icon];

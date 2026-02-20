@@ -6,6 +6,7 @@ export const education: TimelineItem[] = [
     title: "M.S., Nanjing University, Computer Science and Technology",
     subtitle: "School of Intelligence Science and Technology · NJU-PCA-Lab",
     icon: "university",
+    logo: "/logos/nju.svg",
     details: [
       "Advisor: Ying Tai",
       "Publications: CVPR ×1, ICLR ×2, NeurIPS ×1",
@@ -16,6 +17,7 @@ export const education: TimelineItem[] = [
     title: "B.S., Northeastern University, Control Science and Engineering",
     subtitle: "College of Information Science and Engineering · NEU-DAO-Lab",
     icon: "university",
+    logo: "/logos/neu.svg",
     details: [
       "Advisors: Jian Wu & Jianxin Hou",
       "Publications: SCI (JCR Q2) ×1",
@@ -29,6 +31,7 @@ export const internships: TimelineItem[] = [
     title: "ByteDance · TikTok",
     subtitle: "Multimodal Algorithm Intern",
     icon: "company",
+    logo: "/logos/bytedance.svg",
     details: [],
   },
 ];

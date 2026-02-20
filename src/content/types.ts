@@ -20,6 +20,7 @@ export type TimelineItem = {
   subtitle?: string;
   details: string[];
   icon?: "university" | "company";
+  logo?: string;
 };
 
 export type Profile = {
