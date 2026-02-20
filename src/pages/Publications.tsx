@@ -40,7 +40,7 @@ export default function Publications() {
         <div className="mb-10">
           <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">Publications</h1>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600 dark:text-zinc-300">
-            Quick filters and a clean reading experience.
+            Overview of publications to date.
           </p>
         </div>
 

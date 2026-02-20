@@ -36,8 +36,8 @@ export default function NavBar() {
                   to={item.to}
                   className={({ isActive }) =>
                     cn(
-                      "group relative flex h-10 items-center gap-2 rounded-full px-4 text-sm text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white",
-                      isActive && "bg-slate-100 text-slate-900 dark:bg-white/5 dark:text-white",
+                      "group relative flex h-10 items-center gap-2 rounded-full px-4 text-sm text-slate-600 transition-all duration-200 ease-out hover:bg-slate-100 hover:text-slate-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white",
+                      isActive && "bg-slate-100 text-slate-900 ring-1 ring-slate-200 dark:bg-white/10 dark:text-white dark:ring-white/20",
                     )
                   }
                 >
@@ -67,8 +67,8 @@ export default function NavBar() {
                   to={item.to}
                   className={({ isActive }) =>
                     cn(
-                      "grid h-10 w-10 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white",
-                      isActive && "bg-slate-100 text-slate-900 dark:bg-white/5 dark:text-white",
+                      "grid h-10 w-10 place-items-center rounded-full text-slate-600 transition-all duration-200 ease-out hover:bg-slate-100 hover:text-slate-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white",
+                      isActive && "bg-slate-100 text-slate-900 ring-1 ring-slate-200 dark:bg-white/10 dark:text-white dark:ring-white/20",
                     )
                   }
                   aria-label={item.label}

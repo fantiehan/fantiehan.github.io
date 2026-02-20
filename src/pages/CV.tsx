@@ -15,7 +15,7 @@ export default function CV() {
           <div>
             <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">CV</h1>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600 dark:text-zinc-300">
-              A structured view based on the current CV source. 
+              A brief introduction to personal experience.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
