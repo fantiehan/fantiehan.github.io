@@ -22,7 +22,7 @@ npm run preview
 - CV (education/intern/skills): `src/content/cv.ts`
 - Publications: `src/content/publications.ts`
 
-The publication "screenshots" are placeholders generated from prompts. You can later replace them with real figures.
+The publication screenshots are placeholders generated from prompts. You can later replace them with real figures.
 
 ## GitHub Pages
 
@@ -35,3 +35,8 @@ Recommended setup:
 Notes:
 - This project uses `HashRouter` so routing works on GitHub Pages without extra 404 rewrites.
 - `vite.config.ts` sets `base: './'` to ensure assets load correctly under static hosting.
+
+## Attribution
+
+If you like this homepage, feel free to fork and reuse it with attribution.
+Please add a short credit line that links back to this site or the repository.
