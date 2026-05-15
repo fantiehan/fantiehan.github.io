@@ -66,7 +66,7 @@ export const publications: Publication[] = [
     year: 2023,
     type: "journal",
     authors: "Tiehan Fan, Jianxin Hou, Jian Hu",
-    contributionTag: "Co-First Author",
+    contributionTag: "First Author",
     screenshotUrl: solidSolution,
     screenshotPrompt:
       "minimal abstract paper figure, materials science machine learning, feature engineering workflow diagram, dark clean",
