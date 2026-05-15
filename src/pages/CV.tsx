@@ -4,18 +4,21 @@ import Timeline from "@/components/Timeline";
 import Badge from "@/components/Badge";
 import Button from "@/components/Button";
 import { profile } from "@/content/profile";
-import { education, internships, skills } from "@/content/cv";
+import { education, internships } from "@/content/cv";
 import { ExternalLink, Mail } from "lucide-react";
 
 export default function CV() {
   return (
     <Container>
-      <div className="py-14">
-        <div className="mb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div className="py-16 sm:py-20">
+        <div className="mb-12 flex flex-col gap-7 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">CV</h1>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600 dark:text-zinc-300">
-              A brief introduction to personal experience.
+            <Badge variant="accent">Curriculum Vitae</Badge>
+            <h1 className="font-display mt-5 text-5xl font-semibold tracking-[-0.055em] text-[#211f1b] dark:text-[#f6efe3] sm:text-6xl">
+              CV
+            </h1>
+            <p className="mt-4 max-w-2xl text-[15px] leading-8 text-[#5f594f] dark:text-[#c9c0b1]">
+              A compact overview of education, research output, and contact information.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -38,6 +41,25 @@ export default function CV() {
           </div>
         </div>
 
+        <Section title="Profile" subtitle="A refined self-introduction for the web CV.">
+          <div className="surface-hairline rounded-[1.65rem] border border-[#d8cdb9]/75 bg-[#fffdf7]/80 p-6 shadow-refined backdrop-blur dark:border-white/10 dark:bg-white/[0.055] dark:shadow-refined-dark">
+            <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9b7b43] dark:text-[#d4b06a]">Research identity</div>
+                <h2 className="font-display mt-3 text-3xl font-semibold tracking-[-0.045em] text-[#211f1b] dark:text-[#f6efe3]">
+                  {profile.name}
+                </h2>
+                <p className="mt-3 text-sm leading-7 text-[#746d62] dark:text-[#bdb4a6]">{profile.headline}</p>
+              </div>
+              <div className="space-y-4 text-[15px] leading-8 text-[#5f594f] dark:text-[#c9c0b1]">
+                {profile.intro.slice(0, 2).map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Section>
+
         <Section title="Education">
           <Timeline items={education} />
         </Section>
@@ -46,22 +68,6 @@ export default function CV() {
           <Timeline items={internships} />
         </Section>
 
-        <Section title="Skills" subtitle="A compact summary.">
-          <div className="grid gap-3 md:grid-cols-2">
-            {skills.map((s) => (
-              <div
-                key={s.label}
-                className="rounded-2xl border border-slate-200/80 bg-white/90 p-5 shadow-sm transition hover:bg-white dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
-              >
-                <div className="flex items-center justify-between gap-4">
-                  <div className="text-sm font-semibold text-slate-900 dark:text-white">{s.label}</div>
-                  <Badge>{s.value.split(",").length} items</Badge>
-                </div>
-                <div className="mt-2 text-sm leading-7 text-slate-600 dark:text-zinc-300">{s.value}</div>
-              </div>
-            ))}
-          </div>
-        </Section>
       </div>
     </Container>
   );

@@ -30,4 +30,5 @@ export type Profile = {
   citationsLabel: string;
   email: string;
   scholarUrl: string;
+  intro: string[];
 };

@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import Container from "@/components/Container";
 import Section from "@/components/Section";
 import PublicationCard from "@/components/PublicationCard";
@@ -34,28 +35,40 @@ export default function Publications() {
     return { conf, journal };
   }, [filtered]);
 
+  const fieldClass =
+    "h-10 rounded-2xl border border-[#d8cdb9]/75 bg-[#fffdf7]/75 px-3 text-sm text-[#353128] outline-none transition placeholder:text-[#9b9284] focus:border-[#b28a49]/50 focus:bg-white focus:ring-2 focus:ring-[#b28a49]/10 dark:border-white/10 dark:bg-white/[0.055] dark:text-[#f6efe3] dark:placeholder:text-[#7c756b] dark:focus:border-[#d4b06a]/35 dark:focus:bg-white/[0.075]";
+
   return (
     <Container>
-      <div className="py-14">
-        <div className="mb-10">
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">Publications</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600 dark:text-zinc-300">
-            Overview of publications to date.
+      <div className="py-16 sm:py-20">
+        <div className="mb-12">
+          <Badge variant="accent">Research Output</Badge>
+          <h1 className="font-display mt-5 text-5xl font-semibold tracking-[-0.055em] text-[#211f1b] dark:text-[#f6efe3] sm:text-6xl">
+            Publications
+          </h1>
+          <p className="mt-4 max-w-2xl text-[15px] leading-8 text-[#5f594f] dark:text-[#c9c0b1]">
+            A curated overview of papers across multimodal LLMs, visual generation, datasets, and earlier work in machine learning for materials.
           </p>
         </div>
 
-        <div className="rounded-2xl border border-slate-200/80 bg-white/90 p-5 shadow-sm dark:border-white/10 dark:bg-white/5">
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
+          className="surface-hairline rounded-[1.65rem] border border-[#d8cdb9]/75 bg-[#fffdf7]/80 p-5 shadow-refined backdrop-blur dark:border-white/10 dark:bg-white/[0.055] dark:shadow-refined-dark"
+        >
+          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div className="flex flex-wrap items-center gap-2">
               <Badge variant="accent">Total: {filtered.length}</Badge>
-              <Badge>Default: newest first</Badge>
+              <Badge>Newest first</Badge>
+              <Badge>{publications.length} records</Badge>
             </div>
 
-            <div className="grid w-full gap-3 md:max-w-[640px] md:grid-cols-3">
-              <label className="grid gap-1">
-                <span className="text-xs text-slate-500 dark:text-zinc-400">Type</span>
+            <div className="grid w-full gap-3 md:max-w-[680px] md:grid-cols-3">
+              <label className="grid gap-1.5">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8b8274] dark:text-[#a99f91]">Type</span>
                 <select
-                  className="h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus:border-blue-400/40 dark:border-white/10 dark:bg-[#0B0D12]/60 dark:text-zinc-200"
+                  className={fieldClass}
                   value={type}
                   onChange={(e) => setType(e.target.value as TypeFilter)}
                 >
@@ -65,10 +78,10 @@ export default function Publications() {
                 </select>
               </label>
 
-              <label className="grid gap-1">
-                <span className="text-xs text-slate-500 dark:text-zinc-400">Year</span>
+              <label className="grid gap-1.5">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8b8274] dark:text-[#a99f91]">Year</span>
                 <select
-                  className="h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus:border-blue-400/40 dark:border-white/10 dark:bg-[#0B0D12]/60 dark:text-zinc-200"
+                  className={fieldClass}
                   value={year}
                   onChange={(e) => {
                     const v = e.target.value;
@@ -84,10 +97,10 @@ export default function Publications() {
                 </select>
               </label>
 
-              <label className="grid gap-1">
-                <span className="text-xs text-slate-500 dark:text-zinc-400">Search</span>
+              <label className="grid gap-1.5">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8b8274] dark:text-[#a99f91]">Search</span>
                 <input
-                  className="h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-blue-400/40 dark:border-white/10 dark:bg-[#0B0D12]/60 dark:text-zinc-200 dark:placeholder:text-zinc-500"
+                  className={fieldClass}
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="keyword in title"
@@ -95,7 +108,7 @@ export default function Publications() {
               </label>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         <Section title="Conference Proceedings">
           {grouped.conf.length ? (
@@ -105,7 +118,9 @@ export default function Publications() {
               ))}
             </div>
           ) : (
-            <div className="text-sm text-slate-500 dark:text-zinc-400">No conference papers match the current filters.</div>
+            <div className="rounded-2xl border border-[#d8cdb9]/75 bg-[#fffdf7]/70 p-5 text-sm text-[#746d62] dark:border-white/10 dark:bg-white/[0.055] dark:text-[#bdb4a6]">
+              No conference papers match the current filters.
+            </div>
           )}
         </Section>
 
@@ -117,7 +132,9 @@ export default function Publications() {
               ))}
             </div>
           ) : (
-            <div className="text-sm text-slate-500 dark:text-zinc-400">No journal papers match the current filters.</div>
+            <div className="rounded-2xl border border-[#d8cdb9]/75 bg-[#fffdf7]/70 p-5 text-sm text-[#746d62] dark:border-white/10 dark:bg-white/[0.055] dark:text-[#bdb4a6]">
+              No journal papers match the current filters.
+            </div>
           )}
         </Section>
       </div>

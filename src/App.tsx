@@ -1,11 +1,11 @@
-import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
-import Home from './pages/Home'
-import Publications from './pages/Publications'
-import CV from './pages/CV'
-import Background from './components/Background'
-import NavBar from './components/NavBar'
-import Footer from './components/Footer'
+import { HashRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import Home from "./pages/Home";
+import Publications from "./pages/Publications";
+import CV from "./pages/CV";
+import Background from "./components/Background";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -14,10 +14,10 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <motion.div
         key={location.pathname}
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -6 }}
-        transition={{ duration: 0.26, ease: "easeOut" }}
+        initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
+        transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
       >
         <Routes location={location}>
           <Route path="/" element={<Home />} />
@@ -34,7 +34,7 @@ export default function App() {
   return (
     <Router>
       <Background />
-      <div className="min-h-dvh text-slate-900 dark:text-white">
+      <div className="min-h-dvh text-[#211f1b] dark:text-[#f6efe3]">
         <NavBar />
         <main>
           <AnimatedRoutes />

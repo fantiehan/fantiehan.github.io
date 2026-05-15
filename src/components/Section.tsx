@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -10,27 +9,25 @@ type Props = {
 };
 
 export default function Section({ title, subtitle, children, className }: Props) {
-  const ref = useRef<HTMLElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 0.85", "end 0.15"],
-  });
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const y = useTransform(scrollYProgress, [0, 1], [18, -18]);
-  const smoothOpacity = useSpring(opacity, { stiffness: 140, damping: 24 });
-  const smoothY = useSpring(y, { stiffness: 140, damping: 24 });
-
   return (
     <motion.section
-      ref={ref}
-      className={cn("py-14", className)}
-      style={{ opacity: smoothOpacity, y: smoothY }}
+      className={cn("py-14 sm:py-16", className)}
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.18, margin: "0px 0px -90px 0px" }}
+      transition={{ duration: 0.66, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">{title}</h2>
-        {subtitle ? (
-          <p className="mt-2 text-sm leading-7 text-slate-500 dark:text-zinc-400">{subtitle}</p>
-        ) : null}
+      <div className="mb-7 border-t border-[#d8cdb9]/75 pt-6 dark:border-white/10">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <h2 className="font-display text-2xl font-semibold tracking-[-0.035em] text-[#211f1b] dark:text-[#f6efe3]">
+            {title}
+          </h2>
+          {subtitle ? (
+            <p className="max-w-xl text-sm leading-7 text-[#746d62] dark:text-[#bdb4a6] sm:text-right">
+              {subtitle}
+            </p>
+          ) : null}
+        </div>
       </div>
       {children}
     </motion.section>
