@@ -9,17 +9,17 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Iowan Old Style", "Palatino Linotype", "Book Antiqua", "Georgia", "serif"],
-        sans: ["Avenir Next", "Gill Sans", "Trebuchet MS", "Segoe UI", "sans-serif"],
+        display: ["SF Pro Display", "-apple-system", "BlinkMacSystemFont", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+        sans: ["SF Pro Text", "SF Pro Display", "-apple-system", "BlinkMacSystemFont", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
       },
       boxShadow: {
-        refined: "0 18px 60px rgba(34, 30, 24, 0.08)",
-        "refined-dark": "0 18px 70px rgba(0, 0, 0, 0.34)",
+        refined: "0 18px 50px rgba(0, 0, 0, 0.07)",
+        "refined-dark": "0 18px 70px rgba(0, 0, 0, 0.42)",
       },
       colors: {
-        ink: "#211f1b",
-        bone: "#f7f2ea",
-        brass: "#b28a49",
+        ink: "#1d1d1f",
+        appleGray: "#f5f5f7",
+        appleBlue: "#0071e3",
       },
     },
   },

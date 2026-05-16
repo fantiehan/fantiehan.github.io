@@ -36,17 +36,17 @@ export default function Publications() {
   }, [filtered]);
 
   const fieldClass =
-    "h-10 rounded-2xl border border-[#d8cdb9]/75 bg-[#fffdf7]/75 px-3 text-sm text-[#353128] outline-none transition placeholder:text-[#9b9284] focus:border-[#b28a49]/50 focus:bg-white focus:ring-2 focus:ring-[#b28a49]/10 dark:border-white/10 dark:bg-white/[0.055] dark:text-[#f6efe3] dark:placeholder:text-[#7c756b] dark:focus:border-[#d4b06a]/35 dark:focus:bg-white/[0.075]";
+    "h-10 rounded-2xl border border-[#d2d2d7] bg-white px-3 text-sm text-[#1d1d1f] outline-none transition placeholder:text-[#86868b] focus:border-[#0071e3]/55 focus:ring-2 focus:ring-[#0071e3]/10 dark:border-white/12 dark:bg-white/[0.075] dark:text-[#f5f5f7] dark:placeholder:text-[#86868b] dark:focus:border-[#2997ff]/45 dark:focus:bg-white/[0.1]";
 
   return (
     <Container>
-      <div className="py-16 sm:py-20">
+      <div className="py-16 sm:py-24">
         <div className="mb-12">
           <Badge variant="accent">Research Output</Badge>
-          <h1 className="font-display mt-5 text-5xl font-semibold tracking-[-0.055em] text-[#211f1b] dark:text-[#f6efe3] sm:text-6xl">
+          <h1 className="font-display mt-5 text-5xl font-semibold tracking-[-0.055em] text-[#1d1d1f] dark:text-[#f5f5f7] sm:text-6xl">
             Publications
           </h1>
-          <p className="mt-4 max-w-2xl text-[15px] leading-8 text-[#5f594f] dark:text-[#c9c0b1]">
+          <p className="mt-4 max-w-2xl text-[15px] leading-8 text-[#515154] dark:text-[#a1a1a6]">
             A curated overview of papers across multimodal LLMs, visual generation, datasets, and earlier work in machine learning for materials.
           </p>
         </div>
@@ -55,7 +55,7 @@ export default function Publications() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
-          className="surface-hairline rounded-[1.65rem] border border-[#d8cdb9]/75 bg-[#fffdf7]/80 p-5 shadow-refined backdrop-blur dark:border-white/10 dark:bg-white/[0.055] dark:shadow-refined-dark"
+          className="surface-hairline rounded-[1.65rem] border border-[#d2d2d7]/80 bg-[#f5f5f7] p-5 shadow-[0_10px_34px_rgba(0,0,0,0.05)] dark:border-white/10 dark:bg-white/[0.075] dark:shadow-refined-dark"
         >
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div className="flex flex-wrap items-center gap-2">
@@ -66,7 +66,7 @@ export default function Publications() {
 
             <div className="grid w-full gap-3 md:max-w-[680px] md:grid-cols-3">
               <label className="grid gap-1.5">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8b8274] dark:text-[#a99f91]">Type</span>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6e6e73] dark:text-[#a1a1a6]">Type</span>
                 <select
                   className={fieldClass}
                   value={type}
@@ -79,7 +79,7 @@ export default function Publications() {
               </label>
 
               <label className="grid gap-1.5">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8b8274] dark:text-[#a99f91]">Year</span>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6e6e73] dark:text-[#a1a1a6]">Year</span>
                 <select
                   className={fieldClass}
                   value={year}
@@ -98,7 +98,7 @@ export default function Publications() {
               </label>
 
               <label className="grid gap-1.5">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8b8274] dark:text-[#a99f91]">Search</span>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6e6e73] dark:text-[#a1a1a6]">Search</span>
                 <input
                   className={fieldClass}
                   value={query}
@@ -118,7 +118,7 @@ export default function Publications() {
               ))}
             </div>
           ) : (
-            <div className="rounded-2xl border border-[#d8cdb9]/75 bg-[#fffdf7]/70 p-5 text-sm text-[#746d62] dark:border-white/10 dark:bg-white/[0.055] dark:text-[#bdb4a6]">
+            <div className="rounded-2xl border border-[#d2d2d7]/80 bg-[#f5f5f7] p-5 text-sm text-[#6e6e73] dark:border-white/10 dark:bg-white/[0.075] dark:text-[#a1a1a6]">
               No conference papers match the current filters.
             </div>
           )}
@@ -132,7 +132,7 @@ export default function Publications() {
               ))}
             </div>
           ) : (
-            <div className="rounded-2xl border border-[#d8cdb9]/75 bg-[#fffdf7]/70 p-5 text-sm text-[#746d62] dark:border-white/10 dark:bg-white/[0.055] dark:text-[#bdb4a6]">
+            <div className="rounded-2xl border border-[#d2d2d7]/80 bg-[#f5f5f7] p-5 text-sm text-[#6e6e73] dark:border-white/10 dark:bg-white/[0.075] dark:text-[#a1a1a6]">
               No journal papers match the current filters.
             </div>
           )}

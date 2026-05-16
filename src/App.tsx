@@ -34,7 +34,7 @@ export default function App() {
   return (
     <Router>
       <Background />
-      <div className="min-h-dvh text-[#211f1b] dark:text-[#f6efe3]">
+      <div className="min-h-dvh text-[#1d1d1f] dark:text-[#f5f5f7]">
         <NavBar />
         <main>
           <AnimatedRoutes />
