@@ -2,14 +2,25 @@ import type { TimelineItem } from "@/content/types";
 
 export const education: TimelineItem[] = [
   {
-    range: "2024 - Present",
+    range: "2026-09 - Present",
+    title: "Ph.D., Nanjing University, Computer Science and Technology",
+    subtitle: "School of Intelligence Science and Technology / NJU-PCA-Lab",
+    icon: "university",
+    logo: "/logos/nju.svg",
+    details: [
+      "Advisor: Ying Tai",
+      "Research: Multimodal LLMs, visual generation and understanding",
+    ],
+  },
+  {
+    range: "2024 - 2026",
     title: "M.S., Nanjing University, Computer Science and Technology",
     subtitle: "School of Intelligence Science and Technology / NJU-PCA-Lab",
     icon: "university",
     logo: "/logos/nju.svg",
     details: [
       "Advisor: Ying Tai",
-      "Publications: CVPR ×1, ICLR ×2, NeurIPS ×1",
+      "Publications: CVPR ×1, ICLR ×2, NeurIPS ×1, ECCV ×1, IJCV ×1",
     ],
   },
   {

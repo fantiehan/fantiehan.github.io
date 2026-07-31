@@ -12,6 +12,12 @@ const css = read('src/index.css');
 const card = read('src/components/PublicationCard.tsx');
 const pubs = read('src/content/publications.ts');
 const home = read('src/pages/Home.tsx');
+
+const profile = read('src/content/profile.ts');
+const cv = read('src/content/cv.ts');
+assert(profile.includes('Ph.D. Student / Multimodal LLMs & Visual Generation'), 'Profile headline should reflect current Ph.D. status');
+assert(profile.includes('starting in September 2026'), 'Profile intro should mention the September 2026 Ph.D. start');
+assert(cv.includes('range: "2026-09 - Present"') && cv.includes('Ph.D., Nanjing University'), 'Education should include the NJU Ph.D. entry starting 2026-09');
 const filesToScan = [
   'src/index.css',
   'src/App.tsx',
