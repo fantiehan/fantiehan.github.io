@@ -1,5 +1,5 @@
 import { HashRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Home from "./pages/Home";
 import Publications from "./pages/Publications";
 import CV from "./pages/CV";
@@ -9,15 +9,16 @@ import Footer from "./components/Footer";
 
 function AnimatedRoutes() {
   const location = useLocation();
+  const reduceMotion = useReducedMotion();
 
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key={location.pathname}
-        initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
-        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
-        transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+        initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+        transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
       >
         <Routes location={location}>
           <Route path="/" element={<Home />} />
@@ -34,7 +35,7 @@ export default function App() {
   return (
     <Router>
       <Background />
-      <div className="min-h-dvh text-[#1d1d1f] dark:text-[#f5f5f7]">
+      <div className="min-h-dvh text-[var(--ink)]">
         <NavBar />
         <main>
           <AnimatedRoutes />

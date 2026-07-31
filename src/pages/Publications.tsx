@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Container from "@/components/Container";
 import Section from "@/components/Section";
 import PublicationCard from "@/components/PublicationCard";
@@ -10,67 +10,67 @@ import type { PublicationType } from "@/content/types";
 type TypeFilter = "all" | PublicationType;
 
 function uniqueYears() {
-  const years = Array.from(new Set(publications.map((p) => p.year))).sort((a, b) => b - a);
-  return years;
+  return Array.from(new Set(publications.map((paper) => paper.year))).sort((a, b) => b - a);
 }
 
 export default function Publications() {
+  const reduceMotion = useReducedMotion();
   const years = useMemo(() => uniqueYears(), []);
   const [type, setType] = useState<TypeFilter>("all");
   const [year, setYear] = useState<number | "all">("all");
   const [query, setQuery] = useState<string>("");
 
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const normalizedQuery = query.trim().toLowerCase();
     return publications
-      .filter((p) => (type === "all" ? true : p.type === type))
-      .filter((p) => (year === "all" ? true : p.year === year))
-      .filter((p) => (q ? p.title.toLowerCase().includes(q) : true))
+      .filter((paper) => (type === "all" ? true : paper.type === type))
+      .filter((paper) => (year === "all" ? true : paper.year === year))
+      .filter((paper) => (normalizedQuery ? paper.title.toLowerCase().includes(normalizedQuery) : true))
       .sort((a, b) => b.year - a.year);
   }, [type, year, query]);
 
   const grouped = useMemo(() => {
-    const conf = filtered.filter((p) => p.type === "conference");
-    const journal = filtered.filter((p) => p.type === "journal");
+    const conf = filtered.filter((paper) => paper.type === "conference");
+    const journal = filtered.filter((paper) => paper.type === "journal");
     return { conf, journal };
   }, [filtered]);
 
   const fieldClass =
-    "h-10 rounded-2xl border border-[#d2d2d7] bg-white px-3 text-sm text-[#1d1d1f] outline-none transition placeholder:text-[#86868b] focus:border-[#0071e3]/55 focus:ring-2 focus:ring-[#0071e3]/10 dark:border-white/12 dark:bg-white/[0.075] dark:text-[#f5f5f7] dark:placeholder:text-[#86868b] dark:focus:border-[#2997ff]/45 dark:focus:bg-white/[0.1]";
+    "h-10 border border-[var(--line)] bg-[var(--paper)] px-3 font-mono text-[12px] text-[var(--ink)] outline-none transition placeholder:text-[var(--ink-soft)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]";
 
   return (
     <Container>
-      <div className="py-16 sm:py-24">
-        <div className="mb-12">
-          <Badge variant="accent">Research Output</Badge>
-          <h1 className="font-display mt-5 text-5xl font-semibold tracking-[-0.055em] text-[#1d1d1f] dark:text-[#f5f5f7] sm:text-6xl">
+      <div className="py-10 sm:py-14">
+        <header className="border-b-2 border-[var(--line-strong)] pb-8">
+          <Badge variant="accent">Research archive</Badge>
+          <h1 className="mt-5 font-display text-[clamp(42px,8vw,76px)] font-semibold leading-none text-[var(--ink)]">
             Publications
           </h1>
-          <p className="mt-4 max-w-2xl text-[15px] leading-8 text-[#515154] dark:text-[#a1a1a6]">
-            A curated overview of papers across multimodal LLMs, visual generation, datasets, and earlier work in machine learning for materials.
+          <p className="mt-4 max-w-2xl text-[18px] leading-8 text-[var(--ink-soft)]">
+            A curated overview of papers across multimodal LLMs, visual generation, datasets, and earlier machine learning work for materials.
           </p>
-        </div>
+        </header>
 
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
-          className="surface-hairline rounded-[1.65rem] border border-[#d2d2d7]/80 bg-[#f5f5f7] p-5 shadow-[0_10px_34px_rgba(0,0,0,0.05)] dark:border-white/10 dark:bg-white/[0.075] dark:shadow-refined-dark"
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-10 border border-[var(--line)] bg-[var(--paper-deep)] p-5 shadow-paper-soft"
         >
-          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="flex flex-wrap items-center gap-2">
               <Badge variant="accent">Total: {filtered.length}</Badge>
               <Badge>Newest first</Badge>
               <Badge>{publications.length} records</Badge>
             </div>
 
-            <div className="grid w-full gap-3 md:max-w-[680px] md:grid-cols-3">
+            <div className="grid w-full gap-3 lg:max-w-[680px] lg:grid-cols-3">
               <label className="grid gap-1.5">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6e6e73] dark:text-[#a1a1a6]">Type</span>
+                <span className="font-mono text-[11px] tracking-[0.12em] text-[var(--ink-soft)]">Type</span>
                 <select
                   className={fieldClass}
                   value={type}
-                  onChange={(e) => setType(e.target.value as TypeFilter)}
+                  onChange={(event) => setType(event.target.value as TypeFilter)}
                 >
                   <option value="all">All</option>
                   <option value="conference">Conference</option>
@@ -79,30 +79,30 @@ export default function Publications() {
               </label>
 
               <label className="grid gap-1.5">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6e6e73] dark:text-[#a1a1a6]">Year</span>
+                <span className="font-mono text-[11px] tracking-[0.12em] text-[var(--ink-soft)]">Year</span>
                 <select
                   className={fieldClass}
                   value={year}
-                  onChange={(e) => {
-                    const v = e.target.value;
-                    setYear(v === "all" ? "all" : Number(v));
+                  onChange={(event) => {
+                    const value = event.target.value;
+                    setYear(value === "all" ? "all" : Number(value));
                   }}
                 >
                   <option value="all">All</option>
-                  {years.map((y) => (
-                    <option key={y} value={y}>
-                      {y}
+                  {years.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
                     </option>
                   ))}
                 </select>
               </label>
 
               <label className="grid gap-1.5">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6e6e73] dark:text-[#a1a1a6]">Search</span>
+                <span className="font-mono text-[11px] tracking-[0.12em] text-[var(--ink-soft)]">Search</span>
                 <input
                   className={fieldClass}
                   value={query}
-                  onChange={(e) => setQuery(e.target.value)}
+                  onChange={(event) => setQuery(event.target.value)}
                   placeholder="keyword in title"
                 />
               </label>
@@ -110,29 +110,29 @@ export default function Publications() {
           </div>
         </motion.div>
 
-        <Section title="Conference Proceedings">
+        <Section title="Conference papers" meta={`${grouped.conf.length} entries`}>
           {grouped.conf.length ? (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {grouped.conf.map((p) => (
-                <PublicationCard key={p.id} item={p} />
+            <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-3">
+              {grouped.conf.map((paper) => (
+                <PublicationCard key={paper.id} item={paper} />
               ))}
             </div>
           ) : (
-            <div className="rounded-2xl border border-[#d2d2d7]/80 bg-[#f5f5f7] p-5 text-sm text-[#6e6e73] dark:border-white/10 dark:bg-white/[0.075] dark:text-[#a1a1a6]">
+            <div className="border border-[var(--line)] bg-[var(--paper-deep)] p-5 text-[15px] text-[var(--ink-soft)]">
               No conference papers match the current filters.
             </div>
           )}
         </Section>
 
-        <Section title="Journal Articles">
+        <Section title="Journal articles" meta={`${grouped.journal.length} entries`}>
           {grouped.journal.length ? (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {grouped.journal.map((p) => (
-                <PublicationCard key={p.id} item={p} />
+            <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-3">
+              {grouped.journal.map((paper) => (
+                <PublicationCard key={paper.id} item={paper} />
               ))}
             </div>
           ) : (
-            <div className="rounded-2xl border border-[#d2d2d7]/80 bg-[#f5f5f7] p-5 text-sm text-[#6e6e73] dark:border-white/10 dark:bg-white/[0.075] dark:text-[#a1a1a6]">
+            <div className="border border-[var(--line)] bg-[var(--paper-deep)] p-5 text-[15px] text-[var(--ink-soft)]">
               No journal papers match the current filters.
             </div>
           )}

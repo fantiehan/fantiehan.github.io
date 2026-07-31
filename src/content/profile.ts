@@ -2,7 +2,7 @@ import type { Profile } from "@/content/types";
 
 export const profile: Profile = {
   name: "Tiehan Fan",
-  headline: "M.S. Student · Multimodal LLMs & Visual Generation",
+  headline: "M.S. Student / Multimodal LLMs & Visual Generation",
   interests: "Multimodal LLMs, Visual Generation and Understanding",
   citationsLabel: "Google Scholar Citations: 200+",
   email: "fantiehan@outlook.com",

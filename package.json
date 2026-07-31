@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "check": "tsc -b --noEmit"
+    "check": "tsc -b --noEmit",
+    "check:zine": "node scripts/check-zine-academic-site.mjs",
+    "check:images": "node scripts/check-image-assets.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

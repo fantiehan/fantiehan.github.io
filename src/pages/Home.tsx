@@ -1,9 +1,7 @@
-import { motion } from "framer-motion";
-import { ArrowRight, ExternalLink, Mail } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import Container from "@/components/Container";
 import Section from "@/components/Section";
 import Button from "@/components/Button";
-import Badge from "@/components/Badge";
 import Timeline from "@/components/Timeline";
 import PublicationCard from "@/components/PublicationCard";
 import { profile } from "@/content/profile";
@@ -17,106 +15,109 @@ const rise = {
 
 const stagger = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.08 } },
+  show: { transition: { staggerChildren: 0.07 } },
 };
 
 export default function Home() {
-  const selected = publications.filter((p) => selectedPublicationIds.includes(p.id));
+  const reduceMotion = useReducedMotion();
+  const selected = publications.filter((paper) => selectedPublicationIds.includes(paper.id));
 
   return (
-    <div>
-      <Container>
-        <div className="py-16 sm:py-24">
-          <motion.section
-            initial="hidden"
-            animate="show"
-            variants={stagger}
-            className="relative overflow-hidden rounded-[2.25rem] bg-white pb-10 pt-10 dark:bg-black sm:pb-14 sm:pt-14"
+    <Container>
+      <div className="py-10 sm:py-14">
+        <motion.section
+          initial={reduceMotion ? false : "hidden"}
+          animate="show"
+          variants={stagger}
+          className="border-b-2 border-[var(--line-strong)] pb-8"
+        >
+          <motion.div
+            variants={rise}
+            transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-wrap justify-between gap-3 font-mono text-[11px] tracking-[0.18em] text-[var(--ink-soft)]"
           >
-            <motion.div variants={rise} transition={{ duration: 0.68, ease: [0.22, 1, 0.36, 1] }}>
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge variant="accent">Academic Portfolio</Badge>
-                <Badge>{profile.headline}</Badge>
-              </div>
+            <span>Personal academic website</span>
+            <span>{profile.interests}</span>
+          </motion.div>
 
-              <h1 className="font-display mt-7 max-w-[1040px] text-balance text-6xl font-semibold tracking-[-0.065em] text-[#1d1d1f] dark:text-[#f5f5f7] sm:text-7xl lg:text-8xl">
-                {profile.name}
-              </h1>
+          <motion.h1
+            variants={rise}
+            transition={{ duration: 0.66, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-5 max-w-[980px] text-balance font-display text-[clamp(46px,9vw,92px)] font-semibold leading-[0.98] tracking-[0.005em] text-[var(--ink)]"
+          >
+            {profile.name}
+          </motion.h1>
 
-              <div className="mt-9 grid gap-5 lg:grid-cols-3">
-                {profile.intro.map((paragraph, index) => (
-                  <motion.p
-                    key={paragraph}
-                    variants={rise}
-                    transition={{ duration: 0.62, delay: 0.06 * index, ease: [0.22, 1, 0.36, 1] }}
-                    className="border-t border-[#d2d2d7] pt-5 text-[15px] leading-8 text-[#515154] dark:border-white/12 dark:text-[#a1a1a6]"
-                  >
-                    {paragraph}
-                  </motion.p>
-                ))}
-              </div>
+          <motion.p
+            variants={rise}
+            transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-4 max-w-[56ch] font-display text-[22px] italic leading-8 text-[var(--ink-soft)]"
+          >
+            {profile.headline}
+          </motion.p>
 
-              <div className="mt-9 flex flex-wrap items-center gap-3">
-                <Button href={profile.scholarUrl} target="_blank" rel="noreferrer">
-                  {profile.citationsLabel}
-                  <ExternalLink className="h-4 w-4" />
-                </Button>
-                <Button variant="secondary" href={`mailto:${profile.email}`}>
-                  Email
-                  <Mail className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" href="#/cv">
-                  View CV
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </div>
-            </motion.div>
-          </motion.section>
+          <div className="mt-9 grid gap-5 lg:grid-cols-3">
+            {profile.intro.map((paragraph, index) => (
+              <motion.p
+                key={paragraph}
+                variants={rise}
+                transition={{ duration: 0.56, delay: reduceMotion ? 0 : index * 0.04, ease: [0.22, 1, 0.36, 1] }}
+                className="border-t border-[var(--line)] pt-5 text-[16px] leading-8 text-[var(--ink)]"
+              >
+                {paragraph}
+              </motion.p>
+            ))}
+          </div>
 
-          <Section title="Selected Publications" subtitle="A restrained selection of recent work in multimodal understanding and generation.">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {selected.map((p) => (
-                <PublicationCard key={p.id} item={p} />
-              ))}
-            </div>
-            <div className="mt-6">
-              <Button variant="secondary" href="#/publications">
-                View all publications
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </div>
-          </Section>
+          <motion.div
+            variants={rise}
+            transition={{ duration: 0.56, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-8 flex flex-wrap gap-3"
+          >
+            <Button href={profile.scholarUrl} target="_blank" rel="noreferrer">
+              {profile.citationsLabel}
+            </Button>
+            <Button variant="secondary" href="#/cv">View CV</Button>
+            <Button variant="ghost" href={`mailto:${profile.email}`}>Email</Button>
+          </motion.div>
+        </motion.section>
 
-          <Section title="Education" subtitle="A concise view of academic milestones.">
+        <Section title="Selected papers" meta={`${selected.length} entries`}>
+          <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-3">
+            {selected.map((paper) => (
+              <PublicationCard key={paper.id} item={paper} />
+            ))}
+          </div>
+          <div className="mt-7">
+            <Button variant="secondary" href="#/publications">Open full archive</Button>
+          </div>
+        </Section>
+
+        <div className="grid gap-10 lg:grid-cols-2">
+          <Section title="Education" className="py-10" meta="academic path">
             <Timeline items={education} />
           </Section>
 
-          <Section title="Internship" subtitle="Current industry role and research-facing engineering practice.">
+          <Section title="Internship" className="py-10" meta="current role">
             <Timeline items={internships} />
           </Section>
+        </div>
 
-          <Section title="Contact" subtitle="Open to research collaboration and thoughtful conversations around multimodal systems.">
-            <div className="surface-hairline rounded-[1.65rem] border border-[#d2d2d7]/80 bg-[#f5f5f7] p-6 shadow-[0_10px_34px_rgba(0,0,0,0.05)] dark:border-white/10 dark:bg-white/[0.075] dark:shadow-refined-dark">
-              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <div className="font-display text-2xl font-semibold tracking-[-0.035em] text-[#1d1d1f] dark:text-[#f5f5f7]">Reach out</div>
-                  <div className="mt-2 text-sm text-[#6e6e73] dark:text-[#a1a1a6]">{profile.email}</div>
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <Button variant="secondary" href={`mailto:${profile.email}`}>
-                    Email
-                    <Mail className="h-4 w-4" />
-                  </Button>
-                  <Button href={profile.scholarUrl} target="_blank" rel="noreferrer">
-                    Google Scholar
-                    <ExternalLink className="h-4 w-4" />
-                  </Button>
-                </div>
+        <Section title="Contact">
+          <div className="border border-[var(--line)] bg-[var(--paper-deep)] p-6 shadow-paper-soft">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h3 className="text-[28px] font-semibold leading-tight text-[var(--ink)]">{profile.name}</h3>
+                <p className="mt-2 font-mono text-[12px] text-[var(--ink-soft)]">{profile.email}</p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Button variant="secondary" href={`mailto:${profile.email}`}>Email</Button>
+                <Button href={profile.scholarUrl} target="_blank" rel="noreferrer">Google Scholar</Button>
               </div>
             </div>
-          </Section>
-        </div>
-      </Container>
-    </div>
+          </div>
+        </Section>
+      </div>
+    </Container>
   );
 }

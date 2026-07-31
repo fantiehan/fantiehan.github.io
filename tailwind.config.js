@@ -9,17 +9,21 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["SF Pro Display", "-apple-system", "BlinkMacSystemFont", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
-        sans: ["SF Pro Text", "SF Pro Display", "-apple-system", "BlinkMacSystemFont", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+        display: ["EB Garamond", "Georgia", "Songti SC", "Noto Serif CJK SC", "serif"],
+        sans: ["EB Garamond", "Georgia", "Songti SC", "Noto Serif CJK SC", "serif"],
+        mono: ["JetBrains Mono", "SFMono-Regular", "ui-monospace", "Cascadia Code", "monospace"],
       },
       boxShadow: {
-        refined: "0 18px 50px rgba(0, 0, 0, 0.07)",
-        "refined-dark": "0 18px 70px rgba(0, 0, 0, 0.42)",
+        paper: "0 10px 26px var(--shadow-paper)",
+        "paper-soft": "0 1px 0 rgba(60, 45, 20, 0.05)",
       },
       colors: {
-        ink: "#1d1d1f",
-        appleGray: "#f5f5f7",
-        appleBlue: "#0071e3",
+        paper: "var(--paper)",
+        paperDeep: "var(--paper-deep)",
+        ink: "var(--ink)",
+        inkSoft: "var(--ink-soft)",
+        zineLine: "var(--line)",
+        zineAccent: "var(--accent)",
       },
     },
   },

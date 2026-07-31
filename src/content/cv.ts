@@ -2,9 +2,9 @@ import type { TimelineItem } from "@/content/types";
 
 export const education: TimelineItem[] = [
   {
-    range: "2024 — Present",
+    range: "2024 - Present",
     title: "M.S., Nanjing University, Computer Science and Technology",
-    subtitle: "School of Intelligence Science and Technology · NJU-PCA-Lab",
+    subtitle: "School of Intelligence Science and Technology / NJU-PCA-Lab",
     icon: "university",
     logo: "/logos/nju.svg",
     details: [
@@ -13,9 +13,9 @@ export const education: TimelineItem[] = [
     ],
   },
   {
-    range: "2020 — 2024",
+    range: "2020 - 2024",
     title: "B.S., Northeastern University, Control Science and Engineering",
-    subtitle: "College of Information Science and Engineering · NEU-DAO-Lab",
+    subtitle: "College of Information Science and Engineering / NEU-DAO-Lab",
     icon: "university",
     logo: "/logos/neu.svg",
     details: [
@@ -27,8 +27,8 @@ export const education: TimelineItem[] = [
 
 export const internships: TimelineItem[] = [
   {
-    range: "2025 — Present",
-    title: "ByteDance · TikTok",
+    range: "2025 - Present",
+    title: "ByteDance / TikTok",
     subtitle: "Multimodal Algorithm Intern",
     icon: "company",
     logo: "/logos/bytedance.svg",
