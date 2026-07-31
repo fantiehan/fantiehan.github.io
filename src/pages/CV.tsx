@@ -4,7 +4,7 @@ import Timeline from "@/components/Timeline";
 import Badge from "@/components/Badge";
 import Button from "@/components/Button";
 import { profile } from "@/content/profile";
-import { education, internships, skills } from "@/content/cv";
+import { education, internships } from "@/content/cv";
 
 export default function CV() {
   return (
@@ -55,16 +55,6 @@ export default function CV() {
           <Timeline items={internships} />
         </Section>
 
-        <Section title="Skills" meta="compact list">
-          <div className="grid gap-4 sm:grid-cols-2">
-            {skills.map((item) => (
-              <div key={item.label} className="border border-[var(--line)] bg-[var(--paper-deep)] p-5 shadow-paper-soft">
-                <div className="font-mono text-[11px] tracking-[0.14em] text-[var(--accent)]">{item.label}</div>
-                <div className="mt-3 text-[17px] leading-7 text-[var(--ink)]">{item.value}</div>
-              </div>
-            ))}
-          </div>
-        </Section>
 
         <Section title="Contact" meta="email and scholar">
           <div className="border border-[var(--line)] bg-[var(--paper-deep)] p-6 shadow-paper-soft">

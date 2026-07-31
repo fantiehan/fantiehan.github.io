@@ -64,6 +64,11 @@ assert(card.includes('poster.imageUrl'), 'PublicationCard should prefer provided
 assert(card.includes('poster-catalog-caption'), 'PublicationCard default browsing state should include a catalog-style caption outside the poster image');
 assert(card.includes('item.poster.shortTitle'), 'Catalog caption should expose the short paper title in browsing state');
 assert(card.includes('item.venue} {item.year'), 'Catalog caption should expose venue and year in browsing state');
+
+assert(pubs.includes('caption:'), 'Publication poster metadata should include a concise browsing caption');
+assert(card.includes('item.poster.caption'), 'Catalog caption should show a concise paper topic in browsing state');
+const cvPage = read('src/pages/CV.tsx');
+assert(!cvPage.includes('title="Skills"') && !cvPage.includes('skills.map'), 'CV page should not render the low-value Skills section');
 assert(card.includes('flex-1') && card.includes('border-t border-[var(--line)]'), 'Catalog caption should be separated from the poster image rather than overlaid on top of it');
 assert(pubs.includes('poster:'), 'Publication records should include poster metadata for the zine cards');
 

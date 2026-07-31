@@ -143,7 +143,8 @@ export default function PublicationCard({ item, className }: Props) {
 
         <div className="poster-catalog-caption border-t border-[var(--line)] bg-[var(--paper-deep)] px-4 py-3">
           <div className="text-[20px] font-semibold leading-6 text-[var(--ink)]">{item.poster.shortTitle}</div>
-          <div className="mt-1 font-mono text-[10px] leading-4 tracking-[0.1em] text-[var(--ink-soft)]">
+          <div className="mt-1 text-[12px] leading-5 text-[var(--ink-soft)]">{item.poster.caption}</div>
+          <div className="mt-2 font-mono text-[10px] leading-4 tracking-[0.1em] text-[var(--ink-soft)]">
             <span className="text-[var(--paper-accent)]">{item.venue} {item.year}</span>
             <span> / {item.contributionTag || item.type}</span>
           </div>

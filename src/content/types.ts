@@ -17,6 +17,7 @@ export type PublicationPoster = {
   accent: string;
   layout: PosterLayout;
   meta: string;
+  caption: string;
   imageUrl?: string;
 };
 
