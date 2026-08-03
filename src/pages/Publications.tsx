@@ -57,60 +57,52 @@ export default function Publications() {
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="mt-10 border border-[var(--line)] bg-[var(--paper-deep)] p-5 shadow-paper-soft"
         >
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-            <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="accent">Total: {filtered.length}</Badge>
-              <Badge>Newest first</Badge>
-              <Badge>{publications.length} records</Badge>
-            </div>
+          <div className="grid w-full gap-3 lg:ml-auto lg:max-w-[680px] lg:grid-cols-3">
+            <label className="grid gap-1.5">
+              <span className="font-mono text-[11px] tracking-[0.12em] text-[var(--ink-soft)]">Type</span>
+              <select
+                className={fieldClass}
+                value={type}
+                onChange={(event) => setType(event.target.value as TypeFilter)}
+              >
+                <option value="all">All</option>
+                <option value="conference">Conference</option>
+                <option value="journal">Journal</option>
+              </select>
+            </label>
 
-            <div className="grid w-full gap-3 lg:max-w-[680px] lg:grid-cols-3">
-              <label className="grid gap-1.5">
-                <span className="font-mono text-[11px] tracking-[0.12em] text-[var(--ink-soft)]">Type</span>
-                <select
-                  className={fieldClass}
-                  value={type}
-                  onChange={(event) => setType(event.target.value as TypeFilter)}
-                >
-                  <option value="all">All</option>
-                  <option value="conference">Conference</option>
-                  <option value="journal">Journal</option>
-                </select>
-              </label>
+            <label className="grid gap-1.5">
+              <span className="font-mono text-[11px] tracking-[0.12em] text-[var(--ink-soft)]">Year</span>
+              <select
+                className={fieldClass}
+                value={year}
+                onChange={(event) => {
+                  const value = event.target.value;
+                  setYear(value === "all" ? "all" : Number(value));
+                }}
+              >
+                <option value="all">All</option>
+                {years.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </label>
 
-              <label className="grid gap-1.5">
-                <span className="font-mono text-[11px] tracking-[0.12em] text-[var(--ink-soft)]">Year</span>
-                <select
-                  className={fieldClass}
-                  value={year}
-                  onChange={(event) => {
-                    const value = event.target.value;
-                    setYear(value === "all" ? "all" : Number(value));
-                  }}
-                >
-                  <option value="all">All</option>
-                  {years.map((item) => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="grid gap-1.5">
-                <span className="font-mono text-[11px] tracking-[0.12em] text-[var(--ink-soft)]">Search</span>
-                <input
-                  className={fieldClass}
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder="keyword in title"
-                />
-              </label>
-            </div>
+            <label className="grid gap-1.5">
+              <span className="font-mono text-[11px] tracking-[0.12em] text-[var(--ink-soft)]">Search</span>
+              <input
+                className={fieldClass}
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="keyword in title"
+              />
+            </label>
           </div>
         </motion.div>
 
-        <Section title="Conference papers" meta={`${grouped.conf.length} entries`}>
+        <Section title="Conference papers">
           {grouped.conf.length ? (
             <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-3">
               {grouped.conf.map((paper) => (
@@ -124,7 +116,7 @@ export default function Publications() {
           )}
         </Section>
 
-        <Section title="Journal articles" meta={`${grouped.journal.length} entries`}>
+        <Section title="Journal articles">
           {grouped.journal.length ? (
             <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-3">
               {grouped.journal.map((paper) => (

@@ -34,10 +34,9 @@ export default function Home() {
           <motion.div
             variants={rise}
             transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-wrap justify-between gap-3 font-mono text-[11px] tracking-[0.18em] text-[var(--ink-soft)]"
+            className="font-mono text-[11px] tracking-[0.18em] text-[var(--ink-soft)]"
           >
-            <span>Personal academic website</span>
-            <span>{profile.interests}</span>
+            {profile.interests}
           </motion.div>
 
           <motion.h1
@@ -82,7 +81,7 @@ export default function Home() {
           </motion.div>
         </motion.section>
 
-        <Section title="Selected papers" meta={`${selected.length} entries`}>
+        <Section title="Selected papers">
           <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-3">
             {selected.map((paper) => (
               <PublicationCard key={paper.id} item={paper} />
@@ -94,11 +93,11 @@ export default function Home() {
         </Section>
 
         <div className="grid gap-10 lg:grid-cols-2">
-          <Section title="Education" className="py-10" meta="academic path">
+          <Section title="Education" className="py-10">
             <Timeline items={education} />
           </Section>
 
-          <Section title="Internship" className="py-10" meta="current role">
+          <Section title="Internship" className="py-10">
             <Timeline items={internships} />
           </Section>
         </div>

@@ -28,7 +28,7 @@ export default function CV() {
           </div>
         </header>
 
-        <Section title="Profile" meta="research identity">
+        <Section title="Profile">
           <div className="border border-[var(--line)] bg-[var(--paper-deep)] p-6 shadow-paper-soft">
             <div className="grid gap-7 lg:grid-cols-[0.7fr_1.3fr] lg:items-start">
               <div>
@@ -47,16 +47,16 @@ export default function CV() {
           </div>
         </Section>
 
-        <Section title="Education" meta="degrees and labs">
+        <Section title="Education">
           <Timeline items={education} />
         </Section>
 
-        <Section title="Internship" meta="industry research">
+        <Section title="Internship">
           <Timeline items={internships} />
         </Section>
 
 
-        <Section title="Contact" meta="email and scholar">
+        <Section title="Contact">
           <div className="border border-[var(--line)] bg-[var(--paper-deep)] p-6 shadow-paper-soft">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>

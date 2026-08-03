@@ -12,12 +12,17 @@ const css = read('src/index.css');
 const card = read('src/components/PublicationCard.tsx');
 const pubs = read('src/content/publications.ts');
 const home = read('src/pages/Home.tsx');
+const publicationsPage = read('src/pages/Publications.tsx');
 
 const profile = read('src/content/profile.ts');
 const cv = read('src/content/cv.ts');
 assert(profile.includes('Ph.D. Student / Multimodal LLMs & Visual Generation'), 'Profile headline should reflect current Ph.D. status');
 assert(profile.includes('starting in September 2026'), 'Profile intro should mention the September 2026 Ph.D. start');
-assert(cv.includes('range: "2026-09 - Present"') && cv.includes('Ph.D., Nanjing University'), 'Education should include the NJU Ph.D. entry starting 2026-09');
+assert(cv.includes('range: "2026 - Present"') && cv.includes('Ph.D., Nanjing University'), 'Education should include the NJU Ph.D. entry starting 2026');
+
+assert(!cv.includes('Publications:'), 'Education entries should not include publication count summaries');
+assert(!cv.includes('Research:'), 'Education entries should not repeat research-interest summaries');
+assert(!cv.includes('×'), 'Education entries should not include venue count shorthand');
 const filesToScan = [
   'src/index.css',
   'src/App.tsx',
@@ -86,6 +91,15 @@ assert(pubs.includes('https://arxiv.org/abs/2607.01667'), 'TCA-Captioner should 
 assert(pubs.includes('citation_for_view=F11LXvYAAAAJ:UeHWp8X0CEIC'), 'TCA-Captioner should preserve the provided Google Scholar citation URL');
 assert(home.includes('profile.intro.map'), 'Home page should render the full personal introduction from profile.intro');
 assert(!home.includes('Why make papers feel like paper'), 'Home page should not include the added design-rationale essay');
+assert(!home.includes('Personal academic website'), 'Home masthead should not include generic template labels');
+
+
+assert(!home.includes('entries`}') && !publicationsPage.includes('entries`}'), 'Publication sections should not display paper counts as entries metadata');
+assert(!publicationsPage.includes('Total:') && !publicationsPage.includes('records'), 'Publications page should not show total or records count badges');
+
+for (const fillerMeta of ['academic path', 'current role', 'industry research', 'research identity', 'degrees and labs', 'email and scholar', 'compact list']) {
+  assert(!home.includes(fillerMeta) && !cvPage.includes(fillerMeta) && !publicationsPage.includes(fillerMeta), `Section meta should not include low-value label: ${fillerMeta}`);
+}
 assert(!home.includes('Research note'), 'Home page should not include explanatory research-note filler');
 
 for (const file of filesToScan) {
