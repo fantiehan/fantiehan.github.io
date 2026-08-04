@@ -1,11 +1,13 @@
 import type { Publication } from "@/content/types";
 import tcaCaptioner from "@/assets/fig/TCA-captioner.webp";
+import romerl from "@/assets/fig/romerl.webp";
 import openvidPlusPlus from "@/assets/fig/openvid-plusplus.webp";
 import instancecap from "@/assets/fig/instancecap.webp";
 import motionsight from "@/assets/fig/motionsight.webp";
 import openvid from "@/assets/fig/openvid.webp";
 import ultrahr from "@/assets/fig/ultrahr100k.webp";
 import solidSolution from "@/assets/fig/solid-solution.webp";
+import romerlPoster from "@/assets/posters/romerl.webp";
 import tcaCaptionerPoster from "@/assets/posters/tca-captioner.webp";
 import openvidPlusPlusPoster from "@/assets/posters/openvid-plusplus.webp";
 import instancecapPoster from "@/assets/posters/instancecap.webp";
@@ -15,6 +17,31 @@ import ultrahrPoster from "@/assets/posters/ultrahr.webp";
 import solidSolutionPoster from "@/assets/posters/solid-solution.webp";
 
 export const publications: Publication[] = [
+
+  {
+    id: "yang2026romerl",
+    title: "RoMeRL: Balancing Feedback Coverage and the Memory-Reward Trap in Self-Evolving Agent Memory via Reduced-Order Utility States",
+    venue: "arXiv",
+    year: 2026,
+    type: "preprint",
+    authors:
+      "Yi Yang, Zhennan Chen, Yihong Zhuang, Tiehan Fan, Yinan Chen, Jian Li, Jian Yang, Ying Tai",
+    contributionTag: "",
+    screenshotUrl: romerl,
+    paperUrl: "https://arxiv.org/abs/2608.02508",
+    screenshotPrompt:
+      "RoMeRL reduced-order memory reinforcement learning framework for self-evolving LLM agent memory",
+    poster: {
+      archive: "arxiv 2026",
+      shortTitle: "RoMeRL",
+      concept: "reduced-order utility states for agent memory",
+      accent: "#b8860b",
+      layout: "alignment-bridge",
+      meta: "preprint / self-evolving agent memory",
+      caption: "Reduced-order memory RL for self-evolving agents",
+      imageUrl: romerlPoster,
+    },
+  },
   {
     id: "nan2026openvidplusplus",
     title: "OpenVid++: A Large-scale High-quality Dataset for Text-to-video Generation",
@@ -182,6 +209,7 @@ export const publications: Publication[] = [
 ];
 
 export const selectedPublicationIds = [
+  "yang2026romerl",
   "nan2026openvidplusplus",
   "zhao2026tca",
   "fan2025instancecap",

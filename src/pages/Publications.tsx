@@ -30,9 +30,10 @@ export default function Publications() {
   }, [type, year, query]);
 
   const grouped = useMemo(() => {
+    const preprint = filtered.filter((paper) => paper.type === "preprint");
     const conf = filtered.filter((paper) => paper.type === "conference");
     const journal = filtered.filter((paper) => paper.type === "journal");
-    return { conf, journal };
+    return { preprint, conf, journal };
   }, [filtered]);
 
   const fieldClass =
@@ -68,6 +69,7 @@ export default function Publications() {
                 <option value="all">All</option>
                 <option value="conference">Conference</option>
                 <option value="journal">Journal</option>
+                <option value="preprint">Preprint</option>
               </select>
             </label>
 
@@ -101,6 +103,20 @@ export default function Publications() {
             </label>
           </div>
         </motion.div>
+
+        <Section title="Preprints">
+          {grouped.preprint.length ? (
+            <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-3">
+              {grouped.preprint.map((paper) => (
+                <PublicationCard key={paper.id} item={paper} />
+              ))}
+            </div>
+          ) : (
+            <div className="border border-[var(--line)] bg-[var(--paper-deep)] p-5 text-[15px] text-[var(--ink-soft)]">
+              No preprints match the current filters.
+            </div>
+          )}
+        </Section>
 
         <Section title="Conference papers">
           {grouped.conf.length ? (

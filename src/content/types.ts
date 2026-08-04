@@ -1,4 +1,4 @@
-export type PublicationType = "conference" | "journal";
+export type PublicationType = "conference" | "journal" | "preprint";
 
 export type ContributionTag = "First Author" | "Co-First Author" | "";
 

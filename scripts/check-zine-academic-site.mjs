@@ -62,6 +62,14 @@ assert(pubs.includes('instancecapPoster') && pubs.includes('@/assets/posters/ins
 assert(pubs.includes('motionsightPoster') && pubs.includes('@/assets/posters/motionsight.webp'), 'MotionSight should use the provided poster WebP for browsing art');
 assert(pubs.includes('openvidPoster') && pubs.includes('@/assets/posters/openvid.webp'), 'OpenVid should use the provided poster WebP for browsing art');
 
+
+assert(pubs.includes('RoMeRL: Balancing Feedback Coverage and the Memory-Reward Trap in Self-Evolving Agent Memory via Reduced-Order Utility States'), 'Publications should include the RoMeRL arXiv title from the PDF');
+assert(pubs.includes('Yi Yang, Zhennan Chen, Yihong Zhuang, Tiehan Fan, Yinan Chen, Jian Li, Jian Yang, Ying Tai'), 'RoMeRL authors should match the PDF order');
+assert(pubs.includes('venue: "arXiv"') && pubs.includes('type: "preprint"'), 'RoMeRL should be listed as an arXiv preprint');
+assert(pubs.includes('https://arxiv.org/abs/2608.02508'), 'RoMeRL should include the arXiv URL');
+assert(pubs.includes('romerlPoster') && pubs.includes('@/assets/posters/romerl.webp'), 'RoMeRL should use the provided poster WebP for browsing art');
+assert(pubs.includes('screenshotUrl: romerl'), 'RoMeRL should use the cropped framework figure as hover preview');
+assert(publicationsPage.includes('<option value="preprint">Preprint</option>') && publicationsPage.includes('title="Preprints"'), 'Publications page should support preprint filtering and section display');
 assert(pubs.includes('OpenVid++: A Large-scale High-quality Dataset for Text-to-video Generation'), 'Publications should include the OpenVid++ IJCV 2026 title from the PDF');
 assert(pubs.includes('Kepan Nan, Tiehan Fan, Rui Xie, Penghao Zhou, Yilin Zhang, Xiang Li, Jian Yang, Zhenheng Yang, Xiaoming Liu, Ying Tai'), 'OpenVid++ authors should match the PDF order');
 assert(pubs.includes('venue: "IJCV"') && pubs.includes('year: 2026'), 'OpenVid++ should be listed as IJCV 2026');
