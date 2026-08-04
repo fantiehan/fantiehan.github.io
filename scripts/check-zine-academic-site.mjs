@@ -71,6 +71,8 @@ assert(!openVidPlusPlusBlock.includes('paperUrl:'), 'OpenVid++ should not add a 
 assert(!openVidPlusPlusBlock.includes('scholarUrl:'), 'OpenVid++ should not add a precise Scholar citation URL before formal publication');
 assert(card.includes('scholarHref = item.scholarUrl ?? `https://scholar.google.com/scholar?q=${encodeURIComponent(item.title)}`'), 'PublicationCard should keep generic Scholar title search fallback');
 assert(card.includes('poster.imageUrl'), 'PublicationCard should prefer provided poster images for default art browsing state');
+assert(home.includes('Posters made with paper2humanist-poster'), 'Home selected papers should credit the poster generation skill');
+assert(publicationsPage.includes('Posters made with paper2humanist-poster'), 'Publications page should credit the poster generation skill');
 
 assert(card.includes('poster-catalog-caption'), 'PublicationCard default browsing state should include a catalog-style caption outside the poster image');
 assert(card.includes('item.poster.shortTitle'), 'Catalog caption should expose the short paper title in browsing state');

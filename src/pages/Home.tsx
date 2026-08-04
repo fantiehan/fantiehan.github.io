@@ -87,6 +87,16 @@ export default function Home() {
               <PublicationCard key={paper.id} item={paper} />
             ))}
           </div>
+          <p className="mt-5 font-mono text-[10px] leading-5 tracking-[0.1em] text-[var(--ink-soft)]">
+            <a
+              href="https://github.com/fantiehan/paper2humanist-poster"
+              target="_blank"
+              rel="noreferrer"
+              className="border-b border-transparent transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+            >
+              Posters made with paper2humanist-poster.
+            </a>
+          </p>
           <div className="mt-7">
             <Button variant="secondary" href="#/publications">Open full archive</Button>
           </div>
