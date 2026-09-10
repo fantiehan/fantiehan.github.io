@@ -4,7 +4,7 @@ export const profile: Profile = {
   name: "Tiehan Fan",
   headline: "Ph.D. Student / Multimodal LLMs & Visual Generation",
   interests: "Multimodal LLMs, Visual Generation and Understanding",
-  citationsLabel: "Google Scholar Citations: 200+",
+  citationsLabel: "Google Scholar Citations: 400+",
   email: "fantiehan@outlook.com",
   scholarUrl: "https://scholar.google.com/citations?user=F11LXvYAAAAJ&hl=zh-CN",
   intro: [
