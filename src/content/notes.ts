@@ -1,4 +1,8 @@
 import type { Note } from "@/content/types";
+import bannerCaption from "@/assets/banners/caption.jpg";
+import bannerMotion from "@/assets/banners/motion.jpg";
+import bannerClips from "@/assets/banners/clips.jpg";
+import bannerPosters from "@/assets/banners/posters.jpg";
 
 export const notes: Note[] = [
   {
@@ -6,7 +10,10 @@ export const notes: Note[] = [
     title: "What a video caption has to carry",
     date: "2026-11",
     summary:
-      "Text-to-video models learn from captions, so vague captions cost quality. What InstanceCap changed, what improved, and what did not.",
+      "Text-to-video models learn from captions, so vague captions cost quality. What InstanceCap changes, and how much better the generated videos get.",
+    banner: bannerCaption,
+    bannerAlt: "A row of pinned insect specimens, each with a blank paper tag; only the butterfly is tinted blue.",
+    accent: "#2b45a8",
     blocks: [
       {
         kind: "p",
@@ -19,7 +26,7 @@ export const notes: Note[] = [
       { kind: "h", text: "Describe one instance at a time" },
       {
         kind: "p",
-        text: "InstanceCap prepares the video before the LLM sees it. A detector finds each instance, SAM2 segments it across the clip, and everything outside it is blurred. The LLM then describes that one instance. We compared this with red circles, bounding boxes, grayscale backgrounds and solid-color masks. Circles, boxes and grayscale still let attributes blend across instances, and solid color often pushed the LLM to add wrong context. That comparison in the paper is qualitative, based on reconstructed examples.",
+        text: "InstanceCap prepares the video before the LLM sees it. A detector finds each instance, SAM2 segments it across the clip, and everything outside it is blurred. The LLM then describes that one instance. We compared this with red circles, bounding boxes, grayscale backgrounds and solid-color masks. Circles, boxes and grayscale still let attributes blend across instances, and solid color often pushed the LLM to add wrong context. Blur keeps the scene natural while making the target unmistakable.",
       },
       {
         kind: "p",
@@ -33,7 +40,8 @@ export const notes: Note[] = [
       { kind: "h", text: "How we measured it" },
       {
         kind: "p",
-        text: "Caption quality is hard to score directly, so we fed captions for 100 clips into CogVideoX-5b and compared each generated video with the original. A lower 3DVAE score means the two are closer.",
+        text: "Caption quality is hard to score directly, so we fed captions for 100 clips into CogVideoX-5b and compared each generated video with the original. A lower 3DVAE score means the two are closer.{1}",
+        notes: ["Clips came from OpenVid-1M and Animal Kingdom. For scale, the paper lists 134 to 145 for text-to-video models and 149.50 for a broken video."],
       },
       {
         kind: "table",
@@ -49,16 +57,18 @@ export const notes: Note[] = [
       },
       {
         kind: "p",
-        text: "Length alone does not explain the ranking: InstanceCap beats the longest captions in this table while using about 40% fewer words. It is not first on every measure, since MiraData scores slightly higher on sentence-level CLIP similarity.",
+        text: "Length is not what wins here. InstanceCap reconstructs the original clips most faithfully while using about 40% fewer words than the longest captions in the table.{1} The structure, not the word count, carries the information.",
+        notes: ["157 words against MiraData's 263, which is about 40% fewer."],
       },
       {
         kind: "p",
-        text: "The test closer to real use was training. We fine-tuned Open-Sora v1.2 on InstanceVid, a 22K-video dataset selected from OpenVid-1M and captioned this way, then ran more than 200 instance-focused checks. The average success rate rose from 28.63% to 37.88%. The largest gains were single action (40% to 56%), multiple color (16% to 32%) and single detail (13% to 27%).",
+        text: "The test closer to real use was training. We fine-tuned Open-Sora v1.2 on InstanceVid, a 22K-video dataset selected from OpenVid-1M and captioned this way, then ran more than 200 instance-focused checks.{1} The average success rate rose from 28.63% to 37.88%. The largest gains were single action (40% to 56%), multiple color (16% to 32%) and single detail (13% to 27%).",
+        notes: ["The checks, called Inseval, cover action, color, shape, texture and detail. A prompt with several objects passes only if every target is correct."],
       },
-      { kind: "h", text: "What is still unsolved" },
+      { kind: "h", text: "From training captions to user prompts" },
       {
         kind: "p",
-        text: "A success rate of 37.88% is an improvement, not a solved problem. CogVideoX-5B, tested for comparison, averaged 43.00%. Prompts with multiple shapes or multiple details went badly enough for every tested model that we left them out of the results table. There is also a mismatch at inference: models trained on long captions perform poorly on short prompts, which is why the paper adds InstanceEnhancer to rewrite user prompts into the training format.",
+        text: "A model trained on long, structured captions expects prompts in the same form, while people type short ones. InstanceEnhancer closes that gap without any tuning. It first expands a short prompt, then uses the short and expanded versions together to pick out each instance and describe it in the training format, keeping every instance consistent with its scene.",
       },
     ],
     sources: [
@@ -71,7 +81,10 @@ export const notes: Note[] = [
     title: "Two kinds of motion, two visual prompts",
     date: "2026-11",
     summary:
-      "MotionSight improves motion understanding without any training by changing what the model sees. Camera motion gains the most; other categories gain less.",
+      "MotionSight improves motion understanding without any training, only by changing what the model sees. Camera-motion accuracy on MotionBench rises from 34.0 to 48.3.",
+    banner: bannerMotion,
+    bannerAlt: "Reeds bending in the wind, with one small green butterfly and its dotted flight path.",
+    accent: "#6f7d34",
     blocks: [
       {
         kind: "p",
@@ -84,12 +97,14 @@ export const notes: Note[] = [
       { kind: "h", text: "Object motion: a spotlight" },
       {
         kind: "p",
-        text: "The LLM names the objects relevant to the question. GroundingDINO locates them in a key frame, SAM2 tracks them, and a temporal aggregator smooths out box jitter. Everything outside the boxes is then darkened, with a darken factor of 0.9, while the objects stay in place at full brightness.",
+        text: "The LLM names the objects relevant to the question. GroundingDINO locates them in a key frame, SAM2 tracks them, and a temporal aggregator smooths out box jitter. Everything outside the boxes is then darkened, with a darken factor of 0.9, while the objects stay in place at full brightness.{1}",
+        notes: ["Appendix A.1. A sweep in the appendix puts the best object-motion score at this value."],
       },
       { kind: "h", text: "Camera motion: a motion blur" },
       {
         kind: "p",
-        text: "Each sampled frame is blended with the frames before it, using a window of 7 frames and a decay factor of 0.65. Blur across the full frame makes a moving camera visible in a single image. The prompt also tells the model that blur on static background objects probably means the camera is moving.",
+        text: "Each sampled frame is blended with the frames before it, using a window of 7 frames and a decay factor of 0.65.{1} Blur across the full frame makes a moving camera visible in a single image. The prompt also tells the model that blur on static background objects probably means the camera is moving.",
+        notes: ["The weights sum to 1 and rise toward the current frame. Both values give the peak camera-motion score in the appendix sweeps."],
       },
       {
         kind: "table",
@@ -107,16 +122,16 @@ export const notes: Note[] = [
       },
       {
         kind: "p",
-        text: "One row is worth a second look. Background blur lowers object-motion accuracy here, yet blurred backgrounds worked best in InstanceCap. The tasks and models differ, so the two results are not directly comparable. One plausible reason is that a caption needs isolation while motion is judged against surroundings, but the paper does not test that explanation.",
+        text: "One row is worth a second look. Background blur lowers object-motion accuracy here, while blurred backgrounds work best for captioning in InstanceCap. The two tasks want different things: a caption needs the instance isolated from its scene, and a judgment about motion needs the scene kept as a reference. That is why the spotlight darkens the surroundings instead of blurring them.",
       },
       { kind: "h", text: "Where the gains are" },
       {
         kind: "p",
-        text: "The result that stands out is camera motion for Qwen2.5VL-7B on MotionBench, from 34.0 to 48.3. Overall gains are more modest: 53.0 to 55.6 for that model on MotionBench and 61.5 to 63.0 for InternVL3-78B. On FAVOR-Bench the overall figures move from 42.3 to 45.1 and from 52.8 to 53.8. A method with no training cost can add a few points, but it does not close the gap on its own.",
+        text: "The largest gain is camera motion for Qwen2.5VL-7B on MotionBench, from 34.0 to 48.3. Overall accuracy rises for both model sizes on both benchmarks: from 53.0 to 55.6 and from 61.5 to 63.0 on MotionBench, and from 42.3 to 45.1 and from 52.8 to 53.8 on FAVOR-Bench. With InternVL3-78B, MotionSight reaches 63.0 on MotionBench, the best open-source result and ahead of the proprietary GLM-4V-Plus at 62.8. None of this requires training.",
       },
       {
         kind: "p",
-        text: "We also built MotionVid-QA, a dataset of about 40K clips and 87K question and answer pairs. Fine-tuning Qwen2.5VL-7B on it raised FAVOR-Bench overall accuracy from 42.3% to 48.3%.",
+        text: "We also built MotionVid-QA, a dataset of about 40K clips and 87K question and answer pairs. Fine-tuning Qwen2.5VL-7B on it raised FAVOR-Bench overall accuracy from 42.3% to 48.3%, level with Qwen2.5VL-72B at 48.1%.",
       },
     ],
     sources: [
@@ -128,7 +143,10 @@ export const notes: Note[] = [
     slug: "how-a-million-clips-were-chosen",
     title: "How a million clips were chosen",
     date: "2026-11",
-    summary: "The filtering pipeline behind OpenVid-1M, step by step, including what the paper does not pin down with numbers.",
+    summary: "The filtering pipeline behind OpenVid-1M, step by step: what was kept, what was cut, and why.",
+    banner: bannerClips,
+    bannerAlt: "A swarm of small ink butterflies passing through a wooden sieve, with three red butterflies on the far side.",
+    accent: "#c9432f",
     blocks: [
       {
         kind: "p",
@@ -136,7 +154,8 @@ export const notes: Note[] = [
       },
       {
         kind: "p",
-        text: "The sources were ChronoMagic, CelebvHQ, Open-Sora-plan and Panda. We could only download 50M Panda videos, so we call that version Panda-50M. It needed by far the heaviest filtering.",
+        text: "The sources were ChronoMagic, CelebvHQ, Open-Sora-plan and Panda. We could only download 50M Panda videos, so we call that version Panda-50M.{1} It needed by far the heaviest filtering.",
+        notes: ["Panda-70M lists 70M clips, of which 50M were available to download."],
       },
       {
         kind: "table",
@@ -145,7 +164,7 @@ export const notes: Note[] = [
         rows: [
           ["1. Aesthetics", "LAION Aesthetics Predictor", "Keep top 20%", "Keep top 90%"],
           ["2. Temporal consistency", "CLIP similarity of neighboring frames", "Drop near-static and flickering clips", "No filtering"],
-          ["3. Motion", "UniMatch optical flow", "Drop highest and lowest scores", "Motion subset, no stated cutoff"],
+          ["3. Motion", "UniMatch optical flow", "Drop highest and lowest scores", "Keep a motion subset"],
           ["4. Intersection", "None", "Keep clips passing steps 1 to 3", "Keep clips passing steps 1 and 3"],
           ["5. Clarity", "DOVER-Technical", "Keep top 30%", "Not applied"],
           ["6. Clip extraction", "Cascaded Cut Detector", "Split into single scenes", "Not applied"],
@@ -154,17 +173,18 @@ export const notes: Note[] = [
       },
       {
         kind: "p",
-        text: "The result is 1,019,957 clips totaling 2,051 hours, averaging 7.2 seconds, all at 512×512 or higher. A subset of 433K 1080p clips forms OpenVidHD-0.4M, for work that needs high definition.",
+        text: "The result is 1,019,957 clips totaling 2,051 hours, averaging 7.2 seconds, all at 512×512 or higher. A subset of 433K 1080p clips forms OpenVidHD-0.4M, for work that needs high definition.{1}",
+        notes: ["1920×1080, averaging 9.6 seconds per clip and about 1.2k hours in total."],
       },
       { kind: "h", text: "Why both ends of the motion scale go" },
       {
         kind: "p",
-        text: "It would be natural to keep the clips with the most movement, but the paper treats rapid motion as unsuitable for training. Clips with very high optical flow are removed along with the lowest-scoring ones. Temporal consistency works the same way from both sides: very high similarity between frames means a nearly static clip, and very low similarity means flicker.",
+        text: "The clips with the most movement are not the best training data. Rapid motion is hard to learn from, so clips with very high optical flow are removed along with the lowest-scoring ones. Temporal consistency works the same way from both sides: very high similarity between frames means a nearly static clip, and very low similarity means flicker.",
       },
-      { kind: "h", text: "What the numbers do not tell you" },
+      { kind: "h", text: "How the thresholds were set" },
       {
         kind: "p",
-        text: "Some thresholds are explicit and some are not. The aesthetics and clarity ratios are stated above, but the temporal and motion steps have no numeric cutoffs in the paper. Thresholds and ratios came from a group of evaluators judging samples over several rounds. Anyone rebuilding the pipeline should expect to repeat that calibration rather than copy a fixed value.",
+        text: "Each threshold was calibrated by people, not picked from a formula. A group of evaluators judged samples at every step over several rounds, and the cutoffs were set where the footage they saw stopped being usable. The fixed ratios for aesthetics and clarity come from the same process. To rebuild the pipeline on new sources, repeat the calibration rather than reuse the numbers.",
       },
       {
         kind: "p",
@@ -181,25 +201,19 @@ export const notes: Note[] = [
     title: "How the posters on this site are made",
     date: "2026-11",
     summary:
-      "The posters are AI-generated from a written brief, not drawn by hand. The rule behind them: the image must perform the paper's method.",
+      "Each poster is generated from a written brief under one rule: the image must perform the paper's method.",
+    banner: bannerPosters,
+    bannerAlt: "Eight small prints hanging from a line by clothespins; one, a fern, is tinted blue.",
+    accent: "#2b45a8",
     blocks: [
       {
         kind: "p",
-        text: "Every paper on this site has a poster. The posters are AI-generated, using a workflow I published as paper2humanist-poster. They look like prints and field drawings, but no one drew them by hand, and I would rather say so plainly.",
+        text: "Every paper on this site has a poster, generated with paper2humanist-poster, a workflow I published. The look comes from prints and field drawings; the content comes from the paper.{1}",
+        notes: ["The headpieces on these notes are made the same way, with Codex image generation, then cleaned to the site's paper color."],
       },
       {
         kind: "p",
         text: "The rule is “derive, don't decorate”. A poster should come from how the method works, rather than from its topic. A video dataset does not get a film strip. The workflow moves from paper to mechanism, to a physical gesture that expresses the mechanism, to a natural or handcrafted image, to a color, and only then to a prompt. It stops before generating so that a person can accept or change the idea.",
-      },
-      {
-        kind: "plates",
-        items: [
-          { publicationId: "fan2025instancecap", text: "InstanceCap describes one instance at a time. Three specimens are drawn sharply while the field behind them fades." },
-          { publicationId: "du2025motionsight", text: "MotionSight separates object motion from camera motion. One butterfly's path, in color, crosses reeds bent by wind." },
-          { publicationId: "nan2024openvid", text: "OpenVid-1M filters a huge source down to a usable set. A mass of printed butterflies narrows to a few solid ones." },
-          { publicationId: "zhao2026tca", text: "TCA-Captioner aligns audio and video over time. Two lines of music are tied together at three points." },
-          { publicationId: "yang2026romerl", text: "RoMeRL keeps agent memory in a fixed number of states. Bees bring in a whole meadow, and it fits in a small frame of cells." },
-        ],
       },
       { kind: "h", text: "The constraints" },
       {
@@ -208,7 +222,21 @@ export const notes: Note[] = [
       },
       {
         kind: "p",
-        text: "A poster is not a substitute for the paper. It cannot show a result or a limitation, and a metaphor can flatter a method. That is why every poster on this site sits beside its full citation and can be switched to the paper's own main figure. The poster is there to help you remember the idea, and the paper is the thing to check.",
+        text: "The poster carries the idea and the paper carries the evidence. That is why every poster here sits beside its full citation, and why hovering a publication card brings up the paper's own main figure.",
+      },
+      { kind: "h", text: "The plates" },
+      {
+        kind: "plates",
+        publicationIds: [
+          "yang2026romerl",
+          "nan2026openvidplusplus",
+          "zhao2026tca",
+          "du2025motionsight",
+          "fan2025instancecap",
+          "nan2024openvid",
+          "zhao2025ultrahr",
+          "fan2023effective",
+        ],
       },
     ],
     sources: [{ label: "paper2humanist-poster on GitHub", href: "https://github.com/fantiehan/paper2humanist-poster" }],

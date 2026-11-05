@@ -26,7 +26,7 @@ export default function NewsList({ items, initial = 5 }: Props) {
 
   return (
     <div>
-      <ol className="news-ledger">
+      <ol className="news-ledger link-list">
         {visible.map(({ item, paper }) => (
           <li
             key={`${item.date}-${item.publicationId}-${item.kind}`}

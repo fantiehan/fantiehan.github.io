@@ -60,7 +60,7 @@ export default function PublicationCard({ item, className }: Props) {
         <h3 className="mt-2 text-pretty text-[19px] font-medium leading-[1.3] text-[var(--ink)]">{item.title}</h3>
         <Authors authors={item.authors} className="mt-2 text-[15px] leading-[1.5]" />
 
-        <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-1 pt-3 text-[16px]">
+        <div className="link-list mt-auto flex flex-wrap items-center gap-x-5 gap-y-1 pt-3 text-[16px]">
           {item.paperUrl ? (
             <a className="ink-link" href={item.paperUrl} target="_blank" rel="noreferrer">
               Paper

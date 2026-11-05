@@ -27,6 +27,7 @@
   --line: #d8cbae;
   --line-strong: #29231d;
   --accent: #2b45a8;
+  --link: #2e4178;
   --shadow-paper: rgba(60, 45, 20, 0.18);
   --shadow-print: rgba(60, 45, 20, 0.28);
   --serif: "Newsreader Variable", Georgia, "Songti SC", "Noto Serif CJK SC", serif;
@@ -63,6 +64,7 @@ html.dark {
   --line: #3d352b;
   --line-strong: #ece3d0;
   --accent: #a3b4ff;
+  --link: #bcc6ea;
   --shadow-paper: rgba(0, 0, 0, 0.5);
   --shadow-print: rgba(0, 0, 0, 0.6);
 }
@@ -126,6 +128,96 @@ html.dark ::selection {
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .95 0 0 0 0 .95 0 0 0 0 .95 1.1 0 0 0 -.46'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.1'/%3E%3C/svg%3E");
   }
 
+  /* Notes, after Tufte: a 640px reading column with a 260px margin for sidenotes on wide screens. */
+  .note-layout {
+    max-width: 640px;
+  }
+
+  @media (min-width: 1280px) {
+    .note-layout {
+      max-width: 940px;
+      padding-right: 300px;
+    }
+
+    .note-wide {
+      margin-right: -300px;
+    }
+
+    .sidenote {
+      float: right;
+      clear: right;
+      width: 260px;
+      margin-right: -300px;
+      margin-top: 0.3em;
+      margin-bottom: 1em;
+    }
+
+    .sidenote-ref {
+      cursor: default;
+    }
+  }
+
+  @media (max-width: 1279px) {
+    .sidenote {
+      display: none;
+    }
+
+    .sidenote.is-open {
+      display: block;
+      margin: 0.6em 0 0.9em;
+      border-left: 2px solid var(--line);
+      padding-left: 0.9em;
+    }
+
+    .sidenote-ref {
+      cursor: pointer;
+      padding: 0 0.12em;
+    }
+  }
+
+  /* A three-line drop cap in the note's own accent, like a rubricated initial. */
+  .drop-cap::first-letter {
+    float: left;
+    margin: 0.06em 0.12em 0 -0.02em;
+    font-size: 3.7em;
+    line-height: 0.82;
+    font-weight: 500;
+    color: var(--note-accent, var(--accent));
+  }
+
+  /* The headpiece develops left to right, as if ink were soaking into the paper. */
+  .headpiece-develop {
+    -webkit-mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+    mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+    -webkit-mask-size: 260% 100%;
+    mask-size: 260% 100%;
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+    animation: headpiece-develop 1.6s cubic-bezier(0.33, 0, 0.2, 1) 0.15s forwards;
+    filter: blur(0.6px);
+  }
+
+  @keyframes headpiece-develop {
+    to {
+      -webkit-mask-position: 0 0;
+      mask-position: 0 0;
+      filter: blur(0);
+    }
+  }
+
+  /* As the page scrolls, the headpiece falls behind the text and fades, like a page turning away. */
+  .headpiece-drift {
+    transform: translate3d(0, calc(var(--drift, 0) * 64px), 0);
+    opacity: calc(1 - var(--drift, 0) * 0.85);
+    will-change: transform, opacity;
+  }
+
+  /* Headpieces are printed on paper; in dark mode they read as a dimmed print rather than a glare. */
+  html.dark .headpiece,
+  html.dark .plate-print {
+    filter: brightness(0.86) contrast(0.95);
+  }
+
   /* The signature is a mask, so its ink follows the theme. */
   .signature-ink {
     background: var(--ink);
@@ -137,17 +229,50 @@ html.dark ::selection {
     mask-position: left center;
   }
 
+  /*
+   * Text links carry no underline. They are set in blue-black ink, the colour of a fountain pen
+   * beside the brown-black of the text, and a touch heavier, so they read as links by colour and
+   * weight together. Hover brightens the ink to the accent. Links that leave the site end with a
+   * small arrow.
+   */
   .ink-link {
-    color: var(--accent);
-    text-decoration-line: underline;
-    text-decoration-thickness: 1px;
-    text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
-    text-underline-offset: 0.22em;
-    transition: text-decoration-color 0.2s ease;
+    color: var(--link);
+    font-weight: 540;
+    text-decoration: none;
+    transition: color 0.2s ease;
   }
 
   .ink-link:hover {
-    text-decoration-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .ink-link[target="_blank"]::after {
+    content: "\2197";
+    display: inline-block;
+    margin-left: 0.12em;
+    font-size: 0.7em;
+    line-height: 1;
+    vertical-align: 0.32em;
+    color: var(--ink-soft);
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+
+  .ink-link[target="_blank"]:hover::after {
+    color: var(--accent);
+    transform: translate(1px, -1px);
+  }
+
+  /*
+   * In lists where every link leaves the site, the arrow says nothing new, so it waits until the
+   * link is pointed at. It takes no space while hidden, so the hairline ends with the word.
+   */
+  .link-list .ink-link[target="_blank"]::after {
+    content: none;
+  }
+
+  .link-list .ink-link[target="_blank"]:hover::after,
+  .link-list .ink-link[target="_blank"]:focus-visible::after {
+    content: "\2197";
   }
 
   .xerox-soft {
@@ -158,6 +283,13 @@ html.dark ::selection {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .headpiece-develop {
+    animation: none !important;
+    -webkit-mask-image: none;
+    mask-image: none;
+    filter: none;
   }
 
   *,

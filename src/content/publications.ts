@@ -39,6 +39,9 @@ export const publications: Publication[] = [
       layout: "alignment-bridge",
       meta: "preprint / self-evolving agent memory",
       caption: "Reduced-order memory RL for self-evolving agents",
+      theme: "Agents and memory",
+      derivation:
+        "Bees carry a whole meadow back to a small hexagonal frame of honey cells. RoMeRL keeps an agent's memory in a fixed number of utility states however much experience accumulates, so the picture fits a wide field into a few cells.",
       imageUrl: romerlPoster,
     },
   },
@@ -62,6 +65,9 @@ export const publications: Publication[] = [
       layout: "dataset-grid",
       meta: "forthcoming journal / text-to-video dataset",
       caption: "High-quality T2V data with motion-aware captions",
+      theme: "Datasets",
+      derivation:
+        "Two streams of cream butterflies sweep across an ultramarine field. OpenVid++ extends OpenVid-1M, so the poster returns to the earlier poster's swarm and draws it again.",
       imageUrl: openvidPlusPlusPoster,
     },
   },
@@ -88,6 +94,9 @@ export const publications: Publication[] = [
       layout: "alignment-bridge",
       meta: "audiovisual captioning / observer-checker-corrector",
       caption: "Temporal alignment for grounded audiovisual captions",
+      theme: "Video understanding",
+      derivation:
+        "Two swallows fly over two lines of music that are tied together at three points. TCA-Captioner aligns audio and video over time, and the knots mark the moments where sound and sight agree.",
       imageUrl: tcaCaptionerPoster,
     },
   },
@@ -111,6 +120,9 @@ export const publications: Publication[] = [
       layout: "lifted-cell",
       meta: "first author / structured captions",
       caption: "Instance-aware captions for text-to-video generation",
+      theme: "Video generation",
+      derivation:
+        "Three specimens are drawn sharply while the field behind them fades. InstanceCap describes one instance at a time with everything else blurred, which the poster renders as a specimen plate.",
       imageUrl: instancecapPoster,
     },
   },
@@ -134,6 +146,9 @@ export const publications: Publication[] = [
       layout: "motion-thread",
       meta: "co-first author / motion reasoning",
       caption: "Fine-grained motion understanding in multimodal LLMs",
+      theme: "Video understanding",
+      derivation:
+        "One butterfly's path, in color, crosses reeds bent by wind. MotionSight separates an object's own motion from camera motion, and the drawing separates the flight from the sway of the field.",
       imageUrl: motionsightPoster,
     },
   },
@@ -157,6 +172,9 @@ export const publications: Publication[] = [
       layout: "dataset-grid",
       meta: "dataset / text-to-video",
       caption: "Million-scale high-quality text-to-video dataset",
+      theme: "Datasets",
+      derivation:
+        "A mass of printed butterflies narrows to a few solid ones at the bottom. OpenVid-1M filters a large source collection down to a usable set, which the image draws as a funnel.",
       imageUrl: openvidPoster,
     },
   },
@@ -180,6 +198,9 @@ export const publications: Publication[] = [
       layout: "resolution-window",
       meta: "dataset / image synthesis",
       caption: "Large-scale data for ultra-high-resolution synthesis",
+      theme: "Image generation",
+      derivation:
+        "A fern frond branches down to its finest tips, with violet only at the smallest ends. UltraHR-100K targets fine detail in ultra-high-resolution images, so the color sits where resolution matters most.",
       imageUrl: ultrahrPoster,
     },
   },
@@ -203,6 +224,9 @@ export const publications: Publication[] = [
       layout: "alloy-sheet",
       meta: "first author / feature engineering",
       caption: "Feature engineering for copper alloy performance prediction",
+      theme: "Materials",
+      derivation:
+        "A single flower grows from a stem annotated with phase notes and a mixing curve. The paper predicts the properties of solid-solution copper alloys, and the poster's own line reads: one lattice, two elements.",
       imageUrl: solidSolutionPoster,
     },
   },

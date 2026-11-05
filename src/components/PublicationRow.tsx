@@ -20,7 +20,7 @@ export default function PublicationRow({ item }: { item: Publication }) {
           {item.title}
         </h3>
         <Authors authors={item.authors} className="mt-2 max-w-[70ch] text-[16px] leading-[1.55]" />
-        <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[16px]">
+        <div className="link-list mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[16px]">
           {item.paperUrl ? (
             <a className="ink-link" href={item.paperUrl} target="_blank" rel="noreferrer">
               Paper
