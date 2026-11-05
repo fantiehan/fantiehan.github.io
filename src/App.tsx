@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { HashRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Home from "./pages/Home";
@@ -14,12 +13,10 @@ function AnimatedRoutes() {
   const location = useLocation();
   const reduceMotion = useReducedMotion();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
-
   return (
-    <AnimatePresence mode="wait">
+    // Scroll to the top only once the old page has faded out and before the new one mounts, so the
+    // new page measures itself (for example the Home signature) from the top.
+    <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo({ top: 0, behavior: "instant" })}>
       <motion.div
         key={location.pathname}
         initial={reduceMotion ? false : { opacity: 0, y: 10 }}
