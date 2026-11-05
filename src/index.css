@@ -1,29 +1,35 @@
+@import "@fontsource-variable/newsreader/opsz.css";
+@import "@fontsource-variable/newsreader/opsz-italic.css";
+@import "@fontsource/courier-prime/400.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  color: #2b2621;
+  color: #29231d;
   background: #f4ecd8;
-  font-family: "EB Garamond", Georgia, "Songti SC", "Noto Serif CJK SC", serif;
+  font-family: "Newsreader Variable", Georgia, "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 18px;
   line-height: 1.65;
   font-weight: 400;
+  font-optical-sizing: auto;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Aged paper, iron-gall ink, and the ultramarine that recurs in the posters. */
   --paper: #f4ecd8;
   --paper-deep: #ece1c6;
-  --paper-soft: #f8f1dd;
-  --ink: #2b2621;
-  --ink-soft: #6b6355;
-  --line: #c9bda0;
-  --line-strong: #2b2621;
-  --accent: #1f3fb0;
-  --accent-2: #d1452c;
-  --shadow-paper: rgba(60, 45, 20, 0.16);
-  --serif: "EB Garamond", Georgia, "Songti SC", "Noto Serif CJK SC", serif;
-  --mono: "JetBrains Mono", "SFMono-Regular", ui-monospace, "Cascadia Code", monospace;
+  --paper-soft: #f8f2e2;
+  --ink: #29231d;
+  --ink-soft: #5e5548;
+  --line: #d8cbae;
+  --line-strong: #29231d;
+  --accent: #2b45a8;
+  --shadow-paper: rgba(60, 45, 20, 0.18);
+  --serif: "Newsreader Variable", Georgia, "Songti SC", "Noto Serif CJK SC", serif;
+  --type: "Courier Prime", "Courier New", ui-monospace, monospace;
 }
 
 html {
@@ -40,37 +46,22 @@ body,
 body {
   min-width: 320px;
   margin: 0;
-  background:
-    radial-gradient(rgba(120, 100, 60, 0.05) 1px, transparent 1px),
-    radial-gradient(rgba(120, 100, 60, 0.04) 1px, transparent 1px),
-    var(--paper);
-  background-position: 0 0, 2px 3px, 0 0;
-  background-size: 3px 3px, 7px 7px, auto;
+  background: var(--paper);
   color: var(--ink);
 }
 
 html.dark {
-  color: #f1e5c9;
-  background: #16130f;
-  --paper: #16130f;
-  --paper-deep: #221d17;
-  --paper-soft: #1c1812;
-  --ink: #f1e5c9;
-  --ink-soft: #b4a98f;
-  --line: #5b4d37;
-  --line-strong: #f1e5c9;
-  --accent: #8ea1ff;
-  --accent-2: #ff8b72;
-  --shadow-paper: rgba(0, 0, 0, 0.45);
-}
-
-html.dark body {
-  background:
-    radial-gradient(rgba(255, 244, 214, 0.035) 1px, transparent 1px),
-    radial-gradient(rgba(255, 244, 214, 0.025) 1px, transparent 1px),
-    var(--paper);
-  background-position: 0 0, 2px 3px, 0 0;
-  background-size: 3px 3px, 7px 7px, auto;
+  color: #ece3d0;
+  background: #191612;
+  --paper: #191612;
+  --paper-deep: #221e19;
+  --paper-soft: #1e1a16;
+  --ink: #ece3d0;
+  --ink-soft: #b3a88f;
+  --line: #3d352b;
+  --line-strong: #ece3d0;
+  --accent: #a3b4ff;
+  --shadow-paper: rgba(0, 0, 0, 0.5);
 }
 
 a {
@@ -91,24 +82,32 @@ h3 {
   font-family: var(--serif);
 }
 
-.font-mono,
-.zine-mono {
-  font-family: var(--mono);
+.font-type {
+  font-family: var(--type);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 ::selection {
-  background: rgba(31, 63, 176, 0.2);
+  background: rgba(43, 69, 168, 0.18);
   color: var(--ink);
 }
 
 html.dark ::selection {
-  background: rgba(142, 161, 255, 0.28);
+  background: rgba(163, 180, 255, 0.28);
   color: var(--ink);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
   }
 
   .paper-grain {
@@ -119,17 +118,23 @@ html.dark ::selection {
     background-size: 3px 3px, 7px 7px;
   }
 
-  .surface-hairline {
-    position: relative;
+  html.dark .paper-grain {
+    background-image:
+      radial-gradient(rgba(255, 244, 214, 0.035) 1px, transparent 1px),
+      radial-gradient(rgba(255, 244, 214, 0.025) 1px, transparent 1px);
   }
 
-  .surface-hairline::before {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    content: "";
-    border-radius: inherit;
-    box-shadow: inset 0 1px 0 rgba(255, 249, 232, 0.54);
+  .ink-link {
+    color: var(--accent);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    text-underline-offset: 0.22em;
+    transition: text-decoration-color 0.2s ease;
+  }
+
+  .ink-link:hover {
+    text-decoration-color: var(--accent);
   }
 
   .xerox-soft {

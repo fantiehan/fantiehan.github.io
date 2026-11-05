@@ -6,7 +6,7 @@ import { useTheme } from "@/hooks/useTheme";
 
 const navItems = [
   { to: "/", label: "Home" },
-  { to: "/publications", label: "Papers" },
+  { to: "/publications", label: "Publications" },
   { to: "/cv", label: "CV" },
 ];
 
@@ -14,27 +14,26 @@ export default function NavBar() {
   const { isDark, toggleTheme } = useTheme();
 
   return (
-    <header className="sticky top-0 z-40 border-b-2 border-[var(--line-strong)] bg-[var(--paper)] backdrop-blur-md">
-      <Container className="flex min-h-16 items-center justify-between gap-4 py-3">
-        <NavLink to="/" className="group flex min-w-0 items-baseline gap-3">
-          <span className="font-display text-2xl font-semibold leading-none tracking-[0.01em] text-[var(--ink)] transition group-hover:text-[var(--accent)]">
-            TF
-          </span>
-          <span className="hidden truncate font-mono text-[10.5px] tracking-[0.16em] text-[var(--ink-soft)] sm:inline">
-            {profile.name} / research archive
-          </span>
+    <header className="sticky top-0 z-40 border-b border-[var(--line)] bg-[var(--paper)]">
+      <Container className="flex min-h-16 items-center justify-between gap-4">
+        <NavLink to="/" className="shrink-0 whitespace-nowrap text-[20px] font-medium text-[var(--ink)] transition-colors hover:text-[var(--accent)]">
+          <span className="sm:hidden">TF</span>
+          <span className="hidden sm:inline">{profile.name}</span>
         </NavLink>
 
-        <div className="flex shrink-0 items-center gap-3 font-mono text-[11px] tracking-[0.14em] text-[var(--ink-soft)]">
-          <nav className="flex items-center gap-3 sm:gap-5" aria-label="Primary navigation">
+        <div className="flex items-center gap-4 text-[16px] sm:gap-7 sm:text-[17px]">
+          <nav className="flex items-center gap-3.5 sm:gap-6" aria-label="Primary navigation">
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
+                end={item.to === "/"}
                 className={({ isActive }) =>
                   cn(
-                    "border-b border-transparent pb-1 transition hover:border-[var(--accent)] hover:text-[var(--ink)]",
-                    isActive && "border-[var(--accent)] text-[var(--ink)]",
+                    "underline-offset-[6px] transition-colors hover:text-[var(--ink)]",
+                    isActive
+                      ? "text-[var(--ink)] underline decoration-[var(--accent)] decoration-[1.5px]"
+                      : "text-[var(--ink-soft)]",
                   )
                 }
               >
@@ -46,18 +45,11 @@ export default function NavBar() {
           <button
             type="button"
             onClick={toggleTheme}
-            className="border border-[var(--line)] px-2.5 py-1 text-[var(--ink-soft)] transition hover:border-[var(--accent)] hover:text-[var(--accent)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-            aria-label="Toggle theme"
+            className="text-[15px] text-[var(--ink-soft)] transition-colors hover:text-[var(--ink)]"
+            aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
           >
             {isDark ? "Light" : "Dark"}
           </button>
-
-          <a
-            href={`mailto:${profile.email}`}
-            className="hidden border-b border-transparent pb-1 transition hover:border-[var(--accent)] hover:text-[var(--ink)] md:inline"
-          >
-            Email
-          </a>
         </div>
       </Container>
     </header>

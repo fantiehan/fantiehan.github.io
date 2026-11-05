@@ -82,7 +82,7 @@ export const publications: Publication[] = [
       "observer-checker-corrector framework for temporal and cross-modal alignment in audiovisual video captioning",
     poster: {
       archive: "eccv 2026",
-      shortTitle: "TCA Captioner",
+      shortTitle: "TCA-Captioner",
       concept: "temporal and cross-modal alignment",
       accent: "#0088a8",
       layout: "alignment-bridge",
@@ -105,7 +105,7 @@ export const publications: Publication[] = [
       "minimal abstract paper figure, instance-aware structured captions, text-to-video generation, clean diagram on dark background, crisp typography",
     poster: {
       archive: "cvpr 2025",
-      shortTitle: "Instance Cap",
+      shortTitle: "InstanceCap",
       concept: "one instance lifted from the whole",
       accent: "#1f3fb0",
       layout: "lifted-cell",
@@ -128,7 +128,7 @@ export const publications: Publication[] = [
       "minimal abstract paper figure, fine-grained motion understanding, multimodal LLM, clean chart and timeline, dark elegant background",
     poster: {
       archive: "iclr 2026",
-      shortTitle: "Motion Sight",
+      shortTitle: "MotionSight",
       concept: "motion separated from camera drift",
       accent: "#d1452c",
       layout: "motion-thread",
@@ -151,7 +151,7 @@ export const publications: Publication[] = [
       "minimal abstract paper figure, dataset overview for text-to-video generation, grid of thumbnails as placeholder, dark modern",
     poster: {
       archive: "iclr 2025",
-      shortTitle: "Open Vid 1M",
+      shortTitle: "OpenVid-1M",
       concept: "a field of curated clips",
       accent: "#2f6b45",
       layout: "dataset-grid",
@@ -174,7 +174,7 @@ export const publications: Publication[] = [
       "minimal abstract paper figure, ultra-high-resolution image synthesis, dataset scale infographic, dark premium style",
     poster: {
       archive: "neurips 2025",
-      shortTitle: "Ultra HR",
+      shortTitle: "UltraHR-100K",
       concept: "resolution opened into a window",
       accent: "#5b3b8c",
       layout: "resolution-window",

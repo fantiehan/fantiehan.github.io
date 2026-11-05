@@ -27,13 +27,17 @@ const filesToScan = [
   'src/index.css',
   'src/App.tsx',
   'src/components/Background.tsx',
-  'src/components/Badge.tsx',
   'src/components/Button.tsx',
   'src/components/Footer.tsx',
   'src/components/NavBar.tsx',
   'src/components/PublicationCard.tsx',
   'src/components/Section.tsx',
   'src/components/Timeline.tsx',
+  'src/components/PenStroke.tsx',
+  'src/components/PublicationRow.tsx',
+  'src/components/NewsList.tsx',
+  'src/components/PosterPlate.tsx',
+  'src/content/news.ts',
   'src/content/cv.ts',
   'src/content/profile.ts',
   'src/content/publications.ts',
@@ -45,19 +49,18 @@ const filesToScan = [
 assert(css.includes('--paper: #f4ecd8'), 'global CSS should use the zine aged-paper token --paper: #f4ecd8');
 assert(css.includes('--paper-deep: #ece1c6'), 'global CSS should include the deeper paper token --paper-deep: #ece1c6');
 assert(css.includes('paper-grain'), 'global CSS should expose a paper-grain texture utility');
-assert(css.includes('EB Garamond') && css.includes('JetBrains Mono'), 'global typography should use the zine serif/mono stack');
-assert(card.includes('publication-art-card'), 'PublicationCard should identify the artistic browsing card surface');
-assert(card.includes('aspect-[3/5]'), 'PublicationCard should use a vertical full-poster card ratio in browsing state');
-assert(card.includes('poster-art-panel') && card.includes('absolute inset-0'), 'PublicationCard default layer should be a full-card artistic poster panel');
-assert(card.includes('info-preview-panel'), 'PublicationCard hover layer should show paper preview and publication information');
-assert(card.includes('paper-preview-panel'), 'PublicationCard hover layer should include a full paper preview region');
-assert(card.includes('object-contain'), 'PublicationCard hover preview image should be fully visible with object-contain');
-assert(card.includes('duration-700'), 'PublicationCard hover/focus layer transition should be slow enough to read');
-assert(card.includes('duration: 0.46'), 'PublicationCard hover lift animation should be slower than the default quick motion');
-assert(card.includes('group-hover:opacity-0') && card.includes('group-hover:opacity-100'), 'PublicationCard should crossfade full-card art to info and preview on hover');
-assert(!card.includes('aspect-[3/2]'), 'PublicationCard should not use horizontal 3:2 card layout');
+assert(css.includes('Newsreader') && css.includes('Courier Prime'), 'global typography should use the Newsreader serif with Courier Prime typewriter labels');
+assert(css.includes('ink-link'), 'global CSS should expose a readable ink-link style for text links');
+assert(card.includes('publication-plate'), 'PublicationCard should render the poster as a mounted plate');
+const plate = read('src/components/PosterPlate.tsx');
+assert(plate.includes('aspect-[4/5]'), 'Poster plate should use a 4:5 mat');
+assert(plate.includes('object-contain'), 'Poster plate should show the whole poster and figure with object-contain');
+assert(!card.includes('group-hover:opacity'), 'PublicationCard should not hide paper information behind a hover state');
+assert(card.includes('item.title') && card.includes('Authors'), 'PublicationCard should always show the full title and authors');
+assert(!card.includes('Show figure'), 'PublicationCard should not have a separate figure button');
+assert(card.includes('onPointerEnter') && card.includes('<PosterPlate'), 'Hovering a publication card should swap the poster for the main figure');
+assert(plate.includes('onTouchEnd') && plate.includes('hover:none'), 'Poster plate should flip by tap or swipe on touch screens and show a side indicator');
 assert(card.includes('item.poster.accent'), 'PublicationCard should still use per-paper accent color as the artistic anchor');
-
 assert(pubs.includes('instancecapPoster') && pubs.includes('@/assets/posters/instancecap.webp'), 'InstanceCap should use the provided poster WebP for browsing art');
 assert(pubs.includes('motionsightPoster') && pubs.includes('@/assets/posters/motionsight.webp'), 'MotionSight should use the provided poster WebP for browsing art');
 assert(pubs.includes('openvidPoster') && pubs.includes('@/assets/posters/openvid.webp'), 'OpenVid should use the provided poster WebP for browsing art');
@@ -69,7 +72,7 @@ assert(pubs.includes('venue: "arXiv"') && pubs.includes('type: "preprint"'), 'Ro
 assert(pubs.includes('https://arxiv.org/abs/2608.02508'), 'RoMeRL should include the arXiv URL');
 assert(pubs.includes('romerlPoster') && pubs.includes('@/assets/posters/romerl.webp'), 'RoMeRL should use the provided poster WebP for browsing art');
 assert(pubs.includes('screenshotUrl: romerl'), 'RoMeRL should use the cropped framework figure as hover preview');
-assert(publicationsPage.includes('<option value="preprint">Preprint</option>') && publicationsPage.includes('title="Preprints"'), 'Publications page should support preprint filtering and section display');
+assert(publicationsPage.includes('value: "preprint"') && publicationsPage.includes('title: "Preprints"'), 'Publications page should support preprint filtering and section display');
 assert(pubs.includes('OpenVid++: A Large-scale High-quality Dataset for Text-to-video Generation'), 'Publications should include the OpenVid++ IJCV 2026 title from the PDF');
 assert(pubs.includes('Kepan Nan, Tiehan Fan, Rui Xie, Penghao Zhou, Yilin Zhang, Xiang Li, Jian Yang, Zhenheng Yang, Xiaoming Liu, Ying Tai'), 'OpenVid++ authors should match the PDF order');
 assert(pubs.includes('venue: "IJCV"') && pubs.includes('year: 2026'), 'OpenVid++ should be listed as IJCV 2026');
@@ -77,20 +80,16 @@ assert(pubs.includes('openvidPlusPlusPoster') && pubs.includes('@/assets/posters
 const openVidPlusPlusBlock = pubs.slice(pubs.indexOf('id: "nan2026openvidplusplus"'), pubs.indexOf('id: "zhao2026tca"'));
 assert(!openVidPlusPlusBlock.includes('paperUrl:'), 'OpenVid++ should not add a direct paper URL before formal publication');
 assert(!openVidPlusPlusBlock.includes('scholarUrl:'), 'OpenVid++ should not add a precise Scholar citation URL before formal publication');
-assert(card.includes('scholarHref = item.scholarUrl ?? `https://scholar.google.com/scholar?q=${encodeURIComponent(item.title)}`'), 'PublicationCard should keep generic Scholar title search fallback');
-assert(card.includes('poster.imageUrl'), 'PublicationCard should prefer provided poster images for default art browsing state');
-assert(home.includes('Posters made with paper2humanist-poster'), 'Home selected papers should credit the poster generation skill');
-assert(publicationsPage.includes('Posters made with paper2humanist-poster'), 'Publications page should credit the poster generation skill');
+assert(read('src/utils/publication.ts').includes('item.scholarUrl ?? `https://scholar.google.com/scholar?q=${encodeURIComponent(item.title)}`'), 'Publications should keep generic Scholar title search fallback');
+assert(plate.includes('poster.imageUrl'), 'Poster plate should show the provided poster image by default');
+const footer = read('src/components/Footer.tsx');
+assert(footer.includes('Posters made with') && footer.includes('paper2humanist-poster'), 'Footer should credit the poster generation skill on every page');
 
-assert(card.includes('poster-catalog-caption'), 'PublicationCard default browsing state should include a catalog-style caption outside the poster image');
-assert(card.includes('item.poster.shortTitle'), 'Catalog caption should expose the short paper title in browsing state');
-assert(card.includes('item.venue} {item.year'), 'Catalog caption should expose venue and year in browsing state');
+assert(card.includes('item.venue} {item.year'), 'Publication caption should expose venue and year');
 
 assert(pubs.includes('caption:'), 'Publication poster metadata should include a concise browsing caption');
-assert(card.includes('item.poster.caption'), 'Catalog caption should show a concise paper topic in browsing state');
 const cvPage = read('src/pages/CV.tsx');
 assert(!cvPage.includes('title="Skills"') && !cvPage.includes('skills.map'), 'CV page should not render the low-value Skills section');
-assert(card.includes('flex-1') && card.includes('border-t border-[var(--line)]'), 'Catalog caption should be separated from the poster image rather than overlaid on top of it');
 assert(pubs.includes('poster:'), 'Publication records should include poster metadata for the zine cards');
 
 assert(pubs.includes('Temporal and Cross-Modal Alignment for Enhanced Audiovisual Video Captioning'), 'Publications should include the ECCV 2026 TCA-Captioner title');
@@ -99,6 +98,13 @@ assert(pubs.includes('venue: "ECCV"') && pubs.includes('year: 2026'), 'TCA-Capti
 assert(pubs.includes('tcaCaptioner') && pubs.includes('TCA-captioner.webp'), 'TCA-Captioner should import the compressed WebP browsing image');
 assert(pubs.includes('https://arxiv.org/abs/2607.01667'), 'TCA-Captioner should include the arXiv paper URL');
 assert(pubs.includes('citation_for_view=F11LXvYAAAAJ:UeHWp8X0CEIC'), 'TCA-Captioner should preserve the provided Google Scholar citation URL');
+const newsList = read('src/components/NewsList.tsx');
+assert(home.includes('<NewsList') && newsList.includes('news-ledger'), 'Home page should show the dated News ledger');
+assert(!newsList.includes('contributionTag'), 'News entries should not mention first or co-first authorship');
+for (const name of ['InstanceCap', 'MotionSight', 'OpenVid-1M', 'UltraHR-100K', 'TCA-Captioner']) {
+  assert(pubs.includes(`shortTitle: "${name}"`), `Short title should use the official paper name ${name}`);
+}
+assert(cv.includes('range: "Jul 2025 - Oct 2026"'), 'ByteDance internship should run Jul 2025 - Oct 2026');
 assert(home.includes('profile.intro.map'), 'Home page should render the full personal introduction from profile.intro');
 assert(!home.includes('Why make papers feel like paper'), 'Home page should not include the added design-rationale essay');
 assert(!home.includes('Personal academic website'), 'Home masthead should not include generic template labels');
