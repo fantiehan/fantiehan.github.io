@@ -28,6 +28,8 @@
   --line-strong: #29231d;
   --accent: #2b45a8;
   --link: #2e4178;
+  /* Rules are drawn in a slightly darker ink than --line: a thin hand stroke reads lighter than a solid line. */
+  --rule: #cbbb98;
   --shadow-paper: rgba(60, 45, 20, 0.18);
   --shadow-print: rgba(60, 45, 20, 0.28);
   --serif: "Newsreader Variable", Georgia, "Songti SC", "Noto Serif CJK SC", serif;
@@ -65,6 +67,7 @@ html.dark {
   --line-strong: #ece3d0;
   --accent: #a3b4ff;
   --link: #bcc6ea;
+  --rule: #4a4135;
   --shadow-paper: rgba(0, 0, 0, 0.5);
   --shadow-print: rgba(0, 0, 0, 0.6);
 }
@@ -165,7 +168,6 @@ html.dark ::selection {
     .sidenote.is-open {
       display: block;
       margin: 0.6em 0 0.9em;
-      border-left: 2px solid var(--line);
       padding-left: 0.9em;
     }
 
@@ -183,6 +185,25 @@ html.dark ::selection {
     line-height: 0.82;
     font-weight: 500;
     color: var(--note-accent, var(--accent));
+  }
+
+  /*
+   * A new page develops from the top down, the way the headpieces do: a soft edge travels down the
+   * screen and the ink comes up behind it. The mask only exists while the animation runs.
+   */
+  .page-develop {
+    animation: page-develop 0.75s cubic-bezier(0.3, 0, 0.25, 1);
+  }
+
+  @keyframes page-develop {
+    from {
+      -webkit-mask: linear-gradient(#000 calc(100% - 220px), transparent) no-repeat 0 0 / 100% 0;
+      mask: linear-gradient(#000 calc(100% - 220px), transparent) no-repeat 0 0 / 100% 0;
+    }
+    to {
+      -webkit-mask: linear-gradient(#000 calc(100% - 220px), transparent) no-repeat 0 0 / 100% calc(100vh + 220px);
+      mask: linear-gradient(#000 calc(100% - 220px), transparent) no-repeat 0 0 / 100% calc(100vh + 220px);
+    }
   }
 
   /* The headpiece develops left to right, as if ink were soaking into the paper. */
@@ -218,6 +239,109 @@ html.dark ::selection {
     filter: brightness(0.86) contrast(0.95);
   }
 
+  /*
+   * Rules are inked by hand rather than ruled: a mask of one long wobbly stroke, laid over the
+   * element's edge in the rule colour (the element must be positioned). Neighbouring rules start at different points along the stroke
+   * so no two look alike.
+   */
+  .rule-t::before,
+  .rule-b::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: var(--rule);
+    -webkit-mask: url("./assets/rules/rule.png") repeat-x var(--rule-x, 0px) 0 / 800px 8px;
+    mask: url("./assets/rules/rule.png") repeat-x var(--rule-x, 0px) 0 / 800px 8px;
+    pointer-events: none;
+  }
+
+  .rule-t::before {
+    top: -4px;
+  }
+
+  .rule-b::after {
+    bottom: -4px;
+    --rule-x: -430px;
+  }
+
+  .rule-l::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -4px;
+    width: 8px;
+    background: var(--rule);
+    -webkit-mask: url("./assets/rules/rule-v.png") repeat-y 0 var(--rule-x, -120px) / 8px 800px;
+    mask: url("./assets/rules/rule-v.png") repeat-y 0 var(--rule-x, -120px) / 8px 800px;
+    pointer-events: none;
+  }
+
+  .rule-t:nth-child(3n + 2)::before {
+    --rule-x: -263px;
+  }
+
+  .rule-t:nth-child(3n)::before {
+    --rule-x: -571px;
+    transform: scaleY(-1);
+  }
+
+  /* Tables draw their rules under each row. */
+  .rule-rows tr {
+    position: relative;
+  }
+
+  .rule-rows tr::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 8px;
+    background: var(--rule);
+    -webkit-mask: url("./assets/rules/rule.png") repeat-x var(--rule-x, -150px) 0 / 800px 8px;
+    mask: url("./assets/rules/rule.png") repeat-x var(--rule-x, -150px) 0 / 800px 8px;
+    pointer-events: none;
+  }
+
+  .rule-rows tr:nth-child(2n)::after {
+    --rule-x: -520px;
+  }
+
+  .rule-rows thead tr::after {
+    background: var(--ink-soft);
+  }
+
+  /* The pencil and its line ease after the scroll rather than snapping to it. */
+  .scroll-pencil {
+    transition: opacity 0.4s ease;
+  }
+
+  .scroll-pencil path {
+    transition: stroke-dashoffset 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .scroll-pencil-pen {
+    transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .scroll-pencil[data-rest] path,
+  .scroll-pencil[data-rest="settled"] .scroll-pencil-pen {
+    transition: none;
+  }
+
+  /* Set down on the footer rule, the pencil lifts a little when pointed at, ready to be picked up. */
+  .scroll-pencil-pen svg {
+    transition: transform 0.25s ease;
+  }
+
+  .scroll-pencil-pen.is-resting:hover svg,
+  .scroll-pencil-pen.is-resting:focus-visible svg {
+    transform: translateX(2.5px);
+  }
+
   /* The signature is a mask, so its ink follows the theme. */
   .signature-ink {
     background: var(--ink);
@@ -227,6 +351,11 @@ html.dark ::selection {
     mask-repeat: no-repeat;
     -webkit-mask-position: left center;
     mask-position: left center;
+  }
+
+  /* While the pencil writes, the ink comes only from the strokes it has drawn so far. */
+  .signature-ink.is-writing {
+    background: transparent;
   }
 
   /*
@@ -283,6 +412,15 @@ html.dark ::selection {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .scroll-pencil path,
+  .scroll-pencil-pen {
+    transition: none !important;
+  }
+
+  .page-develop {
+    animation: none !important;
   }
 
   .headpiece-develop {

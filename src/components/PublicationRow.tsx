@@ -12,7 +12,7 @@ export default function PublicationRow({ item }: { item: Publication }) {
     <article
       onPointerEnter={(event) => event.pointerType === "mouse" && setHovered(true)}
       onPointerLeave={() => setHovered(false)}
-      className="publication-row grid grid-cols-[72px_minmax(0,1fr)] gap-5 border-t border-[var(--line)] py-6 first:border-t-0 first:pt-0 sm:grid-cols-[104px_minmax(0,1fr)] sm:gap-7">
+      className="publication-row grid grid-cols-[72px_minmax(0,1fr)] gap-5 rule-t relative py-6 first:pt-0 first:before:hidden sm:grid-cols-[104px_minmax(0,1fr)] sm:gap-7">
       <PosterPlate item={item} hovered={hovered} compact className="mt-1 self-start" />
       <div className="min-w-0">
         <VenueLine item={item} />

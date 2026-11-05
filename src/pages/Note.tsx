@@ -44,7 +44,7 @@ function Sidenote({ number, text }: { number: number; text: string }) {
       </button>
       <span
         role="note"
-        className={`sidenote text-[15px] leading-[1.5] text-[var(--ink-soft)] ${open ? "is-open" : ""}`}
+        className={`sidenote max-xl:rule-l relative text-[15px] leading-[1.5] text-[var(--ink-soft)] ${open ? "is-open" : ""}`}
       >
         <span className="font-type text-[13px] text-[var(--accent)]">{number}</span> {text}
       </span>
@@ -73,9 +73,9 @@ function Block({ block, firstNote, first }: { block: NoteBlock; firstNote: numbe
     return (
       <figure className="my-8 [clear:right]">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[520px] border-collapse text-left text-[16px] leading-[1.4] [font-variant-numeric:tabular-nums]">
+          <table className="rule-rows w-full min-w-[520px] border-collapse text-left text-[16px] leading-[1.4] [font-variant-numeric:tabular-nums]">
             <thead>
-              <tr className="border-b border-[var(--line-strong)]">
+              <tr>
                 {block.head.map((cell) => (
                   <th key={cell} scope="col" className="py-2 pr-4 align-bottom font-medium text-[var(--ink)]">
                     {cell}
@@ -85,7 +85,7 @@ function Block({ block, firstNote, first }: { block: NoteBlock; firstNote: numbe
             </thead>
             <tbody>
               {block.rows.map((row) => (
-                <tr key={row[0]} className="border-b border-[var(--line)]">
+                <tr key={row[0]}>
                   {row.map((cell, index) => (
                     <td key={index} className="py-2 pr-4 align-top text-[var(--ink)]">
                       {cell}
@@ -180,13 +180,13 @@ export default function Note() {
             </p>
           </header>
 
-          <div className="mt-8 border-t border-[var(--line)] pt-3">
+          <div className="rule-t relative mt-8 pt-3">
             {note.blocks.map((block, index) => (
               <Block key={index} block={block} firstNote={firstNotes[index]} first={index === firstParagraph} />
             ))}
           </div>
 
-          <footer className="mt-12 border-t border-[var(--line)] pt-5">
+          <footer className="rule-t relative mt-12 pt-5">
             <p className="text-[17px] leading-[1.6] text-[var(--ink-soft)]">
               Further reading:{" "}
               {note.sources.map((source, index) => (
