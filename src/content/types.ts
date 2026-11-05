@@ -54,3 +54,12 @@ export type Profile = {
   scholarUrl: string;
   intro: string[];
 };
+
+export type NewsKind = "accepted" | "preprint" | "published";
+
+export type NewsItem = {
+  /** "YYYY-MM-DD" when the exact day is known, otherwise "YYYY-MM". */
+  date: string;
+  kind: NewsKind;
+  publicationId: string;
+};

@@ -9,13 +9,13 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["EB Garamond", "Georgia", "Songti SC", "Noto Serif CJK SC", "serif"],
-        sans: ["EB Garamond", "Georgia", "Songti SC", "Noto Serif CJK SC", "serif"],
-        mono: ["JetBrains Mono", "SFMono-Regular", "ui-monospace", "Cascadia Code", "monospace"],
+        display: ["Newsreader Variable", "Georgia", "Songti SC", "Noto Serif CJK SC", "serif"],
+        sans: ["Newsreader Variable", "Georgia", "Songti SC", "Noto Serif CJK SC", "serif"],
+        type: ["Courier Prime", "Courier New", "ui-monospace", "monospace"],
       },
       boxShadow: {
         paper: "0 10px 26px var(--shadow-paper)",
-        "paper-soft": "0 1px 0 rgba(60, 45, 20, 0.05)",
+        plate: "0 1px 1px var(--shadow-paper), 0 6px 14px -6px var(--shadow-paper)",
       },
       colors: {
         paper: "var(--paper)",

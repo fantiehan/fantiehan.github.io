@@ -1,76 +1,69 @@
 import Container from "@/components/Container";
 import Section from "@/components/Section";
 import Timeline from "@/components/Timeline";
-import Badge from "@/components/Badge";
 import Button from "@/components/Button";
 import { profile } from "@/content/profile";
 import { education, internships } from "@/content/cv";
+import { publications } from "@/content/publications";
 
 export default function CV() {
+  const firstAuthor = publications.filter((paper) => paper.contributionTag);
+
   return (
     <Container>
-      <div className="py-10 sm:py-14">
-        <header className="border-b-2 border-[var(--line-strong)] pb-8">
-          <Badge variant="accent">Curriculum Vitae</Badge>
-          <div className="mt-5 grid gap-6 lg:grid-cols-[1fr_0.52fr] lg:items-end">
-            <div>
-              <h1 className="font-display text-[clamp(46px,8vw,82px)] font-semibold leading-none text-[var(--ink)]">
-                CV
-              </h1>
-              <p className="mt-4 max-w-2xl text-[18px] leading-8 text-[var(--ink-soft)]">
-                A compact overview of education, research output, skills, and contact information.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3 lg:justify-end">
-              <Button variant="secondary" href="/CV.pdf" target="_blank" rel="noreferrer">View PDF</Button>
-              <Button variant="ghost" href="/CV.pdf" download>Download PDF</Button>
-            </div>
-          </div>
-        </header>
+      <header className="flex flex-col gap-6 pb-4 pt-14 sm:pt-20 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <h1 className="text-[clamp(44px,7vw,68px)] font-medium leading-[1.05] tracking-[-0.01em] text-[var(--ink)]">
+            Curriculum vitae
+          </h1>
+          <p className="mt-4 max-w-[60ch] text-[19px] leading-[1.6] text-[var(--ink-soft)]">{profile.headline}</p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <Button href="CV.pdf" target="_blank" rel="noreferrer">
+            Open PDF
+          </Button>
+          <Button variant="secondary" href="CV.pdf" download>
+            Download PDF
+          </Button>
+        </div>
+      </header>
 
-        <Section title="Profile">
-          <div className="border border-[var(--line)] bg-[var(--paper-deep)] p-6 shadow-paper-soft">
-            <div className="grid gap-7 lg:grid-cols-[0.7fr_1.3fr] lg:items-start">
-              <div>
-                <p className="font-mono text-[11px] tracking-[0.14em] text-[var(--accent)]">{profile.headline}</p>
-                <h2 className="mt-3 text-[34px] font-semibold leading-tight text-[var(--ink)]">
-                  {profile.name}
-                </h2>
-                <p className="mt-3 text-[16px] leading-7 text-[var(--ink-soft)]">{profile.interests}</p>
-              </div>
-              <div className="space-y-5 text-[17px] leading-8 text-[var(--ink)]">
-                {profile.intro.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
-              </div>
-            </div>
-          </div>
-        </Section>
-
+      <div className="grid gap-x-16 lg:grid-cols-2">
         <Section title="Education">
           <Timeline items={education} />
         </Section>
-
-        <Section title="Internship">
-          <Timeline items={internships} />
-        </Section>
-
-
-        <Section title="Contact">
-          <div className="border border-[var(--line)] bg-[var(--paper-deep)] p-6 shadow-paper-soft">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="font-mono text-[12px] text-[var(--ink-soft)]">{profile.email}</p>
-                <p className="mt-2 text-[16px] leading-7 text-[var(--ink-soft)]">{profile.citationsLabel}</p>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <Button variant="secondary" href={`mailto:${profile.email}`}>Email</Button>
-                <Button href={profile.scholarUrl} target="_blank" rel="noreferrer">Google Scholar</Button>
-              </div>
-            </div>
-          </div>
-        </Section>
+        <div>
+          <Section title="Experience">
+            <Timeline items={internships} />
+          </Section>
+          <Section title="First-author work" className="pt-0 sm:pt-0">
+            <ul className="space-y-4">
+              {firstAuthor.map((paper) => (
+                <li key={paper.id}>
+                  <p className="font-type text-[14px] text-[var(--ink-soft)]">
+                    {paper.venue} {paper.year}, {paper.contributionTag.toLowerCase()}
+                  </p>
+                  <p className="mt-1 text-[17px] leading-[1.4] text-[var(--ink)]">{paper.title}</p>
+                </li>
+              ))}
+            </ul>
+          </Section>
+        </div>
       </div>
+
+      <Section title="Contact">
+        <p className="max-w-[60ch] text-[18px] leading-[1.7]">
+          Email{" "}
+          <a className="ink-link" href={`mailto:${profile.email}`}>
+            {profile.email}
+          </a>{" "}
+          or find the full publication record on{" "}
+          <a className="ink-link" href={profile.scholarUrl} target="_blank" rel="noreferrer">
+            Google Scholar
+          </a>
+          .
+        </p>
+      </Section>
     </Container>
   );
 }

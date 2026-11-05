@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-type ButtonVariant = "primary" | "secondary" | "ghost";
+type ButtonVariant = "primary" | "secondary";
 type ButtonSize = "sm" | "md";
 
 type Props = React.ComponentPropsWithoutRef<"a"> & {
@@ -15,17 +15,16 @@ export default function Button({
   ...props
 }: Props) {
   const base =
-    "inline-flex items-center justify-center gap-2 border font-mono font-medium tracking-[0.08em] transition duration-300 ease-out hover:-translate-y-[1px] active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--paper)]";
+    "inline-flex items-center justify-center gap-2 rounded-[3px] border font-medium transition-colors duration-200";
 
   const sizes: Record<ButtonSize, string> = {
-    sm: "min-h-9 px-3.5 py-2 text-[11px]",
-    md: "min-h-10 px-4 py-2.5 text-[12px]",
+    sm: "min-h-9 px-3.5 text-[15px]",
+    md: "min-h-11 px-5 text-[17px]",
   };
 
   const variants: Record<ButtonVariant, string> = {
-    primary: "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)] shadow-paper hover:bg-[var(--accent)] hover:text-[var(--paper)]",
-    secondary: "border-[var(--line-strong)] bg-[var(--paper)] text-[var(--ink)] hover:border-[var(--accent)] hover:text-[var(--accent)]",
-    ghost: "border-transparent bg-transparent text-[var(--accent)] hover:border-[var(--accent)] hover:bg-[var(--paper-soft)]",
+    primary: "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)] hover:border-[var(--accent)] hover:bg-[var(--accent)]",
+    secondary: "border-[var(--line-strong)] text-[var(--ink)] hover:border-[var(--accent)] hover:text-[var(--accent)]",
   };
 
   return <a className={cn(base, sizes[size], variants[variant], className)} {...props} />;
