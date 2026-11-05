@@ -19,6 +19,10 @@ export type PublicationPoster = {
   meta: string;
   caption: string;
   imageUrl?: string;
+  /** Theme shown above the poster in the posters note. */
+  theme: string;
+  /** What the image depicts and how that maps to the paper's method. */
+  derivation: string;
 };
 
 export type Publication = {
@@ -66,11 +70,12 @@ export type NewsItem = {
 };
 
 export type NoteBlock =
-  | { kind: "p"; text: string }
+  /** `{1}`-style markers in `text` place numbered sidenotes, taken in order from `notes`. */
+  | { kind: "p"; text: string; notes?: string[] }
   | { kind: "h"; text: string }
   | { kind: "table"; caption: string; head: string[]; rows: string[][] }
   | { kind: "figure"; publicationId: string; caption: string }
-  | { kind: "plates"; items: { publicationId: string; text: string }[] };
+  | { kind: "plates"; publicationIds: string[] };
 
 export type Note = {
   slug: string;
@@ -78,6 +83,10 @@ export type Note = {
   /** "YYYY-MM-DD" when the exact day is known, otherwise "YYYY-MM". */
   date: string;
   summary: string;
+  /** Headpiece image and its accent, which also colours the drop cap. */
+  banner: string;
+  bannerAlt: string;
+  accent: string;
   blocks: NoteBlock[];
   sources: { label: string; href: string }[];
 };

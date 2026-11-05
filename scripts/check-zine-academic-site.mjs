@@ -39,6 +39,7 @@ const filesToScan = [
   'src/components/PosterPlate.tsx',
   'src/components/NotesList.tsx',
   'src/components/ButterflyMark.tsx',
+  'src/store/masthead.ts',
   'src/content/notes.ts',
   'src/pages/Note.tsx',
   'src/pages/Notes.tsx',
@@ -55,7 +56,8 @@ assert(css.includes('--paper: #f4ecd8'), 'global CSS should use the zine aged-pa
 assert(css.includes('--paper-deep: #ece1c6'), 'global CSS should include the deeper paper token --paper-deep: #ece1c6');
 assert(css.includes('paper-grain'), 'global CSS should expose a paper-grain texture utility');
 assert(css.includes('Newsreader') && css.includes('Courier Prime'), 'global typography should use the Newsreader serif with Courier Prime typewriter labels');
-assert(css.includes('ink-link'), 'global CSS should expose a readable ink-link style for text links');
+assert(css.includes('.ink-link') && css.includes('--link:') && !/\.ink-link[^{]*\{[^}]*(text-decoration-line|background-image)/.test(css), 'Text links should be marked by ink colour and weight, without underlines');
+assert(read('src/components/Section.tsx').includes('PenStroke'), 'Section titles keep their hand-drawn pen stroke');
 assert(card.includes('publication-plate'), 'PublicationCard should render the poster as a mounted plate');
 const plate = read('src/components/PosterPlate.tsx');
 assert(!plate.includes('aspect-['), 'Poster plate should keep each poster\'s own proportions instead of a fixed mat');
@@ -115,11 +117,16 @@ const notesData = read('src/content/notes.ts');
 assert(card.includes('item.poster.concept'), 'Selected cards should end with the quiet plate note');
 assert(home.includes('profile.tagline') && home.includes('signature-ink') && home.includes('sr-only'), 'Home should open with the signature as the headline, keeping the name as hidden h1 text');
 assert((home.match(/signature-ink/g) || []).length === 1, 'The signature should appear once on Home');
-assert(read('src/components/NavBar.tsx').includes('ButterflyMark') && read('src/components/NavBar.tsx').includes('isHome'), 'The nav should show the butterfly mark and drop the name on Home');
+assert(read('src/components/NavBar.tsx').includes('ButterflyMark') && read('src/components/NavBar.tsx').includes('signatureVisible') && read('src/components/NavBar.tsx').includes('AnimatePresence'), 'The nav name should fade in whenever the home signature is off screen');
+assert(home.includes('IntersectionObserver'), 'Home should report whether the signature is on screen');
 assert(read('index.html').includes('og-image.jpg'), 'Share metadata should point at the raster og image');
 assert(!publicationsPage.includes('hand-drawn'), 'Copy should not describe generated posters as hand-drawn');
 assert(footer.includes('__BUILD_DATE__'), 'Colophon should show the build date');
 assert((notesData.match(/slug: "/g) || []).length >= 3, 'Notes should include at least three pieces');
+assert((notesData.match(/banner: banner/g) || []).length === (notesData.match(/slug: "/g) || []).length, 'Every note should have a headpiece banner');
+assert(read('src/pages/Note.tsx').includes('Sidenote') && css.includes('.sidenote'), 'Notes should put sources and caveats in Tufte-style sidenotes');
+assert(read('src/pages/Note.tsx').includes('columns-') && (pubs.match(/derivation:/g) || []).length === (pubs.match(/shortTitle:/g) || []).length, 'The posters note should show every poster with its derivation note');
+assert(!read('src/App.tsx').includes('Plates'), 'There should be no separate Plates page duplicating Publications');
 assert(home.includes('profile.intro.map'), 'Home page should render the full personal introduction from profile.intro');
 assert(!home.includes('Why make papers feel like paper'), 'Home page should not include the added design-rationale essay');
 assert(!home.includes('Personal academic website'), 'Home masthead should not include generic template labels');

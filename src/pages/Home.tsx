@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import Container from "@/components/Container";
@@ -7,14 +8,35 @@ import PublicationCard from "@/components/PublicationCard";
 import NewsList from "@/components/NewsList";
 import { news } from "@/content/news";
 import NotesList from "@/components/NotesList";
+import { notes } from "@/content/notes";
 import signature from "@/assets/brand/signature.png";
 import { profile } from "@/content/profile";
 import { education, internships } from "@/content/cv";
 import { publications, selectedPublicationIds } from "@/content/publications";
+import { useMasthead } from "@/store/masthead";
 
 export default function Home() {
   const reduceMotion = useReducedMotion();
   const selected = publications.filter((paper) => selectedPublicationIds.includes(paper.id));
+  const signatureRef = useRef<HTMLSpanElement>(null);
+  const setSignatureVisible = useMasthead((state) => state.setSignatureVisible);
+
+  // Tell the nav whether the signature is visible below the sticky bar (64px tall). Measure once
+  // before paint so the nav never flashes the name, then let the observer follow scrolling.
+  useLayoutEffect(() => {
+    const node = signatureRef.current;
+    if (!node) return;
+    const rect = node.getBoundingClientRect();
+    setSignatureVisible(rect.bottom > 64 && rect.top < window.innerHeight);
+    const observer = new IntersectionObserver(([entry]) => setSignatureVisible(entry.isIntersecting), {
+      rootMargin: "-64px 0px 0px 0px",
+    });
+    observer.observe(node);
+    return () => {
+      observer.disconnect();
+      setSignatureVisible(false);
+    };
+  }, [setSignatureVisible]);
 
   return (
     <Container>
@@ -29,6 +51,7 @@ export default function Home() {
           <h1 className="m-0">
             <span className="sr-only">{profile.name}</span>
             <span
+              ref={signatureRef}
               aria-hidden
               className="signature-ink -ml-1 block aspect-[1120/244] w-[min(100%,280px)] sm:w-[360px]"
               style={{ WebkitMaskImage: `url(${signature})`, maskImage: `url(${signature})` }}
@@ -60,7 +83,6 @@ export default function Home() {
               <a className="ink-link" href={profile.scholarUrl} target="_blank" rel="noreferrer">
                 Google Scholar
               </a>
-              <span className="text-[var(--ink-soft)]"> ({profile.citationsLabel.replace(/^.*?:\s*/, "")} citations)</span>
             </li>
             <li>
               <Link className="ink-link" to="/cv">
@@ -90,16 +112,14 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section
-        title="Notes"
-        className="max-w-[760px]"
-        action={
-          <Link className="ink-link" to="/notes">
-            All notes
-          </Link>
-        }
-      >
+      <Section title="Notes" className="max-w-[760px]">
         <NotesList limit={3} />
+        <p className="mt-5 text-[17px] text-[var(--ink-soft)]">
+          <Link className="ink-link" to="/notes">
+            {notes.length - 3} more {notes.length - 3 === 1 ? "note" : "notes"}
+          </Link>{" "}
+          on how the work was done.
+        </p>
       </Section>
 
       <div className="grid gap-x-16 lg:grid-cols-2">
