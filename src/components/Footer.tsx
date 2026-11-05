@@ -5,7 +5,7 @@ import { formatDate } from "@/utils/publication";
 
 export default function Footer() {
   return (
-    <footer className="mt-12 border-t border-[var(--line)]">
+    <footer className="site-footer rule-t relative mt-12">
       <Container className="grid gap-5 py-9 text-[16px] leading-[1.6] text-[var(--ink-soft)] md:grid-cols-[minmax(0,1fr)_auto] md:gap-16">
         <div className="max-w-[62ch]">
           <p>

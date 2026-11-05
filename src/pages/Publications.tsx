@@ -52,7 +52,7 @@ export default function Publications() {
           paper has an illustrated poster beside it.
         </p>
 
-        <div className="mt-8 flex flex-col gap-4 border-y border-[var(--line)] py-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-8 rule-t rule-b relative flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by type">
             {typeOptions.map((option) => (
               <button

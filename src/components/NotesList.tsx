@@ -7,7 +7,7 @@ export default function NotesList({ limit }: { limit?: number }) {
   return (
     <ol>
       {notes.slice(0, limit).map((note) => (
-        <li key={note.slug} className="border-t border-[var(--line)] py-5 first:border-t-0 first:pt-0">
+        <li key={note.slug} className="rule-t relative py-5 first:pt-0 first:before:hidden">
           <Link to={`/notes/${note.slug}`} className="group grid gap-x-6 gap-y-3 sm:grid-cols-[minmax(0,1fr)_168px] sm:items-center">
             <div>
               <p className="font-type text-[14px] leading-5 text-[var(--ink-soft)]">{formatDate(note.date)}</p>

@@ -39,6 +39,9 @@ const filesToScan = [
   'src/components/PosterPlate.tsx',
   'src/components/NotesList.tsx',
   'src/components/ButterflyMark.tsx',
+  'src/components/ScrollPencil.tsx',
+  'src/components/Pencil.tsx',
+  'src/components/Signature.tsx',
   'src/store/masthead.ts',
   'src/content/notes.ts',
   'src/pages/Note.tsx',
@@ -115,9 +118,16 @@ for (const name of ['InstanceCap', 'MotionSight', 'OpenVid-1M', 'UltraHR-100K', 
 assert(cv.includes('range: "Jul 2025 - Oct 2026"'), 'ByteDance internship should run Jul 2025 - Oct 2026');
 const notesData = read('src/content/notes.ts');
 assert(card.includes('item.poster.concept'), 'Selected cards should end with the quiet plate note');
-assert(home.includes('profile.tagline') && home.includes('signature-ink') && home.includes('sr-only'), 'Home should open with the signature as the headline, keeping the name as hidden h1 text');
-assert((home.match(/signature-ink/g) || []).length === 1, 'The signature should appear once on Home');
+const signatureFile = read('src/components/Signature.tsx');
+assert(home.includes('profile.tagline') && home.includes('<Signature') && home.includes('sr-only'), 'Home should open with the signature as the headline, keeping the name as hidden h1 text');
+assert((home.match(/<Signature/g) || []).length === 1 && signatureFile.includes('signature-ink'), 'The signature should appear once on Home');
+assert(signatureFile.includes('STROKES') && signatureFile.includes('<Pencil'), 'The pencil should write the signature stroke by stroke');
+assert(read('src/components/ScrollPencil.tsx').includes('site-footer') && read('src/components/ScrollPencil.tsx').includes('Back to top'), 'The margin pencil should come to rest on the footer rule and take the reader back up when picked up');
+assert(css.includes('.rule-t') && css.includes('rule.png') && !footer.includes('border-t'), 'Page rules should be hand-inked rather than CSS borders');
+assert(css.includes('.page-develop') && read('src/App.tsx').includes('page-develop'), 'New pages should develop in like the headpieces');
+assert(read('src/components/NavBar.tsx').includes('layoutId="nav-stroke"'), 'The current page should be marked by one travelling pen stroke');
 assert(read('src/components/NavBar.tsx').includes('ButterflyMark') && read('src/components/NavBar.tsx').includes('signatureVisible') && read('src/components/NavBar.tsx').includes('AnimatePresence'), 'The nav name should fade in whenever the home signature is off screen');
+assert(read('src/App.tsx').includes('<ScrollPencil'), 'The pencil reading-progress line should be mounted on every page');
 assert(home.includes('IntersectionObserver'), 'Home should report whether the signature is on screen');
 assert(read('index.html').includes('og-image.jpg'), 'Share metadata should point at the raster og image');
 assert(!publicationsPage.includes('hand-drawn'), 'Copy should not describe generated posters as hand-drawn');

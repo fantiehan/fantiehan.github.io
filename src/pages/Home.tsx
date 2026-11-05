@@ -1,6 +1,5 @@
 import { useLayoutEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion, useReducedMotion } from "framer-motion";
 import Container from "@/components/Container";
 import Section from "@/components/Section";
 import Timeline from "@/components/Timeline";
@@ -9,14 +8,13 @@ import NewsList from "@/components/NewsList";
 import { news } from "@/content/news";
 import NotesList from "@/components/NotesList";
 import { notes } from "@/content/notes";
-import signature from "@/assets/brand/signature.png";
+import Signature from "@/components/Signature";
 import { profile } from "@/content/profile";
 import { education, internships } from "@/content/cv";
 import { publications, selectedPublicationIds } from "@/content/publications";
 import { useMasthead } from "@/store/masthead";
 
 export default function Home() {
-  const reduceMotion = useReducedMotion();
   const selected = publications.filter((paper) => selectedPublicationIds.includes(paper.id));
   const signatureRef = useRef<HTMLSpanElement>(null);
   const setSignatureVisible = useMasthead((state) => state.setSignatureVisible);
@@ -40,22 +38,14 @@ export default function Home() {
 
   return (
     <Container>
-      <motion.section
-        initial={reduceMotion ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
+      <section
         className="grid gap-10 pb-12 pt-14 sm:pt-20 lg:grid-cols-[minmax(0,1fr)_260px] lg:gap-16"
       >
         <div>
           {/* The signature is the name; the text stays in the h1 for screen readers and search. */}
           <h1 className="m-0">
             <span className="sr-only">{profile.name}</span>
-            <span
-              ref={signatureRef}
-              aria-hidden
-              className="signature-ink -ml-1 block aspect-[1120/244] w-[min(100%,280px)] sm:w-[360px]"
-              style={{ WebkitMaskImage: `url(${signature})`, maskImage: `url(${signature})` }}
-            />
+            <Signature ref={signatureRef} />
           </h1>
           <p className="mt-6 text-[22px] italic leading-[1.4] text-[var(--ink-soft)]">{profile.tagline}</p>
 
@@ -68,7 +58,7 @@ export default function Home() {
           </div>
         </div>
 
-        <aside className="self-start border-t border-[var(--line)] pt-6 text-[17px] lg:mt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+        <aside className="rule-t lg:rule-l relative self-start pt-6 lg:before:hidden text-[17px] lg:mt-6 lg:pl-8 lg:pt-0">
           <h2 className="font-type text-[14px] text-[var(--ink-soft)]">Research interests</h2>
           <p className="mt-2 leading-[1.5] text-[var(--ink)]">{profile.interests}</p>
 
@@ -91,7 +81,7 @@ export default function Home() {
             </li>
           </ul>
         </aside>
-      </motion.section>
+      </section>
 
       <Section title="News" className="max-w-[760px]">
         <NewsList items={news} />

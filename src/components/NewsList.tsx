@@ -30,7 +30,7 @@ export default function NewsList({ items, initial = 5 }: Props) {
         {visible.map(({ item, paper }) => (
           <li
             key={`${item.date}-${item.publicationId}-${item.kind}`}
-            className="grid grid-cols-[104px_minmax(0,1fr)] gap-x-5 border-t border-[var(--line)] py-3.5 first:border-t-0 sm:grid-cols-[120px_minmax(0,1fr)]"
+            className="grid grid-cols-[104px_minmax(0,1fr)] gap-x-5 rule-t relative py-3.5 first:before:hidden sm:grid-cols-[120px_minmax(0,1fr)]"
           >
             <time dateTime={item.date} className="pt-[3px] font-type text-[14px] leading-6 text-[var(--ink-soft)]">
               {formatDate(item.date)}

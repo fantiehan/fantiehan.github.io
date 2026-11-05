@@ -1,6 +1,7 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import ButterflyMark from "@/components/ButterflyMark";
+import PenStroke from "@/components/PenStroke";
 import { cn } from "@/lib/utils";
 import Container from "@/components/Container";
 import { profile } from "@/content/profile";
@@ -18,9 +19,10 @@ export default function NavBar() {
   const { isDark, toggleTheme } = useTheme();
   const signatureVisible = useMasthead((state) => state.signatureVisible);
   const reduceMotion = useReducedMotion();
+  const { pathname } = useLocation();
 
   return (
-    <header className="paper-grain sticky top-0 z-40 border-b border-[var(--line)] bg-[var(--paper)]">
+    <header className="paper-grain rule-b sticky top-0 z-40 bg-[var(--paper)]">
       <Container className="flex min-h-16 items-center justify-between gap-3">
         {/* The name joins the mark whenever the home page signature is not on screen. */}
         <NavLink
@@ -54,14 +56,27 @@ export default function NavBar() {
                 end={item.to === "/"}
                 className={({ isActive }) =>
                   cn(
-                    "underline-offset-[6px] transition-colors hover:text-[var(--ink)]",
-                    isActive
-                      ? "text-[var(--ink)] underline decoration-[var(--accent)] decoration-[1.5px]"
-                      : "text-[var(--ink-soft)]",
+                    "relative transition-colors hover:text-[var(--ink)]",
+                    isActive ? "text-[var(--ink)]" : "text-[var(--ink-soft)]",
                   )
                 }
               >
-                {item.label}
+                {({ isActive }) => (
+                  <>
+                    {item.label}
+                    {/* The one pen stroke in the bar, which travels to whichever page is open. */}
+                    {isActive ? (
+                      <motion.span
+                        layoutId="nav-stroke"
+                        layoutDependency={pathname}
+                        className="absolute -bottom-1.5 left-0 right-0 block"
+                        transition={{ duration: reduceMotion ? 0 : 0.5, ease: [0.3, 0, 0.2, 1] }}
+                      >
+                        <PenStroke className="h-1.5 w-full text-[var(--accent)]" />
+                      </motion.span>
+                    ) : null}
+                  </>
+                )}
               </NavLink>
             ))}
           </nav>
