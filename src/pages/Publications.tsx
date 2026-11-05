@@ -49,7 +49,7 @@ export default function Publications() {
         </h1>
         <p className="mt-4 max-w-[60ch] text-[19px] leading-[1.6] text-[var(--ink-soft)]">
           Papers on multimodal LLMs, video generation, datasets, and earlier machine learning work for materials. Each
-          paper has a hand-drawn poster beside it.
+          paper has an illustrated poster beside it.
         </p>
 
         <div className="mt-8 flex flex-col gap-4 border-y border-[var(--line)] py-4 sm:flex-row sm:items-center sm:justify-between">

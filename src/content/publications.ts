@@ -34,7 +34,7 @@ export const publications: Publication[] = [
     poster: {
       archive: "arxiv 2026",
       shortTitle: "RoMeRL",
-      concept: "reduced-order utility states for agent memory",
+      concept: "A whole meadow, kept in a few cells.",
       accent: "#b8860b",
       layout: "alignment-bridge",
       meta: "preprint / self-evolving agent memory",
@@ -57,7 +57,7 @@ export const publications: Publication[] = [
     poster: {
       archive: "ijcv 2026",
       shortTitle: "OpenVid++",
-      concept: "million-scale video data, refined again",
+      concept: "The same swarm, refined again.",
       accent: "#d84a2b",
       layout: "dataset-grid",
       meta: "forthcoming journal / text-to-video dataset",
@@ -83,7 +83,7 @@ export const publications: Publication[] = [
     poster: {
       archive: "eccv 2026",
       shortTitle: "TCA-Captioner",
-      concept: "temporal and cross-modal alignment",
+      concept: "Sound and sight, tied at the moments they agree.",
       accent: "#0088a8",
       layout: "alignment-bridge",
       meta: "audiovisual captioning / observer-checker-corrector",
@@ -106,7 +106,7 @@ export const publications: Publication[] = [
     poster: {
       archive: "cvpr 2025",
       shortTitle: "InstanceCap",
-      concept: "one instance lifted from the whole",
+      concept: "One instance lifted from the whole.",
       accent: "#1f3fb0",
       layout: "lifted-cell",
       meta: "first author / structured captions",
@@ -129,7 +129,7 @@ export const publications: Publication[] = [
     poster: {
       archive: "iclr 2026",
       shortTitle: "MotionSight",
-      concept: "motion separated from camera drift",
+      concept: "Motion separated from camera drift.",
       accent: "#d1452c",
       layout: "motion-thread",
       meta: "co-first author / motion reasoning",
@@ -152,7 +152,7 @@ export const publications: Publication[] = [
     poster: {
       archive: "iclr 2025",
       shortTitle: "OpenVid-1M",
-      concept: "a field of curated clips",
+      concept: "A field of clips, narrowed to the best.",
       accent: "#2f6b45",
       layout: "dataset-grid",
       meta: "dataset / text-to-video",
@@ -175,7 +175,7 @@ export const publications: Publication[] = [
     poster: {
       archive: "neurips 2025",
       shortTitle: "UltraHR-100K",
-      concept: "resolution opened into a window",
+      concept: "Detail that holds at the finest branch.",
       accent: "#5b3b8c",
       layout: "resolution-window",
       meta: "dataset / image synthesis",
@@ -198,7 +198,7 @@ export const publications: Publication[] = [
     poster: {
       archive: "metals 2023",
       shortTitle: "Copper Alloy",
-      concept: "features pressed into a sheet",
+      concept: "One lattice, two elements.",
       accent: "#c88a1e",
       layout: "alloy-sheet",
       meta: "first author / feature engineering",

@@ -3,10 +3,11 @@ import { motion, useReducedMotion } from "framer-motion";
 import Container from "@/components/Container";
 import Section from "@/components/Section";
 import Timeline from "@/components/Timeline";
-import PenStroke from "@/components/PenStroke";
 import PublicationCard from "@/components/PublicationCard";
 import NewsList from "@/components/NewsList";
 import { news } from "@/content/news";
+import NotesList from "@/components/NotesList";
+import signature from "@/assets/brand/signature.png";
 import { profile } from "@/content/profile";
 import { education, internships } from "@/content/cv";
 import { publications, selectedPublicationIds } from "@/content/publications";
@@ -24,11 +25,16 @@ export default function Home() {
         className="grid gap-10 pb-12 pt-14 sm:pt-20 lg:grid-cols-[minmax(0,1fr)_260px] lg:gap-16"
       >
         <div>
-          <h1 className="relative inline-block pb-3 text-[clamp(48px,8vw,80px)] font-medium leading-[1.02] tracking-[-0.01em] text-[var(--ink)]">
-            {profile.name}
-            <PenStroke animate className="absolute bottom-0 left-0 h-3 w-full text-[var(--accent)]" />
+          {/* The signature is the name; the text stays in the h1 for screen readers and search. */}
+          <h1 className="m-0">
+            <span className="sr-only">{profile.name}</span>
+            <span
+              aria-hidden
+              className="signature-ink -ml-1 block aspect-[1120/244] w-[min(100%,280px)] sm:w-[360px]"
+              style={{ WebkitMaskImage: `url(${signature})`, maskImage: `url(${signature})` }}
+            />
           </h1>
-          <p className="mt-5 text-[22px] italic leading-[1.4] text-[var(--ink-soft)]">{profile.headline}</p>
+          <p className="mt-6 text-[22px] italic leading-[1.4] text-[var(--ink-soft)]">{profile.tagline}</p>
 
           <div className="mt-8 max-w-[64ch] space-y-5 text-[18px] leading-[1.7] text-[var(--ink)]">
             {profile.intro.map((paragraph) => (
@@ -77,11 +83,23 @@ export default function Home() {
           </Link>
         }
       >
-        <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="poster-shelf grid gap-x-8 gap-y-14 overflow-x-clip sm:grid-cols-2 lg:grid-cols-3">
           {selected.map((paper) => (
             <PublicationCard key={paper.id} item={paper} />
           ))}
         </div>
+      </Section>
+
+      <Section
+        title="Notes"
+        className="max-w-[760px]"
+        action={
+          <Link className="ink-link" to="/notes">
+            All notes
+          </Link>
+        }
+      >
+        <NotesList limit={3} />
       </Section>
 
       <div className="grid gap-x-16 lg:grid-cols-2">

@@ -1,14 +1,7 @@
 import { useState } from "react";
 import type { NewsItem, NewsKind, Publication } from "@/content/types";
 import { publications } from "@/content/publications";
-import { scholarUrl } from "@/utils/publication";
-
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-function formatDate(date: string) {
-  const [year, month, day] = date.split("-");
-  return day ? `${MONTHS[Number(month) - 1]} ${Number(day)}, ${year}` : `${MONTHS[Number(month) - 1]} ${year}`;
-}
+import { formatDate, scholarUrl } from "@/utils/publication";
 
 function verb(kind: NewsKind, paper: Publication) {
   if (kind === "preprint") return <>released on arXiv</>;

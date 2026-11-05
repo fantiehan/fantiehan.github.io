@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import ButterflyMark from "@/components/ButterflyMark";
 import { cn } from "@/lib/utils";
 import Container from "@/components/Container";
 import { profile } from "@/content/profile";
@@ -7,22 +8,29 @@ import { useTheme } from "@/hooks/useTheme";
 const navItems = [
   { to: "/", label: "Home" },
   { to: "/publications", label: "Publications" },
+  { to: "/notes", label: "Notes" },
   { to: "/cv", label: "CV" },
 ];
 
 export default function NavBar() {
   const { isDark, toggleTheme } = useTheme();
+  const isHome = useLocation().pathname === "/";
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--line)] bg-[var(--paper)]">
+    <header className="paper-grain sticky top-0 z-40 border-b border-[var(--line)] bg-[var(--paper)]">
       <Container className="flex min-h-16 items-center justify-between gap-4">
-        <NavLink to="/" className="shrink-0 whitespace-nowrap text-[20px] font-medium text-[var(--ink)] transition-colors hover:text-[var(--accent)]">
-          <span className="sm:hidden">TF</span>
-          <span className="hidden sm:inline">{profile.name}</span>
+        {/* The home page already opens with the signature, so the bar shows the name only elsewhere. */}
+        <NavLink
+          to="/"
+          aria-label={`${profile.name}, home`}
+          className="flex shrink-0 items-center gap-2.5 whitespace-nowrap text-[19px] font-medium text-[var(--ink)] transition-colors hover:text-[var(--accent)]"
+        >
+          <ButterflyMark className="h-7 w-7" />
+          {isHome ? null : <span className="hidden sm:inline">{profile.name}</span>}
         </NavLink>
 
-        <div className="flex items-center gap-4 text-[16px] sm:gap-7 sm:text-[17px]">
-          <nav className="flex items-center gap-3.5 sm:gap-6" aria-label="Primary navigation">
+        <div className="flex items-center gap-3 text-[15px] sm:gap-7 sm:text-[17px]">
+          <nav className="flex items-center gap-2.5 sm:gap-6" aria-label="Primary navigation">
             {navItems.map((item) => (
               <NavLink
                 key={item.to}

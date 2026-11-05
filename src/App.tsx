@@ -1,8 +1,11 @@
+import { useEffect } from "react";
 import { HashRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Home from "./pages/Home";
 import Publications from "./pages/Publications";
 import CV from "./pages/CV";
+import Notes from "./pages/Notes";
+import Note from "./pages/Note";
 import Background from "./components/Background";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
@@ -10,6 +13,10 @@ import Footer from "./components/Footer";
 function AnimatedRoutes() {
   const location = useLocation();
   const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <AnimatePresence mode="wait">
@@ -23,6 +30,8 @@ function AnimatedRoutes() {
         <Routes location={location}>
           <Route path="/" element={<Home />} />
           <Route path="/publications" element={<Publications />} />
+          <Route path="/notes" element={<Notes />} />
+          <Route path="/notes/:slug" element={<Note />} />
           <Route path="/cv" element={<CV />} />
           <Route path="*" element={<Home />} />
         </Routes>
