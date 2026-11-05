@@ -13,7 +13,7 @@ export default function PublicationRow({ item }: { item: Publication }) {
       onPointerEnter={(event) => event.pointerType === "mouse" && setHovered(true)}
       onPointerLeave={() => setHovered(false)}
       className="publication-row grid grid-cols-[72px_minmax(0,1fr)] gap-5 border-t border-[var(--line)] py-6 first:border-t-0 first:pt-0 sm:grid-cols-[104px_minmax(0,1fr)] sm:gap-7">
-      <PosterPlate item={item} hovered={hovered} compact className="self-start" />
+      <PosterPlate item={item} hovered={hovered} compact className="mt-1 self-start" />
       <div className="min-w-0">
         <VenueLine item={item} />
         <h3 className="mt-2 max-w-[60ch] text-pretty text-[20px] font-medium leading-[1.3] text-[var(--ink)]">

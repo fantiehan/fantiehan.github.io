@@ -48,6 +48,7 @@ export type TimelineItem = {
 export type Profile = {
   name: string;
   headline: string;
+  tagline: string;
   interests: string;
   citationsLabel: string;
   email: string;
@@ -62,4 +63,21 @@ export type NewsItem = {
   date: string;
   kind: NewsKind;
   publicationId: string;
+};
+
+export type NoteBlock =
+  | { kind: "p"; text: string }
+  | { kind: "h"; text: string }
+  | { kind: "table"; caption: string; head: string[]; rows: string[][] }
+  | { kind: "figure"; publicationId: string; caption: string }
+  | { kind: "plates"; items: { publicationId: string; text: string }[] };
+
+export type Note = {
+  slug: string;
+  title: string;
+  /** "YYYY-MM-DD" when the exact day is known, otherwise "YYYY-MM". */
+  date: string;
+  summary: string;
+  blocks: NoteBlock[];
+  sources: { label: string; href: string }[];
 };

@@ -40,7 +40,8 @@ export function VenueLine({ item, className }: { item: Publication; className?: 
 }
 
 /**
- * A mounted plate: the paper's poster on a paper mat with a caption that is always visible.
+ * A print on the shelf with a caption that is always visible. The card spans two rows of the
+ * parent grid (print, caption) so every print in a row stands on the same line.
  * Hovering anywhere on the card, or tapping the plate on touch screens, reveals the main figure.
  */
 export default function PublicationCard({ item, className }: Props) {
@@ -48,11 +49,11 @@ export default function PublicationCard({ item, className }: Props) {
 
   return (
     <article
-      className={cn("publication-plate flex flex-col", className)}
+      className={cn("publication-plate row-span-2 grid grid-rows-subgrid gap-y-0", className)}
       onPointerEnter={(event) => event.pointerType === "mouse" && setHovered(true)}
       onPointerLeave={() => setHovered(false)}
     >
-      <PosterPlate item={item} hovered={hovered} />
+      <PosterPlate item={item} hovered={hovered} ledge className="self-end" />
 
       <div className="flex flex-1 flex-col pt-4">
         <VenueLine item={item} />
@@ -69,6 +70,8 @@ export default function PublicationCard({ item, className }: Props) {
             Scholar
           </a>
         </div>
+        {/* The plate note reads last and carries no link, so it never competes with the citation. */}
+        <p className="mt-3 text-[15px] italic leading-[1.45] text-[var(--ink-soft)] sm:min-h-[2.9em]">{item.poster.concept}</p>
       </div>
     </article>
   );

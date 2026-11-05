@@ -37,6 +37,11 @@ const filesToScan = [
   'src/components/PublicationRow.tsx',
   'src/components/NewsList.tsx',
   'src/components/PosterPlate.tsx',
+  'src/components/NotesList.tsx',
+  'src/components/ButterflyMark.tsx',
+  'src/content/notes.ts',
+  'src/pages/Note.tsx',
+  'src/pages/Notes.tsx',
   'src/content/news.ts',
   'src/content/cv.ts',
   'src/content/profile.ts',
@@ -53,8 +58,9 @@ assert(css.includes('Newsreader') && css.includes('Courier Prime'), 'global typo
 assert(css.includes('ink-link'), 'global CSS should expose a readable ink-link style for text links');
 assert(card.includes('publication-plate'), 'PublicationCard should render the poster as a mounted plate');
 const plate = read('src/components/PosterPlate.tsx');
-assert(plate.includes('aspect-[4/5]'), 'Poster plate should use a 4:5 mat');
-assert(plate.includes('object-contain'), 'Poster plate should show the whole poster and figure with object-contain');
+assert(!plate.includes('aspect-['), 'Poster plate should keep each poster\'s own proportions instead of a fixed mat');
+assert(plate.includes('function Ledge') && card.includes('grid-rows-subgrid'), 'Selected posters should stand on a shared hand-drawn ledge with captions aligned');
+assert(plate.includes('object-contain') && !plate.includes('object-cover'), 'Poster plate should never crop the poster or figure');
 assert(!card.includes('group-hover:opacity'), 'PublicationCard should not hide paper information behind a hover state');
 assert(card.includes('item.title') && card.includes('Authors'), 'PublicationCard should always show the full title and authors');
 assert(!card.includes('Show figure'), 'PublicationCard should not have a separate figure button');
@@ -105,6 +111,15 @@ for (const name of ['InstanceCap', 'MotionSight', 'OpenVid-1M', 'UltraHR-100K', 
   assert(pubs.includes(`shortTitle: "${name}"`), `Short title should use the official paper name ${name}`);
 }
 assert(cv.includes('range: "Jul 2025 - Oct 2026"'), 'ByteDance internship should run Jul 2025 - Oct 2026');
+const notesData = read('src/content/notes.ts');
+assert(card.includes('item.poster.concept'), 'Selected cards should end with the quiet plate note');
+assert(home.includes('profile.tagline') && home.includes('signature-ink') && home.includes('sr-only'), 'Home should open with the signature as the headline, keeping the name as hidden h1 text');
+assert((home.match(/signature-ink/g) || []).length === 1, 'The signature should appear once on Home');
+assert(read('src/components/NavBar.tsx').includes('ButterflyMark') && read('src/components/NavBar.tsx').includes('isHome'), 'The nav should show the butterfly mark and drop the name on Home');
+assert(read('index.html').includes('og-image.jpg'), 'Share metadata should point at the raster og image');
+assert(!publicationsPage.includes('hand-drawn'), 'Copy should not describe generated posters as hand-drawn');
+assert(footer.includes('__BUILD_DATE__'), 'Colophon should show the build date');
+assert((notesData.match(/slug: "/g) || []).length >= 3, 'Notes should include at least three pieces');
 assert(home.includes('profile.intro.map'), 'Home page should render the full personal introduction from profile.intro');
 assert(!home.includes('Why make papers feel like paper'), 'Home page should not include the added design-rationale essay');
 assert(!home.includes('Personal academic website'), 'Home masthead should not include generic template labels');

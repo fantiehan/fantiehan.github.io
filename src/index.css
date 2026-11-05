@@ -28,6 +28,7 @@
   --line-strong: #29231d;
   --accent: #2b45a8;
   --shadow-paper: rgba(60, 45, 20, 0.18);
+  --shadow-print: rgba(60, 45, 20, 0.28);
   --serif: "Newsreader Variable", Georgia, "Songti SC", "Noto Serif CJK SC", serif;
   --type: "Courier Prime", "Courier New", ui-monospace, monospace;
 }
@@ -46,7 +47,8 @@ body,
 body {
   min-width: 320px;
   margin: 0;
-  background: var(--paper);
+  /* Transparent so the fixed paper layer in Background.tsx shows through. */
+  background: transparent;
   color: var(--ink);
 }
 
@@ -62,6 +64,7 @@ html.dark {
   --line-strong: #ece3d0;
   --accent: #a3b4ff;
   --shadow-paper: rgba(0, 0, 0, 0.5);
+  --shadow-print: rgba(0, 0, 0, 0.6);
 }
 
 a {
@@ -110,18 +113,28 @@ html.dark ::selection {
     text-wrap: pretty;
   }
 
+  /* Irregular paper tooth: fine grain plus long horizontal fibres, with no repeating dot pattern. */
   .paper-grain {
     background-image:
-      radial-gradient(rgba(120, 100, 60, 0.055) 1px, transparent 1px),
-      radial-gradient(rgba(120, 100, 60, 0.035) 1px, transparent 1px);
-    background-position: 0 0, 2px 3px;
-    background-size: 3px 3px, 7px 7px;
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .55' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .36 0 0 0 0 .36 1.4 0 0 0 -.68'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.035'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .36 0 0 0 0 .36 1.1 0 0 0 -.46'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.2'/%3E%3C/svg%3E");
   }
 
   html.dark .paper-grain {
     background-image:
-      radial-gradient(rgba(255, 244, 214, 0.035) 1px, transparent 1px),
-      radial-gradient(rgba(255, 244, 214, 0.025) 1px, transparent 1px);
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .55' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .95 0 0 0 0 .95 0 0 0 0 .95 1.4 0 0 0 -.68'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.02'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .95 0 0 0 0 .95 0 0 0 0 .95 1.1 0 0 0 -.46'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.1'/%3E%3C/svg%3E");
+  }
+
+  /* The signature is a mask, so its ink follows the theme. */
+  .signature-ink {
+    background: var(--ink);
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: left center;
+    mask-position: left center;
   }
 
   .ink-link {

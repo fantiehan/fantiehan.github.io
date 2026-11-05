@@ -15,7 +15,7 @@ export default {
       },
       boxShadow: {
         paper: "0 10px 26px var(--shadow-paper)",
-        plate: "0 1px 1px var(--shadow-paper), 0 6px 14px -6px var(--shadow-paper)",
+        print: "0 1px 1.5px var(--shadow-print), 0 8px 18px -10px var(--shadow-print)",
       },
       colors: {
         paper: "var(--paper)",
