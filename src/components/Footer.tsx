@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import Container from "@/components/Container";
 import { profile } from "@/content/profile";
-import { formatDate } from "@/utils/publication";
 
 export default function Footer() {
   return (
@@ -20,7 +19,7 @@ export default function Footer() {
             .
           </p>
           <p className="mt-2">
-            © {new Date().getFullYear()} {profile.name}. Last updated {formatDate(__BUILD_DATE__)}.
+            © {new Date().getFullYear()} {profile.name}.
           </p>
         </div>
         <ul className="space-y-1">

@@ -134,7 +134,7 @@ assert(read('src/App.tsx').includes('<ScrollPencil'), 'The pencil reading-progre
 assert(home.includes('IntersectionObserver'), 'Home should report whether the signature is on screen');
 assert(read('index.html').includes('og-image.jpg'), 'Share metadata should point at the raster og image');
 assert(!publicationsPage.includes('hand-drawn'), 'Copy should not describe generated posters as hand-drawn');
-assert(footer.includes('__BUILD_DATE__'), 'Colophon should show the build date');
+assert(!footer.includes('Last updated'), 'Footer should not show a last-updated date');
 assert((notesData.match(/slug: "/g) || []).length >= 3, 'Notes should include at least three pieces');
 assert((notesData.match(/banner: banner/g) || []).length === (notesData.match(/slug: "/g) || []).length, 'Every note should have a headpiece banner');
 assert(read('src/pages/Note.tsx').includes('Sidenote') && css.includes('.sidenote'), 'Notes should put sources and caveats in Tufte-style sidenotes');
