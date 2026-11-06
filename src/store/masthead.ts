@@ -7,6 +7,9 @@ type MastheadState = {
   /** True while the pencil is writing the signature, so the margin pencil waits its turn. */
   signing: boolean;
   setSigning: (signing: boolean) => void;
+  /** True while the butterfly drawn at the foot of a page is flying home, leaving the nav mark empty. */
+  butterflyAway: boolean;
+  setButterflyAway: (away: boolean) => void;
 };
 
 // The site uses hash routing and pages open scrolled to the top, so a first load of Home starts with
@@ -18,4 +21,6 @@ export const useMasthead = create<MastheadState>((set) => ({
   setSignatureVisible: (signatureVisible) => set({ signatureVisible }),
   signing: false,
   setSigning: (signing) => set({ signing }),
+  butterflyAway: false,
+  setButterflyAway: (butterflyAway) => set({ butterflyAway }),
 }));

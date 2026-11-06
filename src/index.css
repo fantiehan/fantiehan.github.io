@@ -327,19 +327,18 @@ html.dark ::selection {
     transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .scroll-pencil[data-rest] path,
-  .scroll-pencil[data-rest="settled"] .scroll-pencil-pen {
+  /* Drawing the butterfly at the foot of the page runs on its own clock, with no easing behind it. */
+  .scroll-pencil[data-rest] path {
     transition: none;
   }
 
-  /* Set down on the footer rule, the pencil lifts a little when pointed at, ready to be picked up. */
-  .scroll-pencil-pen svg {
-    transition: transform 0.25s ease;
+  .scroll-pencil[data-rest="drawing"] .scroll-pencil-pen {
+    transition: none;
   }
 
-  .scroll-pencil-pen.is-resting:hover svg,
-  .scroll-pencil-pen.is-resting:focus-visible svg {
-    transform: translateX(2.5px);
+  /* Set down on the rule when the drawing is done. */
+  .scroll-pencil[data-rest="down"] .scroll-pencil-pen {
+    transition: transform 0.6s cubic-bezier(0.3, 0, 0.2, 1);
   }
 
   /* The signature is a mask, so its ink follows the theme. */

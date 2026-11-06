@@ -18,6 +18,7 @@ const navItems = [
 export default function NavBar() {
   const { isDark, toggleTheme } = useTheme();
   const signatureVisible = useMasthead((state) => state.signatureVisible);
+  const butterflyAway = useMasthead((state) => state.butterflyAway);
   const reduceMotion = useReducedMotion();
   const { pathname } = useLocation();
 
@@ -30,7 +31,10 @@ export default function NavBar() {
           aria-label={`${profile.name}, home`}
           className="flex shrink-0 items-center gap-2.5 whitespace-nowrap text-[19px] font-medium text-[var(--ink)] transition-colors hover:text-[var(--accent)]"
         >
-          <ButterflyMark className="h-6 w-6 sm:h-7 sm:w-7" />
+          {/* Leaves quietly when the butterfly takes off; back at once, the moment it lands. */}
+          <span data-butterfly-home style={{ opacity: butterflyAway ? 0 : 1, transition: butterflyAway ? "opacity 0.3s" : "none" }}>
+            <ButterflyMark className="h-6 w-6 sm:h-7 sm:w-7" />
+          </span>
           <AnimatePresence initial={false}>
             {signatureVisible ? null : (
               <motion.span
