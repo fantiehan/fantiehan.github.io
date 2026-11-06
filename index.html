@@ -20,6 +20,18 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <title>Tiehan Fan | Multimodal LLMs & Visual Generation</title>
+    <!-- The paper colour and theme, in place before anything else has loaded. -->
+    <style>
+      html { background: #f4ecd8; }
+      html.dark { background: #191612; }
+    </style>
+    <script>
+      try {
+        document.documentElement.classList.add(
+          localStorage.getItem("theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"),
+        );
+      } catch (error) {}
+    </script>
     <script type="module">
       if (import.meta.hot?.on) {
         import.meta.hot.on('vite:error', (error) => {

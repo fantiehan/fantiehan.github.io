@@ -3,6 +3,7 @@ import { useReducedMotion } from "framer-motion";
 import Pencil from "@/components/Pencil";
 import { PIVOT, TIP, smoothPath, turn } from "@/lib/pencil";
 import signature from "@/assets/brand/signature.png";
+import { openingDone } from "@/opening/state";
 import { useMasthead } from "@/store/masthead";
 
 /** The signature image is 1120×244; strokes below are in its pixels, in the order they were written. */
@@ -83,7 +84,7 @@ const Signature = forwardRef<HTMLSpanElement>(function Signature(_, ref) {
       return { stroke, lift: from ? LIFT + travel / 3000 : 0.5, draw: Math.max(0.08, length / SPEED) };
     });
     const settle = 0.6;
-    const delay = 0.45;
+    const delay = 0.15;
     const total = steps.reduce((sum, step) => sum + step.lift + step.draw, 0) + settle;
 
     // The pen turns and scales about its pivot, so the offset to its tip is the pivot plus the scaled,
@@ -102,6 +103,7 @@ const Signature = forwardRef<HTMLSpanElement>(function Signature(_, ref) {
 
     let frame = 0;
     let begun = 0;
+    let stopped = false;
     const tick = (now: number) => {
       if (!begun) begun = now;
       let t = (now - begun) / 1000 - delay;
@@ -150,10 +152,16 @@ const Signature = forwardRef<HTMLSpanElement>(function Signature(_, ref) {
       }
       setWriting(false);
     };
-    frame = requestAnimationFrame(tick);
-    // Hold a safety net in case frames stop (a hidden tab), so the name is never left half written.
-    const fallback = window.setTimeout(() => setWriting(false), (total + delay + 4) * 1000);
+    // The pencil waits for the opening, so the name is written on the page the sheet has become.
+    let fallback = 0;
+    void openingDone.then(() => {
+      if (stopped) return;
+      frame = requestAnimationFrame(tick);
+      // Hold a safety net in case frames stop (a hidden tab), so the name is never left half written.
+      fallback = window.setTimeout(() => setWriting(false), (total + delay + 4) * 1000);
+    });
     return () => {
+      stopped = true;
       cancelAnimationFrame(frame);
       window.clearTimeout(fallback);
       setSigning(false);

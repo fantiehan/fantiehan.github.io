@@ -43,6 +43,13 @@ const filesToScan = [
   'src/components/Pencil.tsx',
   'src/components/Signature.tsx',
   'src/components/ButterflyFlight.tsx',
+  'src/components/MarginVine.tsx',
+  'src/opening/opening.ts',
+  'src/opening/snapshot.ts',
+  'src/opening/table.ts',
+  'src/opening/state.ts',
+  'src/boot.tsx',
+  'scripts/bake-opening-paper.mjs',
   'src/store/masthead.ts',
   'src/content/notes.ts',
   'src/pages/Note.tsx',
@@ -135,6 +142,13 @@ assert(home.includes('IntersectionObserver'), 'Home should report whether the si
 assert(read('index.html').includes('og-image.jpg'), 'Share metadata should point at the raster og image');
 assert(!publicationsPage.includes('hand-drawn'), 'Copy should not describe generated posters as hand-drawn');
 assert(!footer.includes('Last updated'), 'Footer should not show a last-updated date');
+assert(footer.includes('crumpled-paper') && footer.includes('selection-flower') && footer.includes('Matt') && footer.includes('Omerico'), 'Footer should credit the LeiBox components and their design references');
+assert(read('src/pages/Note.tsx').includes('<MarginVine'), 'Notes should grow the margin vine beside selected text');
+assert(read('src/main.tsx').includes('playOpening') && read('src/main.tsx').includes('import("./boot")'), 'The opening should run in the entry chunk while the site loads separately');
+assert(signatureFile.includes('openingDone'), 'The signature should wait for the opening to finish');
+assert(read('src/opening/opening.ts').includes('printPage') && read('src/opening/opening.ts').includes('draftPage'), 'The opening sheet should carry the page itself from the start');
+assert(read('src/opening/opening.ts').includes('drawTable') && read('src/opening/table.ts').includes('drawKnot'), 'The opening sheet should sit on a hand-drawn wooden table');
+assert(read('src/opening/opening.ts').includes('hintMarkup') && read('src/opening/hintArt.ts').includes('HINT_ARROW'), 'The opening sheet should wait to be opened, with a hand-drawn hint');
 assert((notesData.match(/slug: "/g) || []).length >= 3, 'Notes should include at least three pieces');
 assert((notesData.match(/banner: banner/g) || []).length === (notesData.match(/slug: "/g) || []).length, 'Every note should have a headpiece banner');
 assert(read('src/pages/Note.tsx').includes('Sidenote') && css.includes('.sidenote'), 'Notes should put sources and caveats in Tufte-style sidenotes');

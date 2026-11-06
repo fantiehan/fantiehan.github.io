@@ -1,10 +1,4 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App'
-import './index.css'
+import { playOpening } from "@/opening/opening";
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+// The site's code loads separately so that the opening can stand in for it while it downloads.
+playOpening(import("./boot").then(({ boot }) => boot()));

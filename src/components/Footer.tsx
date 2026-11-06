@@ -19,6 +19,17 @@ export default function Footer() {
             .
           </p>
           <p className="mt-2">
+            The opening sheet and the vine beside selected text are adapted from LeiBox's{" "}
+            <a className="ink-link" href="https://leibox.pantoria.cn/docs/animations/crumpled-paper" target="_blank" rel="noreferrer">
+              Crumpled Paper
+            </a>{" "}
+            (design reference by Matt) and{" "}
+            <a className="ink-link" href="https://leibox.pantoria.cn/docs/animations/selection-flower" target="_blank" rel="noreferrer">
+              Selection Flower
+            </a>{" "}
+            (design reference by Omerico). The note on the sheet is lettered in Covered By Your Grace.
+          </p>
+          <p className="mt-2">
             © {new Date().getFullYear()} {profile.name}.
           </p>
         </div>
