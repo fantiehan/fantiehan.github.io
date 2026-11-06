@@ -327,6 +327,74 @@ html.dark ::selection {
     transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  /* The vine beside a selection: page furniture, so it can never be selected or get in the way. */
+  .margin-vine {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: visible;
+    pointer-events: none;
+    user-select: none;
+    --vine-fill: #cdcda2;
+    --petal-0: var(--paper);
+    --petal-1: #eed5ca;
+    --petal-2: #d9dff2;
+    --petal-3: #f2e3b5;
+    --petal-heart: #e3c879;
+  }
+
+  html.dark .margin-vine {
+    --vine-fill: #4d4e35;
+    --petal-1: #4d3731;
+    --petal-2: #343b58;
+    --petal-3: #4f452b;
+    --petal-heart: #a8904f;
+  }
+
+  .margin-vine path,
+  .margin-vine ellipse,
+  .margin-vine circle {
+    stroke: var(--ink);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .margin-vine-stem {
+    fill: var(--vine-fill);
+    stroke-width: 1;
+  }
+
+  /* A fibre running up one side of the stem, so it reads as round. */
+  .margin-vine-fibre {
+    fill: none;
+    stroke-width: 0.6;
+    opacity: 0.45;
+  }
+
+  .margin-vine-leaf {
+    fill: var(--vine-fill);
+    stroke-width: 0.9;
+  }
+
+  .margin-vine-rib,
+  .margin-vine-stalk {
+    fill: none;
+    stroke-width: 0.7;
+  }
+
+  .margin-vine-stalk {
+    stroke-width: 1;
+  }
+
+  .margin-vine-petal {
+    stroke-width: 0.85;
+  }
+
+  .margin-vine-heart {
+    fill: var(--petal-heart);
+    stroke-width: 0.8;
+  }
+
   /* Drawing the butterfly at the foot of the page runs on its own clock, with no easing behind it. */
   .scroll-pencil[data-rest] path {
     transition: none;

@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import Container from "@/components/Container";
 import Headpiece from "@/components/Headpiece";
+import MarginVine from "@/components/MarginVine";
 import { notes } from "@/content/notes";
 import { publications } from "@/content/publications";
 import type { NoteBlock } from "@/content/types";
@@ -169,7 +170,8 @@ export default function Note() {
       <Headpiece src={note.banner} alt={note.bannerAlt} />
 
       <Container>
-        <div className="note-layout pb-8 pt-6 sm:pt-8">
+        <div className="note-layout relative pb-8 pt-6 sm:pt-8">
+          <MarginVine />
           <header>
             <h1 className="text-balance text-[clamp(38px,6vw,56px)] font-medium leading-[1.08] tracking-[-0.01em] text-[var(--ink)]">
               {note.title}
