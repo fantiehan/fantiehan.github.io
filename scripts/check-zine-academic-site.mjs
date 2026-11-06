@@ -42,6 +42,7 @@ const filesToScan = [
   'src/components/ScrollPencil.tsx',
   'src/components/Pencil.tsx',
   'src/components/Signature.tsx',
+  'src/components/ButterflyFlight.tsx',
   'src/store/masthead.ts',
   'src/content/notes.ts',
   'src/pages/Note.tsx',
@@ -122,7 +123,9 @@ const signatureFile = read('src/components/Signature.tsx');
 assert(home.includes('profile.tagline') && home.includes('<Signature') && home.includes('sr-only'), 'Home should open with the signature as the headline, keeping the name as hidden h1 text');
 assert((home.match(/<Signature/g) || []).length === 1 && signatureFile.includes('signature-ink'), 'The signature should appear once on Home');
 assert(signatureFile.includes('STROKES') && signatureFile.includes('<Pencil'), 'The pencil should write the signature stroke by stroke');
-assert(read('src/components/ScrollPencil.tsx').includes('site-footer') && read('src/components/ScrollPencil.tsx').includes('Back to top'), 'The margin pencil should come to rest on the footer rule and take the reader back up when picked up');
+const scrollPencil = read('src/components/ScrollPencil.tsx');
+assert(scrollPencil.includes('site-footer') && scrollPencil.includes('ruleAtEnd') && scrollPencil.includes('<ButterflyFlight'), 'The margin line should reach the footer rule at the end of the page and end in a butterfly that flies home');
+assert(read('src/components/NavBar.tsx').includes('data-butterfly-home'), 'The nav mark should be where the butterfly lands');
 assert(css.includes('.rule-t') && css.includes('rule.png') && !footer.includes('border-t'), 'Page rules should be hand-inked rather than CSS borders');
 assert(css.includes('.page-develop') && read('src/App.tsx').includes('page-develop'), 'New pages should develop in like the headpieces');
 assert(read('src/components/NavBar.tsx').includes('layoutId="nav-stroke"'), 'The current page should be marked by one travelling pen stroke');
