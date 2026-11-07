@@ -143,7 +143,9 @@ assert(home.includes('IntersectionObserver'), 'Home should report whether the si
 assert(read('index.html').includes('og-image.jpg'), 'Share metadata should point at the raster og image');
 assert(!publicationsPage.includes('hand-drawn'), 'Copy should not describe generated posters as hand-drawn');
 assert(!footer.includes('Last updated'), 'Footer should not show a last-updated date');
-assert(footer.includes('crumpled-paper') && footer.includes('selection-flower') && footer.includes('Matt') && footer.includes('Omerico'), 'Footer should credit the LeiBox components and their design references');
+const readme = read('README.md');
+assert(!footer.includes('LeiBox') && !footer.includes('Covered By Your Grace'), 'Footer should stay short, with the credits kept in the README');
+assert(readme.includes('crumpled-paper') && readme.includes('selection-flower') && readme.includes('Matt') && readme.includes('Omerico') && readme.includes('Covered By Your Grace'), 'The README should credit the LeiBox components, their design references and the lettering face');
 assert(read('src/pages/Note.tsx').includes('<MarginVine'), 'Notes should grow the margin vine beside selected text');
 assert(read('src/App.tsx').includes('<TopPencil') && read('src/components/TopPencil.tsx').includes('xl:hidden'), 'Narrow screens should get the pencil along the nav rule');
 assert(read('src/components/MarginVine.tsx').includes('COMPACT_SCALE') && !read('src/components/MarginVine.tsx').includes('min-width: 1100px'), 'The vine should also grow, smaller, on narrow screens');
