@@ -32,11 +32,16 @@ function wobblyRow(width: number, phase: number) {
  * Reading progress on narrow screens, where there is no margin for the pencil to work in: it goes over
  * the nav's bottom rule in graphite as the page scrolls, and turns over to rub it out on the way back
  * up. The margin pencil does the same on wide screens.
+ *
+ * Phones repaint filtered SVG slowly, so the line is painted once and never again: a window slides
+ * open over it, and the window and the line move in opposite directions by the same amount, so the
+ * line stays put while more of it shows. Moving layers is all the scrolling ever asks for.
  */
 export default function TopPencil() {
   const { pathname } = useLocation();
   const boxRef = useRef<HTMLDivElement>(null);
-  const strokeRefs = useRef<(SVGPathElement | null)[]>([]);
+  const windowRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
   const penRef = useRef<HTMLDivElement>(null);
   const signing = useMasthead((state) => state.signing);
   const [width, setWidth] = useState(0);
@@ -64,18 +69,23 @@ export default function TopPencil() {
   }, [pathname]);
 
   useLayoutEffect(() => {
-    const strokes = strokeRefs.current.slice(0, PASSES.length);
+    const view = windowRef.current;
+    const line = lineRef.current;
     const pen = penRef.current;
-    if (!paths.length || strokes.some((stroke) => !stroke) || !pen) return;
-    const lengths = strokes.map((stroke) => stroke!.getTotalLength());
-    strokes.forEach((stroke, index) => {
-      stroke!.style.strokeDasharray = `${lengths[index]} ${lengths[index] + 40}`;
-    });
+    if (!paths.length || !view || !line || !pen) return;
     pen.style.transformOrigin = `${PIVOT.x}px ${PIVOT.y}px`;
+    const span = width - INSET * 2;
+    // Where the line runs at each point across, so the pencil can ride on it without asking the SVG.
+    const heights = Array.from({ length: Math.ceil(width / 4) + 1 }, (_, index) => {
+      const x = index * 4;
+      return MID + 1.5 * Math.sin(x * 0.016) + 0.9 * Math.sin(x * 0.043 + 1.3) + 0.5 * Math.sin(x * 0.12 + 0.4);
+    });
 
     let lastY = window.scrollY;
     let erasing = false;
+    let frame = 0;
     const place = () => {
+      frame = 0;
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
       const delta = window.scrollY - lastY;
@@ -83,64 +93,71 @@ export default function TopPencil() {
       if (progress === 0) erasing = false;
       lastY = window.scrollY;
 
-      strokes.forEach((stroke, index) => {
-        const drawn = progress * lengths[index];
-        stroke!.style.strokeDashoffset = `${lengths[index] - drawn}`;
-        stroke!.style.visibility = drawn < 1.5 ? "hidden" : "visible";
-      });
-      const point = strokes[0]!.getPointAtLength(progress * lengths[0]);
+      const end = INSET + progress * span;
+      const hidden = width - end;
+      view.style.transform = `translate3d(${(-hidden).toFixed(1)}px, 0, 0)`;
+      line.style.transform = `translate3d(${hidden.toFixed(1)}px, 0, 0)`;
+      view.style.visibility = progress > 0.002 ? "visible" : "hidden";
       // Drawing, the graphite is on the line's end; erasing, the pencil is turned over onto its eraser.
       const angle = erasing ? 180 + LEAN : LEAN;
       const contact = turn(erasing ? ERASER : TIP, angle);
-      pen.style.transform = `translate(${(point.x - contact.x).toFixed(2)}px, ${(point.y - contact.y).toFixed(2)}px) rotate(${angle}deg)`;
+      const y = heights[Math.min(heights.length - 1, Math.round(end / 4))];
+      pen.style.transform = `translate3d(${(end - contact.x).toFixed(1)}px, ${(y - contact.y).toFixed(1)}px, 0) rotate(${angle}deg)`;
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(place);
     };
 
     place();
-    window.addEventListener("scroll", place, { passive: true });
-    window.addEventListener("resize", place);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
     return () => {
-      window.removeEventListener("scroll", place);
-      window.removeEventListener("resize", place);
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
     };
-  }, [paths, pathname]);
+  }, [paths, pathname, width]);
 
   return (
     <div
       ref={boxRef}
       aria-hidden
-      className="scroll-pencil pointer-events-none fixed left-0 right-0 z-[45] xl:hidden"
+      className="top-pencil pointer-events-none fixed left-0 right-0 z-[45] xl:hidden"
       style={{ top, height: HEIGHT, opacity: scrollable && paths.length && !signing ? 1 : 0 }}
     >
       {paths.length ? (
-        <svg width={width} height={HEIGHT} viewBox={`0 0 ${width} ${HEIGHT}`} className="absolute inset-0 overflow-visible">
-          <defs>
-            {/* Graphite on paper: ragged edges from a small displacement, and broken tooth from grain. */}
-            <filter id="graphite-row" filterUnits="userSpaceOnUse" x={-12} y={-12} width={width + 24} height={HEIGHT + 24}>
-              <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves={2} seed={4} result="wobble" />
-              <feDisplacementMap in="SourceGraphic" in2="wobble" scale={2.2} xChannelSelector="R" yChannelSelector="G" result="ragged" />
-              <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves={1} seed={11} result="tooth" />
-              <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.9 0 0 0 -0.35" result="grain" />
-              <feComposite in="ragged" in2="grain" operator="in" />
-            </filter>
-          </defs>
-          <g filter="url(#graphite-row)">
-            {PASSES.map((pass, index) => (
-              <path
-                key={pass.phase}
-                ref={(node) => (strokeRefs.current[index] = node)}
-                d={paths[index]}
-                fill="none"
-                stroke="var(--ink)"
-                strokeWidth={pass.width}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                opacity={pass.opacity}
-              />
-            ))}
-          </g>
-        </svg>
+        <div ref={windowRef} className="top-pencil-layer absolute inset-0 overflow-hidden">
+          <div ref={lineRef} className="top-pencil-layer absolute inset-0">
+            <svg width={width} height={HEIGHT} viewBox={`0 0 ${width} ${HEIGHT}`} className="absolute inset-0 overflow-visible">
+              <defs>
+                {/* Graphite on paper: ragged edges from a small displacement, and broken tooth from grain. */}
+                <filter id="graphite-row" filterUnits="userSpaceOnUse" x={-12} y={-12} width={width + 24} height={HEIGHT + 24}>
+                  <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves={2} seed={4} result="wobble" />
+                  <feDisplacementMap in="SourceGraphic" in2="wobble" scale={2.2} xChannelSelector="R" yChannelSelector="G" result="ragged" />
+                  <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves={1} seed={11} result="tooth" />
+                  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.9 0 0 0 -0.35" result="grain" />
+                  <feComposite in="ragged" in2="grain" operator="in" />
+                </filter>
+              </defs>
+              <g filter="url(#graphite-row)">
+                {PASSES.map((pass, index) => (
+                  <path
+                    key={pass.phase}
+                    d={paths[index]}
+                    fill="none"
+                    stroke="var(--ink)"
+                    strokeWidth={pass.width}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    opacity={pass.opacity}
+                  />
+                ))}
+              </g>
+            </svg>
+          </div>
+        </div>
       ) : null}
-      <div ref={penRef} className="scroll-pencil-pen absolute left-0 top-0">
+      <div ref={penRef} className="top-pencil-layer absolute left-0 top-0">
         <Pencil />
       </div>
     </div>

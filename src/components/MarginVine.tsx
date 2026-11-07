@@ -17,6 +17,8 @@ const FOLD_AHEAD = 34;
  */
 const COMPACT_SCALE = 0.56;
 const COMPACT_X = -9;
+/** How far past the selection a plant is laid out, so it can follow a growing selection without a new one. */
+const AHEAD = 160;
 /** Insects: how many may be in the air, and the least time between two taking off, in seconds. */
 const MAX_INSECTS = 3;
 const INSECT_GAP = 0.9;
@@ -240,9 +242,11 @@ export default function MarginVine() {
     let lastFlight = -Infinity;
     let flights = 0;
 
-    const plant = (origin: number, direction: 1 | -1): Plant => {
+    /** A plant is laid out only as far as it is needed, never the whole length of the page. */
+    const plant = (origin: number, direction: 1 | -1, needed: number): Plant => {
       const scale = compact.matches ? COMPACT_SCALE : 1;
-      const reach = (direction > 0 ? host.getBoundingClientRect().height - origin : origin) / scale;
+      const room = direction > 0 ? host.getBoundingClientRect().height - origin : origin;
+      const reach = Math.min(room, needed + AHEAD) / scale;
       const seed = origin * 0.37;
       const samples: Plant["samples"] = [];
       let total = 0;
@@ -252,7 +256,9 @@ export default function MarginVine() {
         if (previous) total += Math.hypot(point.x - previous.x, point.y - previous.y);
         samples.push({ ...point, length: total });
       }
-      const group = element("g", { filter: `url(#${filterId})` }, svg);
+      // The pencil roughness is only on wide screens; phones repaint filtered drawings too slowly.
+      const group = element("g", scale === 1 ? { filter: `url(#${filterId})` } : {}, svg);
+      group.dataset.plant = "";
       // Smaller about the point where it starts, so its root stays beside the first selected line.
       if (scale !== 1) group.setAttribute("transform", `translate(${COMPACT_X} ${origin}) scale(${scale}) translate(${-STEM_X} ${-origin})`);
       const nodesLayer = element("g", {}, group);
@@ -446,11 +452,18 @@ export default function MarginVine() {
       const direction = span.backward ? -1 : 1;
       const origin = span.backward ? span.bottom : span.top;
       const scale = compact.matches ? COMPACT_SCALE : 1;
-      if (!current || current.direction !== direction || current.scale !== scale || Math.abs(current.origin - origin) > 3) {
+      const needed = (span.bottom - span.top) * 1.01;
+      if (
+        !current ||
+        current.direction !== direction ||
+        current.scale !== scale ||
+        Math.abs(current.origin - origin) > 3 ||
+        needed / current.scale > current.total
+      ) {
         retire(current);
-        current = plant(origin, direction);
+        current = plant(origin, direction, needed);
       }
-      current.target = Math.min(current.total, ((span.bottom - span.top) * 1.01) / current.scale);
+      current.target = Math.min(current.total, needed / current.scale);
       wake();
     };
     const schedule = () => {
