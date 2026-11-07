@@ -36,6 +36,13 @@ Notes:
 - This project uses `HashRouter` so routing works on GitHub Pages without extra 404 rewrites.
 - `vite.config.ts` sets `base: './'` to ensure assets load correctly under static hosting.
 
+## Credits
+
+- Type: [Newsreader](https://fonts.google.com/specimen/Newsreader) and [Courier Prime](https://fonts.google.com/specimen/Courier+Prime). The note on the opening sheet is outlined from [Covered By Your Grace](https://fonts.google.com/specimen/Covered+By+Your+Grace) by Kimberly Geswein (SIL Open Font License 1.1).
+- The opening sheet (`src/opening/`) is adapted from LeiBox's [Crumpled Paper](https://leibox.pantoria.cn/docs/animations/crumpled-paper), design reference by Matt: https://x.com/insporadesign/status/2113586239110828465/video/1
+- The vine beside selected text (`src/components/MarginVine.tsx`) follows the selection logic of LeiBox's [Selection Flower](https://leibox.pantoria.cn/docs/animations/selection-flower), design reference by Omerico: https://x.com/omer_assa/status/2083862523640496179/video/1
+- Posters are made with [paper2humanist-poster](https://github.com/fantiehan/paper2humanist-poster).
+
 ## Attribution
 
 If you like this homepage, feel free to fork and reuse it with attribution.
