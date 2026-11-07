@@ -11,6 +11,12 @@ const NODE_GAP = 31;
 const SAMPLE = 6;
 /** Nodes fold this far ahead of a stem drawing back, so they close before it reaches them. */
 const FOLD_AHEAD = 34;
+/**
+ * On narrow screens the margin is only 20px, so the plant is drawn smaller and closer in, and nothing
+ * flies off it: on a phone a selection is usually for copying, with the system's own menu beside it.
+ */
+const COMPACT_SCALE = 0.56;
+const COMPACT_X = -9;
 /** Insects: how many may be in the air, and the least time between two taking off, in seconds. */
 const MAX_INSECTS = 3;
 const INSECT_GAP = 0.9;
@@ -49,6 +55,8 @@ type Plant = {
   tipFlown: boolean;
   still: number;
   retiring: boolean;
+  /** The plant's size against the page; its own drawing is always full size. */
+  scale: number;
 };
 type Insect = {
   group: SVGGElement;
@@ -206,8 +214,8 @@ function makeInsect(parent: SVGElement, kind: Insect["kind"]) {
 
 /**
  * A pencil vine in the left margin that follows a text selection in a note: one stem beside the
- * selected lines, with a leaf or a small flower at each line. Now and then a butterfly or a bee leaves
- * an open flower and is gone. When the selection goes the plant grows backwards, petals and leaves
+ * selected lines, with a leaf or a small flower at each line. On wide screens a butterfly or a bee
+ * now and then leaves an open flower and is gone. When the selection goes the plant grows backwards, petals and leaves
  * folding and the stem drawing in. The way it follows the selection and un-grows comes from LeiBox's
  * Selection Flower (https://leibox.pantoria.cn/docs/animations/selection-flower, design reference by
  * Omerico: https://x.com/omer_assa/status/2083862523640496179/video/1); the drawing here is its own.
@@ -221,7 +229,7 @@ export default function MarginVine() {
     const svg = ref.current;
     const host = svg?.parentElement;
     if (!svg || !host) return;
-    const roomy = window.matchMedia("(min-width: 1100px)");
+    const compact = window.matchMedia("(max-width: 1099px)");
     const plants: Plant[] = [];
     const insects: Insect[] = [];
     let current: Plant | null = null;
@@ -233,7 +241,8 @@ export default function MarginVine() {
     let flights = 0;
 
     const plant = (origin: number, direction: 1 | -1): Plant => {
-      const reach = direction > 0 ? host.getBoundingClientRect().height - origin : origin;
+      const scale = compact.matches ? COMPACT_SCALE : 1;
+      const reach = (direction > 0 ? host.getBoundingClientRect().height - origin : origin) / scale;
       const seed = origin * 0.37;
       const samples: Plant["samples"] = [];
       let total = 0;
@@ -244,6 +253,8 @@ export default function MarginVine() {
         samples.push({ ...point, length: total });
       }
       const group = element("g", { filter: `url(#${filterId})` }, svg);
+      // Smaller about the point where it starts, so its root stays beside the first selected line.
+      if (scale !== 1) group.setAttribute("transform", `translate(${COMPACT_X} ${origin}) scale(${scale}) translate(${-STEM_X} ${-origin})`);
       const nodesLayer = element("g", {}, group);
       const stem = element("path", { class: "margin-vine-stem" }, group);
       const fibre = element("path", { class: "margin-vine-fibre" }, group);
@@ -270,7 +281,7 @@ export default function MarginVine() {
       }
       const tip = makeBud(group, seed + 40, 5.4, { x: 0, y: 0 });
       paintBud(tip, 0);
-      const made: Plant = { group, stem, fibre, samples, origin, direction, total, drawn: 0, painted: -1, target: 0, nodes, tip, tipOpen: 0, tipFlown: false, still: 0, retiring: false };
+      const made: Plant = { group, stem, fibre, samples, origin, direction, total, drawn: 0, painted: -1, target: 0, nodes, tip, tipOpen: 0, tipFlown: false, still: 0, retiring: false, scale };
       plants.push(made);
       return made;
     };
@@ -281,7 +292,7 @@ export default function MarginVine() {
 
     /** Every other flower to open sends something up, and never too many at once. */
     const release = (x: number, y: number) => {
-      if (reduceMotion || insects.length >= MAX_INSECTS || clock - lastFlight < INSECT_GAP) return;
+      if (reduceMotion || compact.matches || insects.length >= MAX_INSECTS || clock - lastFlight < INSECT_GAP) return;
       flights++;
       if (flights % 2 === 0) return;
       lastFlight = clock;
@@ -402,7 +413,7 @@ export default function MarginVine() {
     /** The part of the current selection that lies in the text column, in the host's coordinates. */
     const measure = () => {
       const selection = document.getSelection();
-      if (!roomy.matches || !selection?.rangeCount || selection.isCollapsed) return null;
+      if (!selection?.rangeCount || selection.isCollapsed) return null;
       const range = selection.getRangeAt(0);
       if (!range.intersectsNode(host)) return null;
       const box = host.getBoundingClientRect();
@@ -434,11 +445,12 @@ export default function MarginVine() {
       }
       const direction = span.backward ? -1 : 1;
       const origin = span.backward ? span.bottom : span.top;
-      if (!current || current.direction !== direction || Math.abs(current.origin - origin) > 3) {
+      const scale = compact.matches ? COMPACT_SCALE : 1;
+      if (!current || current.direction !== direction || current.scale !== scale || Math.abs(current.origin - origin) > 3) {
         retire(current);
         current = plant(origin, direction);
       }
-      current.target = Math.min(current.total, (span.bottom - span.top) * 1.01);
+      current.target = Math.min(current.total, ((span.bottom - span.top) * 1.01) / current.scale);
       wake();
     };
     const schedule = () => {
