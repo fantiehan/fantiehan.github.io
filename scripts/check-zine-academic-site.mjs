@@ -44,6 +44,7 @@ const filesToScan = [
   'src/components/Signature.tsx',
   'src/components/ButterflyFlight.tsx',
   'src/components/MarginVine.tsx',
+  'src/components/TopPencil.tsx',
   'src/opening/opening.ts',
   'src/opening/snapshot.ts',
   'src/opening/table.ts',
@@ -144,6 +145,8 @@ assert(!publicationsPage.includes('hand-drawn'), 'Copy should not describe gener
 assert(!footer.includes('Last updated'), 'Footer should not show a last-updated date');
 assert(footer.includes('crumpled-paper') && footer.includes('selection-flower') && footer.includes('Matt') && footer.includes('Omerico'), 'Footer should credit the LeiBox components and their design references');
 assert(read('src/pages/Note.tsx').includes('<MarginVine'), 'Notes should grow the margin vine beside selected text');
+assert(read('src/App.tsx').includes('<TopPencil') && read('src/components/TopPencil.tsx').includes('xl:hidden'), 'Narrow screens should get the pencil along the nav rule');
+assert(read('src/components/MarginVine.tsx').includes('COMPACT_SCALE') && !read('src/components/MarginVine.tsx').includes('min-width: 1100px'), 'The vine should also grow, smaller, on narrow screens');
 assert(read('src/main.tsx').includes('playOpening') && read('src/main.tsx').includes('import("./boot")'), 'The opening should run in the entry chunk while the site loads separately');
 assert(signatureFile.includes('openingDone'), 'The signature should wait for the opening to finish');
 assert(read('src/opening/opening.ts').includes('printPage') && read('src/opening/opening.ts').includes('draftPage'), 'The opening sheet should carry the page itself from the start');

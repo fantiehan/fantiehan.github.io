@@ -10,6 +10,7 @@ import Background from "./components/Background";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import ScrollPencil from "./components/ScrollPencil";
+import TopPencil from "./components/TopPencil";
 
 // The first page the visitor lands on arrives as it is; only pages reached by navigating develop in.
 let hasNavigated = false;
@@ -62,6 +63,7 @@ export default function App() {
         </main>
         <Footer />
         <ScrollPencil />
+        <TopPencil />
       </div>
     </Router>
   );
