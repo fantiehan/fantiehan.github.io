@@ -395,6 +395,18 @@ html.dark ::selection {
     stroke-width: 0.8;
   }
 
+  /*
+   * The pencil along the nav on narrow screens: each part is its own layer, so following the scroll
+   * only moves layers and never repaints the graphite.
+   */
+  .top-pencil {
+    transition: opacity 0.4s ease;
+  }
+
+  .top-pencil-layer {
+    will-change: transform;
+  }
+
   /* Drawing the butterfly at the foot of the page runs on its own clock, with no easing behind it. */
   .scroll-pencil[data-rest] path {
     transition: none;
