@@ -3,6 +3,7 @@ import type { NewsItem } from "@/content/types";
 // Dates come from official decision announcements and arXiv submission histories.
 // OpenVid++ has no public decision date yet, so it keeps month precision.
 export const news: NewsItem[] = [
+  { date: "2026-09-24", kind: "accepted", publicationId: "fan2026polyvision" },
   { date: "2026-08-03", kind: "preprint", publicationId: "yang2026romerl" },
   { date: "2026-08", kind: "accepted", publicationId: "nan2026openvidplusplus" },
   { date: "2026-07-02", kind: "preprint", publicationId: "zhao2026tca" },

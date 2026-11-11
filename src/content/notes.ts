@@ -218,7 +218,7 @@ export const notes: Note[] = [
       { kind: "h", text: "The constraints" },
       {
         kind: "p",
-        text: "Each poster uses a single saturated color against cream, sepia or graphite, or a single controlled color field. The only text is the short name with the venue and year: no title sentence, abstract, author list or statistics. Everything, including the lettering, comes from one image generation, with no overlays added afterwards. The workflow recommends a new chat for each paper, so earlier choices do not carry over.",
+        text: "Most posters use a single saturated color against cream, sepia or graphite, or a single controlled color field. On the PolyVision poster, a second pass picked out the different stitches in color. The only text is the short name with the venue and year: no title sentence, abstract, author list or statistics. The lettering is generated with the illustration, with no overlays added afterwards. The workflow recommends a new chat for each paper, so earlier choices do not carry over.",
       },
       {
         kind: "p",
@@ -228,6 +228,7 @@ export const notes: Note[] = [
       {
         kind: "plates",
         publicationIds: [
+          "fan2026polyvision",
           "yang2026romerl",
           "nan2026openvidplusplus",
           "zhao2026tca",

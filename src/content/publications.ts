@@ -1,4 +1,5 @@
 import type { Publication } from "@/content/types";
+import polyvision from "@/assets/fig/polyvision.webp";
 import tcaCaptioner from "@/assets/fig/TCA-captioner.webp";
 import romerl from "@/assets/fig/romerl.webp";
 import openvidPlusPlus from "@/assets/fig/openvid-plusplus.webp";
@@ -7,6 +8,7 @@ import motionsight from "@/assets/fig/motionsight.webp";
 import openvid from "@/assets/fig/openvid.webp";
 import ultrahr from "@/assets/fig/ultrahr100k.webp";
 import solidSolution from "@/assets/fig/solid-solution.webp";
+import polyvisionPoster from "@/assets/posters/polyvision.webp";
 import romerlPoster from "@/assets/posters/romerl.webp";
 import tcaCaptionerPoster from "@/assets/posters/tca-captioner.webp";
 import openvidPlusPlusPoster from "@/assets/posters/openvid-plusplus.webp";
@@ -17,7 +19,31 @@ import ultrahrPoster from "@/assets/posters/ultrahr.webp";
 import solidSolutionPoster from "@/assets/posters/solid-solution.webp";
 
 export const publications: Publication[] = [
-
+  {
+    id: "fan2026polyvision",
+    title: "PolyVision: Conditional Visual Scaling Via Dynamic Expert Routing For Vision-Centric MLLMs",
+    venue: "NeurIPS",
+    year: 2026,
+    type: "conference",
+    authors: "Tiehan Fan, Chen Zhao, Nikai Du, Zili Yi, Jian Yang, Ying Tai",
+    contributionTag: "First Author",
+    screenshotUrl: polyvision,
+    paperUrl: "https://neurips.cc/virtual/2026/loc/sydney/poster/151361",
+    screenshotPrompt: "PolyVision architecture with the Attentive Router, VisPack, and weighted visual expert outputs",
+    poster: {
+      archive: "neurips 2026",
+      shortTitle: "PolyVision",
+      concept: "A satin stitch for the beak, a knot for the breast.",
+      accent: "#1f3fb0",
+      layout: "motion-thread",
+      meta: "first author / conditional visual scaling",
+      caption: "Patch-wise routing to heterogeneous visual experts",
+      theme: "Visual understanding",
+      derivation:
+        "Ochre stitches sharpen the kingfisher's beak, green stitches overlap on the wing, and red knots give the breast its texture. A cobalt thread leads to the shoulder still on the needle. Each part calls for a different stitch, just as PolyVision's Attentive Router selects visual experts for each image patch. VisPack groups the routed tokens by expert while keeping samples separate, and the expert outputs are combined by weight.",
+      imageUrl: polyvisionPoster,
+    },
+  },
   {
     id: "yang2026romerl",
     title: "RoMeRL: Balancing Feedback Coverage and the Memory-Reward Trap in Self-Evolving Agent Memory via Reduced-Order Utility States",
@@ -233,6 +259,7 @@ export const publications: Publication[] = [
 ];
 
 export const selectedPublicationIds = [
+  "fan2026polyvision",
   "yang2026romerl",
   "nan2026openvidplusplus",
   "zhao2026tca",
